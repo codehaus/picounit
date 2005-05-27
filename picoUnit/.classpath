@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path=""/>
+	<classpathentry output="build/functional-test-classes" kind="src" path="src/functional-test"/>
+	<classpathentry output="build/unit-test-model-classes" kind="src" path="src/unit-test-model"/>
+	<classpathentry output="build/unit-test-classes" kind="src" path="src/unit-test"/>
+	<classpathentry output="build/core-classes" kind="src" path="src/api"/>
+	<classpathentry output="build/core-classes" kind="src" path="src/implementation"/>
+	<classpathentry output="build/jmocker-classes" kind="src" path="src/extension/jmocker"/>
+	<classpathentry output="build/example-code-classes" kind="src" path="src/examples/code"/>
+	<classpathentry output="build/example-test-classes" kind="src" path="src/examples/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path=""/>
+	<classpathentry kind="lib" path="lib/cglib-full-2.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/picocontainer-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock-20050507-203802.jar"/>
+	<classpathentry kind="lib" path="lib/jmock-cglib-20050507-203802.jar"/>
+	<classpathentry kind="lib" path="build/lib/previous-picounit-api.jar"/>
+	<classpathentry kind="lib" path="build/lib/previous-picounit-core.jar"/>
+	<classpathentry kind="lib" path="build/lib/previous-picounit-jmocker.jar"/>
+	<classpathentry kind="output" path="build/core-classes"/>
 </classpath>
