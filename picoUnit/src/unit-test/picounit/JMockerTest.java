@@ -7,6 +7,9 @@
  *****************************************************************************/
 package picounit;
 
+import picounit.mocker.jmock.ConstraintStore;
+import picounit.mocker.jmock.HashMapConstraintStore;
+import picounit.mocker.jmock.JMockConstraintFactory;
 import picounit.mocker.jmock.JMocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
@@ -17,14 +20,15 @@ import junit.framework.AssertionFailedError;
 
 public class JMockerTest implements Test {
 	private final Mocker mocker;
-	private final ConstraintFactory is;
+	private final Constraints is;
 	private final Verify verify;
 
 	public JMockerTest(Verify verify) {
 		this.verify = verify;
-		JMocker jMocker = new JMocker();
-		this.mocker = jMocker;
-		this.is = jMocker.constraint();
+		ConstraintStore constraintStore = new HashMapConstraintStore();
+
+		this.mocker = new JMocker(constraintStore);
+		this.is = new JMockConstraintFactory(constraintStore);
 	}
 
 	public void testKissing() {
@@ -45,7 +49,7 @@ public class JMockerTest implements Test {
 		Boy mockBoy = (Boy) mocker.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
-		mocker.expect(mockBoy.listen(is.equalIgnoringCase("BLAH blah"))).andReturn("yada yada");
+		mocker.expect(mockBoy.listen(is.equaTolIgnoringCase("BLAH blah"))).andReturn("yada yada");
 
 		mocker.replay();
 
@@ -198,5 +202,17 @@ public class JMockerTest implements Test {
 		catch (AssertionFailedError assertionFailedError) {
 			verify.equal("a return value must be specified for methods returning primatives", assertionFailedError.getMessage());
 		}
+	}
+
+	public void testOmittingReturnValueForNonPrimativesSetsValueToNull() {
+		Interface mockInterface = (Interface) mocker.mock(Interface.class);
+
+		mockInterface.objectMethod();
+
+		mocker.doAboveWhen();
+		
+		verify.equal(null, mockInterface.objectMethod());
+		
+		mocker.verify();
 	}
 }

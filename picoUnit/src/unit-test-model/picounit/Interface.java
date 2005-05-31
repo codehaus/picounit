@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit;
 
-
 import picounit.util.MethodUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +18,8 @@ public interface Interface {
 	void awkwardMethod() throws InvocationTargetException;
     
     boolean booleanMethod();
+    
+    Object objectMethod(); 
     
 	Method method = new MethodUtil().getMethod(Interface.class, "method");
 }

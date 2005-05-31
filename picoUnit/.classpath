@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry output="build/functional-test-classes" kind="src" path="src/functional-test"/>
+	<classpathentry kind="src" path="src/experimental"/>
 	<classpathentry output="build/unit-test-model-classes" kind="src" path="src/unit-test-model"/>
 	<classpathentry output="build/unit-test-classes" kind="src" path="src/unit-test"/>
 	<classpathentry output="build/core-classes" kind="src" path="src/api"/>

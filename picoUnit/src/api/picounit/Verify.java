@@ -18,10 +18,14 @@ public interface Verify {
 	void not(String message, boolean expression);
 
 	void equal(boolean expected, boolean actual);
+	void equal(double expected, double actual);
+	void equal(double expected, double actual, double delta);
 	void equal(long expected, long actual);
 	void equal(Object expected, Object actual);
 
 	void equal(String message, boolean expected, boolean actual);
+	void equal(String message, double expected, double actual);
+	void equal(String message, double expected, double actual, double delta);
 	void equal(String message, long expected, long actual);
 	void equal(String message, Object expected, Object actual);
 

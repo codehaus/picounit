@@ -7,23 +7,9 @@
  *****************************************************************************/
 package picounit;
 
-public interface ConstraintFactory {
-	Future future(Class futureType);
-	Object instanceOf(Class instanceOf);
-	
-	int oneOf(int[] oneOf);
-	int noneOf(int[] neitherOf);
-	int notEqual(int notEqual);
-	int lessThan(int upperLimit);
-	int lessThanOrEqualTo(int upperLimit);
-	int greaterThan(int lowerLimit);
-	int greaterThanOrEqualTo(int lowerLimit);
-	int between(int lowerLimit, int upperLimit);
-	int anInteger();
+/**
+ * @deprecated Please use picounit.Constraints instead
+ */
+public interface ConstraintFactory extends Constraints {
 
-	String notEqual(String notEqual);
-	String containing(String toContain);
-	String equalIgnoringCase(String toEqual);
-
-	Object notEqual(Object notEqual);
 }

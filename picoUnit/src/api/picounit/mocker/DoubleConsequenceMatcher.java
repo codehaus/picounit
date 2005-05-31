@@ -7,7 +7,9 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface DoubleConsequenceMatcher extends ThrowsConsequenceMatcher {
+public interface DoubleConsequenceMatcher extends ThrowsConsequenceMatcher,
+	OccurencesMatcher {
+
 	OccurencesMatcher andReturn(double result);
 	
 	OccurencesMatcher andPerform(DoubleAction doubleAction);

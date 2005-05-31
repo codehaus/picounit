@@ -7,7 +7,9 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface FloatConsequenceMatcher extends ThrowsConsequenceMatcher {
+public interface FloatConsequenceMatcher extends ThrowsConsequenceMatcher,
+	OccurencesMatcher {
+
 	OccurencesMatcher andReturn(float result);
 	
 	OccurencesMatcher andPerform(FloatAction floatAction);

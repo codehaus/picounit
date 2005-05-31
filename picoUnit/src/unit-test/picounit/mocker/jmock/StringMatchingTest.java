@@ -5,7 +5,17 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit;
+package picounit.mocker.jmock;
 
-public class DatabaseImpl implements Database {
+import previous.picounit.Test;
+import previous.picounit.Verify;
+
+public class StringMatchingTest implements Test {
+	public void testIsEqualWhenPatternIsTheSame(Verify verify) {
+		verify.equal(stringMatching("pattern"), stringMatching("pattern"));
+	}
+
+	private StringMatching stringMatching(String pattern) {
+		return new StringMatching(pattern);
+	}
 }

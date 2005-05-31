@@ -5,17 +5,12 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.kissing;
+package example.model;
 
-public class Girl {
-	private final Kissable kissable;
+public interface Database {
+	boolean isConnected();
 
-	public Girl(Kissable kissable) {
-		this.kissable = kissable;
-	}
-	
-	public String kiss() {
-		return kissable.kiss();
-//		return "not kissed";
-	}
+	int queryCount(String queryCountSql);
+
+	boolean insert(String insertQuery);
 }

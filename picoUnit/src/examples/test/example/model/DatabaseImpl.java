@@ -5,8 +5,25 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit;
+package example.model;
 
-public interface Database {
 
+public class DatabaseImpl implements Database {
+	private final boolean isConnected;
+
+	public DatabaseImpl(boolean isConnected) {
+		this.isConnected = isConnected;
+	}
+	
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	public boolean insert(String insertQuery) {
+		return isConnected();
+	}
+
+	public int queryCount(String queryCountSql) {
+		return 0;
+	}
 }

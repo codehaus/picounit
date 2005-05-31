@@ -7,8 +7,15 @@
  *****************************************************************************/
 package picounit;
 
-public class ExampleContext implements Context {
-	public void setUp(Registry registry) {
-		registry.register(Database.class, new DatabaseImpl());
-	}
+public interface IntegerConstraints {
+	int anInteger();
+	int oneOf(int[] oneOf);
+	int neitherOf(int[] neitherOf);
+	int notEqualTo(int notEqual);
+	int lessThan(int upperLimit);
+	int lessThanOrEqualTo(int upperLimit);
+	int greaterThan(int lowerLimit);
+	int greaterThanOrEqualTo(int lowerLimit);
+	int between(int lowerLimit, int upperLimit);
+	int notBetween(int lowerLimit, int upperLimit);
 }

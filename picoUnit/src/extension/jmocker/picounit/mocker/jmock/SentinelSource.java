@@ -8,21 +8,29 @@
 package picounit.mocker.jmock;
 
 public class SentinelSource {
-	private int currentInt;
+	private long currentValue;
 
 	public SentinelSource() {
 		this(0xBEEFCACA);
 	}
 
-	public SentinelSource(int startingInt) {
-		this.currentInt = startingInt;
+	public SentinelSource(long startingPoint) {
+		this.currentValue = startingPoint;
 	}
 
 	public int nextInt() {
-		return currentInt++;
+		return (int) nextLong();
+	}
+
+	public long nextLong() {
+		return currentValue++;
+	}
+
+	public double nextDouble() {
+		return nextLong();
 	}
 
 	public String nextString() {
-		return "[sentinel:" + currentInt++ + "]";
+		return "[sentinel:" + nextLong() + "]";
 	}
 }

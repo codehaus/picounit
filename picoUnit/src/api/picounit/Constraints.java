@@ -5,8 +5,11 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.kissing;
+package picounit;
 
-public interface Kissable {
-	String kiss();
+public interface Constraints extends IntegerConstraints, LongConstraints, DoubleConstraints,
+	StringConstraints, ObjectConstraints {
+
+	Future future(Class futureType);
+	Object instanceOf(Class instanceOf);
 }

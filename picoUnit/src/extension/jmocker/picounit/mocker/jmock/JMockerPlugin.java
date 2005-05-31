@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.mocker.jmock;
 
-import picounit.ConstraintFactory;
+import picounit.Constraints;
 import picounit.Mocker;
 import picounit.Plugin;
 import picounit.Registry;
@@ -22,8 +22,9 @@ public class JMockerPlugin implements Plugin {
 	}
 
 	public void insert(Properties pluginProperties) {
-		JMocker jMocker = new JMocker();
-		registry.register(Mocker.class, jMocker);
-		registry.register(ConstraintFactory.class, jMocker.constraint());
+		ConstraintStore constraintStore = new HashMapConstraintStore();
+
+		registry.register(Mocker.class, new JMocker(constraintStore));
+		registry.register(Constraints.class, new JMockConstraintFactory(constraintStore));
 	}
 }

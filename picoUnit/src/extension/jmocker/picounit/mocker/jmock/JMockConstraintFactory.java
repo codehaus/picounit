@@ -7,29 +7,41 @@
  *****************************************************************************/
 package picounit.mocker.jmock;
 
-import org.jmock.core.Constraint;
-import org.jmock.core.constraint.And;
-import org.jmock.core.constraint.IsAnything;
-import org.jmock.core.constraint.IsEqual;
-import org.jmock.core.constraint.IsGreaterThan;
-import org.jmock.core.constraint.IsLessThan;
-import org.jmock.core.constraint.IsNot;
-import org.jmock.core.constraint.Or;
-import org.jmock.core.constraint.StringContains;
-
-import picounit.ConstraintFactory;
+import picounit.Constraints;
+import picounit.DoubleConstraints;
 import picounit.Future;
+import picounit.IntegerConstraints;
+import picounit.LongConstraints;
+import picounit.ObjectConstraints;
+import picounit.StringConstraints;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class JMockConstraintFactory implements ConstraintFactory {
+public class JMockConstraintFactory implements Constraints {
 	private final Map sentinelToConstraintMap = new HashMap();
 	private final ProxyFactory proxyFactory = new ProxyFactory();
-	private final ConstraintStore constraintStore;
+	private final IntegerConstraints integerConstraints;
+	private final LongConstraints longConstraints;
+	private final DoubleConstraints doubleConstraints;
+	private final StringConstraints stringConstraints;
+	private final ObjectConstraints objectConstraints;
 
 	public JMockConstraintFactory(ConstraintStore constraintStore) {
-		this.constraintStore = constraintStore;
+		this(new JMockIntegerConstraints(constraintStore), new JMockLongConstraints(constraintStore),
+			new JMockDoubleConstraints(constraintStore), new JMockStringConstraints(constraintStore),
+			new JMockObjectConstraints(constraintStore));
+	}
+
+	public JMockConstraintFactory(IntegerConstraints integerConstraints,
+		LongConstraints longConstraints, DoubleConstraints doubleConstraints,
+		StringConstraints stringConstraints, ObjectConstraints objectConstraints) {
+
+		this.integerConstraints = integerConstraints;
+		this.longConstraints = longConstraints;
+		this.doubleConstraints = doubleConstraints;
+		this.stringConstraints = stringConstraints;
+		this.objectConstraints = objectConstraints;
 	}
 
 	public Object instanceOf(Class instanceOf) {
@@ -39,98 +51,184 @@ public class JMockConstraintFactory implements ConstraintFactory {
 	public Future future(Class futureType) {
 		return (Future) proxyFactory.create(Future.class, new FutureInvocationHandler(futureType));
 	}
+	
+	public int anInteger() {
+		return integerConstraints.anInteger();
+	}
 
 	public int oneOf(int[] oneOf) {
-		return constraintStore.putInteger(isEqual(oneOf));
+		return integerConstraints.oneOf(oneOf);
 	}
 
-	public int notEqual(int notEqual) {
-		return constraintStore.putInteger(not(isEqual(notEqual)));
+	public int notEqualTo(int notEqual) {
+		return integerConstraints.notEqualTo(notEqual);
 	}
 	
-	public int noneOf(int[] neitherOf) {
-		return constraintStore.putInteger(not(isEqual(neitherOf)));
+	public int neitherOf(int[] neitherOf) {
+		return integerConstraints.neitherOf(neitherOf);
 	}
 
 	public int lessThan(int upperLimit) {
-		return constraintStore.putInteger(isLessThan(upperLimit));
+		return integerConstraints.lessThan(upperLimit);
 	}
 
 	public int lessThanOrEqualTo(int upperLimit) {
-		return constraintStore.putInteger(or(isEqual(upperLimit), isLessThan(upperLimit)));
+		return integerConstraints.lessThanOrEqualTo(upperLimit);
 	}
 
 	public int greaterThan(int lowerLimit) {
-		return constraintStore.putInteger(isGreaterThan(lowerLimit));
+		return integerConstraints.greaterThan(lowerLimit);
 	}
 
 	public int greaterThanOrEqualTo(int lowerLimit) {
-		return constraintStore.putInteger(or(isGreaterThan(lowerLimit), isEqual(lowerLimit)));
+		return integerConstraints.greaterThanOrEqualTo(lowerLimit);
 	}
 
 	public int between(int lowerLimit, int upperLimit) {
-		return constraintStore.putInteger(and(isGreaterThan(lowerLimit), isLessThan(upperLimit)));
+		return integerConstraints.between(lowerLimit, upperLimit);
 	}
 
-	public int anInteger() {
-		return constraintStore.putInteger(new IsAnything());
+	public int notBetween(int lowerLimit, int upperLimit) {
+		return integerConstraints.notBetween(lowerLimit, upperLimit);
 	}
 
-	public String notEqual(String notEqual) {
-		return notEqualImpl(notEqual);
+	public long aLong() {
+		return longConstraints.aLong();
+	}
+	
+	public long oneOf(long[] oneOf) {
+		return longConstraints.oneOf(oneOf);
+	}
+	
+	public long neitherOf(long[] neitherOf) {
+		return longConstraints.neitherOf(neitherOf);
+	}
+	
+	public long notEqualTo(long notEqual) {
+		return longConstraints.notEqualTo(notEqual);
+	}
+	
+	public long lessThan(long upperLimit) {
+		return longConstraints.lessThan(upperLimit);
 	}
 
-	public String containing(String toContain) {
-		return constraintStore.putString(new StringContains(toContain));
+	public long lessThanOrEqualTo(long upperLimit) {
+		return longConstraints.lessThanOrEqualTo(upperLimit);
+	}
+	
+	public long greaterThan(long lowerLimit) {
+		return longConstraints.greaterThan(lowerLimit);
+	}
+	
+	public long greaterThanOrEqualTo(long lowerLimit) {
+		return longConstraints.greaterThanOrEqualTo(lowerLimit);
+	}
+	
+	public long between(long lowerLimit, long upperLimit) {
+		return longConstraints.between(lowerLimit, upperLimit);
+	}
+	
+	public long notBetween(long lowerLimit, long upperLimit) {
+		return longConstraints.notBetween(lowerLimit, upperLimit);
 	}
 
-	public String equalIgnoringCase(String toEqual) {
-		return constraintStore.putString(new StringEqualIgnoreCase(toEqual));
+	public double aDouble() {
+		return doubleConstraints.aDouble();
+	}
+	
+	public double oneOf(double[] oneOf) {
+		return doubleConstraints.oneOf(oneOf);
+	}
+	
+	public double neitherOf(double[] neitherOf) {
+		return doubleConstraints.neitherOf(neitherOf);
+	}
+	
+	public double notEqualTo(double notEqual) {
+		return doubleConstraints.notEqualTo(notEqual);
+	}
+	
+	public double lessThan(double upperLimit) {
+		return doubleConstraints.lessThan(upperLimit);
+	}
+	
+	public double lessThanOrEqualTo(double upperLimit) {
+		return doubleConstraints.lessThanOrEqualTo(upperLimit);
+	}
+	
+	public double greaterThan(double lowerLimit) {
+		return doubleConstraints.greaterThan(lowerLimit);
+	}
+	
+	public double greaterThanOrEqualTo(double lowerLimit) {
+		return doubleConstraints.greaterThanOrEqualTo(lowerLimit);
+	}
+	
+	public double between(double lowerLimit, double upperLimit) {
+		return doubleConstraints.between(lowerLimit, upperLimit);
+	}
+	
+	public double notBetween(double lowerLimit, double upperLimit) {
+		return doubleConstraints.notBetween(lowerLimit, upperLimit);
+	}
+	
+	public String aString() {
+		return stringConstraints.aString();
+	}
+	
+	public String oneOf(String[] oneOf) {
+		return stringConstraints.oneOf(oneOf);
+	}
+
+	public String neitherOf(String[] neitherOf) {
+		return stringConstraints.neitherOf(neitherOf);
+	}
+
+	public String notEqualTo(String notEqual) {
+		return stringConstraints.notEqualTo(notEqual);
+	}
+
+	public String aStringContaining(String toContain) {
+		return stringConstraints.aStringContaining(toContain);
+	}
+
+	public String equaTolIgnoringCase(String toEqual) {
+		return stringConstraints.equaTolIgnoringCase(toEqual);
+	}
+	
+	public String aStringMatching(String pattern) {
+		return stringConstraints.aStringMatching(pattern);
+	}
+	
+	public String aNullString() {
+		return stringConstraints.aNullString();
+	}
+	
+	public String notANullString() {
+		return stringConstraints.notANullString()	;
 	}
 
 	public Object notEqual(Object notEqual) {
-		return notEqualImpl(notEqual);
-	}
-
-	private Constraint isEqual(int notEqual) {
-		return new IsEqual(new Integer(notEqual));
-	}
-
-	private Constraint isEqual(int[] oneOf) {
-		Constraint[] equals = new Constraint[oneOf.length];
-
-		for (int index = 0; index < oneOf.length; index++ ) {
-			equals[index] = isEqual(oneOf[index]);
-		}
-
-		return new ExtendedOr(equals);
+		return objectConstraints.notEqual(notEqual);
 	}
 	
-	private Constraint isEqual(Object toEqual) {
-		return new IsEqual(toEqual);
+	public Object anObject() {
+		return objectConstraints.anObject();
 	}
-
-	private Constraint isLessThan(int upperLimit) {
-		return new IsLessThan(new Integer(upperLimit));
+	
+	public Object aNullObject() {
+		return objectConstraints.aNullObject();
 	}
-
-	private Constraint isGreaterThan(int lowerLimit) {
-		return new IsGreaterThan(new Integer(lowerLimit));
+	
+	public Object notANullObject() {
+		return objectConstraints.notANullObject();
 	}
-
-	private Constraint or(Constraint left, Constraint right) {
-		return new Or(left, right);
+	
+	public Object oneOf(Object[] oneOf) {
+		return objectConstraints.oneOf(oneOf);
 	}
-
-	private Constraint and(Constraint left, Constraint right) {
-		return new And(left, right);
+	
+	public Object neitherOf(Object[] neitherOf) {
+		return objectConstraints.neitherOf(neitherOf);
 	}
-
-	private Constraint not(Constraint constraint) {
-		return new IsNot(constraint);
-	}
-
-	private String notEqualImpl(Object notEqual) {
-		return constraintStore.putString(not(isEqual(notEqual)));
-	}	
 }

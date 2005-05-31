@@ -5,27 +5,32 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit;
+package example.dependancy;
 
-import junit.framework.Test;
+import example.model.Database;
+import picounit.Context;
+import picounit.Registry;
 
-public class ExampleSuite {
-	public static Test suite() {
-		return new PicoUnit().generateJUnitTest();
+public class SimplisticDatabaseContext implements Context {
+	public void setUp(Registry registry) {
+		registry.register(Database.class, new SimplisticDatabase());
 	}
 	
-	public static Test anotherSuite() {
-		return new PicoUnit().generateJUnitTest(new ExplicitGenerator(ExampleTest.class));
-//
-//		return new ExplicitGenerator(ExampleTest.class).generate();
-	}
-	
-	public static class ExplicitGenerator implements JUnitTestGenerator {
-		public ExplicitGenerator(Class class1) {
+	public static class SimplisticDatabase implements Database {
+		private int count = 0;
+
+		public boolean isConnected() {
+			return true;
 		}
 
-		public Test generateJUnitTest() {
-			return null;
+		public boolean insert(String insertQuery) {
+			count++;
+			
+			return true;
+		}
+
+		public int queryCount(String queryCountSql) {
+			return count;
 		}
 	}
 }

@@ -34,6 +34,22 @@ public class HashMapConstraintStore implements ConstraintStore {
 		return sentinel;
 	}
 	
+	public long putLong(Constraint longConstraint) {
+		long sentinel = sentinelSource.nextLong();
+
+		sentinelToConstraintMap.put(new Long(sentinel), longConstraint);
+
+		return sentinel;
+	}
+	
+	public double putDouble(Constraint doubleConstraint) {
+		double sentinel = sentinelSource.nextDouble();
+
+		sentinelToConstraintMap.put(new Double(sentinel), doubleConstraint);
+
+		return sentinel;
+	}
+
 	public String putString(Constraint constraint) {
 		String sentinelValue = sentinelSource.nextString();
 

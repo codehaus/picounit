@@ -14,7 +14,7 @@ import org.jmock.core.matcher.InvokeCountMatcher;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
 
-import picounit.ConstraintFactory;
+import picounit.Constraints;
 import picounit.Occurences;
 import picounit.PicoUnitException;
 import picounit.mocker.BooleanAction;
@@ -60,9 +60,8 @@ import java.util.List;
 
 public class JMocker implements MockerInterfaces {
 	private final List mocks = new LinkedList();
-	private final ConstraintStore constraintStore = new HashMapConstraintStore();
-	private final JMockConstraintFactory jMockConstraintFactory =
-		new JMockConstraintFactory(constraintStore);
+	private final ConstraintStore constraintStore;
+	private final JMockConstraintFactory jMockConstraintFactory;
 
 	private final RecordingPlaybackMockListener invocationListener = new RecordingPlaybackMockListener() {
 		public void recordingPlaybackMockEvent(RecordingPlaybackMock recordingPlaybackMock) {
@@ -71,6 +70,15 @@ public class JMocker implements MockerInterfaces {
 	};
 
 	private RecordingPlaybackMock recordingPlaybackMock;
+
+	public JMocker() {
+		this(new HashMapConstraintStore());
+	}
+
+	public JMocker(ConstraintStore constraintStore) {
+		this.constraintStore = constraintStore;
+		this.jMockConstraintFactory = new JMockConstraintFactory(constraintStore);
+	}
 
 	public Object mock(Class mockedType) {
 		return mock(mockedType, CoreMock.mockNameFromClass(mockedType));
@@ -85,7 +93,7 @@ public class JMocker implements MockerInterfaces {
 		return recordingPlaybackMock.getMock();
 	}
 
-	public ConstraintFactory constraint() {
+	public Constraints constraint() {
 		return jMockConstraintFactory;
 	}
 
@@ -355,6 +363,10 @@ public class JMocker implements MockerInterfaces {
 	
 	public ExpectationMatcher because(String reason) {
 		return this;
+	}
+	
+	public void doAboveWhen() {
+		replay();
 	}
 
 	public void replay() {

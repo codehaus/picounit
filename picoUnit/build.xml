@@ -42,6 +42,13 @@
 		<mkdir dir="${exampleClasses}"/>
 		<mkdir dir="${testReports}"/>
 	</target>
+	
+	<target name="dist">
+		<zip destfile="${distDir}/picounit-${version}.zip">
+			<zipfileset dir="${distDir}" includes="picounit-*.jar"/>
+			<zipfileset dir="${libDir}" includes="*.jar"/>
+		</zip>
+	</target>
 
 	<target name="compile" depends="compileCore, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests"/>
 
@@ -121,6 +128,7 @@
 				</fileset>
 				<path location="${coreClasses}"/>
 				<path location="${jmockerClasses}"/>
+				<path location="${unitTestModelClasses}"/>
 				<fileset dir="${buildLibDir}">
 					<include name="*.jar"/>
 				</fileset>
@@ -147,6 +155,7 @@
 				</fileset>
 				<path location="${coreClasses}"/>
 				<path location="${jmockerClasses}"/>
+				<path location="${unitTestModelClasses}"/>
 			</classpath>
 		</javac>
 		<copy todir="${functionalTestClasses}">

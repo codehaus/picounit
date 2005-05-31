@@ -74,6 +74,26 @@ public class DefaultVerify implements Verify {
 			fail(message(message, expected, actual));
 		}
 	}
+	
+	public void equal(double expected, double actual) {
+		equal(expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
+	}
+	
+	public void equal(String message, double expected, double actual) {
+		equal(message, expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
+	}
+	
+	public void equal(double expected, double actual, double delta) {
+		if (Math.abs(expected - actual) > delta) {
+			fail();
+		}
+	}
+	
+	public void equal(String message, double expected, double actual, double delta) {
+		if (Math.abs(expected - actual) > delta) {
+			fail(message);
+		}
+	}
 
 	public void equal(long expected, long actual) {
 		if (expected != actual) {

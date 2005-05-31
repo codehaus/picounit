@@ -14,7 +14,7 @@ import picounit.finder.NoTestsFoundTestCase;
 import picounit.finder.SinglePicoUnitTestSuite;
 import picounit.finder.TestFilter;
 import picounit.registry.RegistryEntry;
-import previous.picounit.Mocker;
+import previous.picounit.Constraints;
 import previous.picounit.Verify;
 
 public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
@@ -27,10 +27,10 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 
 	interface NonTestInterface extends Test {}
 	
-	public SinglePicoUnitTestSuiteTest(Mocker mocker, Verify verify) {
+	public SinglePicoUnitTestSuiteTest(Constraints is, Verify verify) {
 		this.verify = verify;
 		
-		this.registryEntry = (RegistryEntry) mocker.constraint().instanceOf(RegistryEntry.class);
+		this.registryEntry = (RegistryEntry) is.instanceOf(RegistryEntry.class);
 	}
 
 	public void testThrowsExceptionIfConstructedWithInterface() {

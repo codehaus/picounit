@@ -8,6 +8,8 @@
 package picounit.mocker;
 
 public interface MockControl {
+	void doAboveWhen();
+	
 	void replay();
 	void verify();
 	void reset();

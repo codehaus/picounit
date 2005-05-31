@@ -14,6 +14,7 @@ import picounit.Interface;
 import picounit.Registry;
 import picounit.registry.RegistryImpl;
 import picounit.registry.Resolver;
+import previous.picounit.Constraints;
 import previous.picounit.Future;
 import previous.picounit.Mocker;
 import previous.picounit.Test;
@@ -29,8 +30,8 @@ public class RegistryTest implements Test {
 	
 	private Future futureRegistry;
 
-	public RegistryTest(Mocker mocker) {
-		futureRegistry = mocker.constraint().future(RegistryImpl.class);
+	public RegistryTest(Constraints is) {
+		futureRegistry = is.future(RegistryImpl.class);
 	}
 
 	public void mock(MutablePicoContainer picoContainer) {

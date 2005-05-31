@@ -13,7 +13,9 @@ import java.util.List;
 
 public interface ConstraintStore {
 	int putInteger(Constraint integerConstraint);
-	String putString(Constraint constraint);
+	long putLong(Constraint longConstraint);
+	double putDouble(Constraint doubleConstraint);
+	String putString(Constraint stringConstraint);
 
 	Constraint getConstraint(Object parameter);
 	Constraint[] getConstraints(List parameters);

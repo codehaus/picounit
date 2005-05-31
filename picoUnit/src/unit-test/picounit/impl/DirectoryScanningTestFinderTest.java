@@ -18,6 +18,7 @@ import picounit.finder.FindAction;
 import picounit.finder.TestFilter;
 import picounit.finder.TestInstantiator;
 import picounit.registry.RegistryEntry;
+import previous.picounit.Constraints;
 import previous.picounit.Mocker;
 import previous.picounit.Verify;
 
@@ -46,12 +47,14 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 
 	private final Mocker mocker;
 	private final Verify verify;
-	
-	public DirectoryScanningTestFinderTest(Mocker mocker, Verify verify) {
+	private final Constraints is;
+
+	public DirectoryScanningTestFinderTest(Mocker mocker, Constraints is, Verify verify) {
 		this.mocker = mocker;
 		this.verify = verify;
+		this.is = is;
 
-		this.findAction = (FindAction) mocker.constraint().instanceOf(FindAction.class);
+		this.findAction = (FindAction) is.instanceOf(FindAction.class);
 	}
 	
 	public void mock(ClassFinder classFinder, ContextFinder contextFinder,
@@ -76,7 +79,7 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 		class NonTestClass {}
 
 		classFinder.findClasses(StartingClass.class, findAction);
-		registryEntry.registerWith((Registry) mocker.constraint().instanceOf(Registry.class));
+		registryEntry.registerWith((Registry) is.instanceOf(Registry.class));
 		mocker.expect(classLoader.loadClass(Ignore.class.getName())).andReturn(Ignore.class);
 
 		mocker.replay();

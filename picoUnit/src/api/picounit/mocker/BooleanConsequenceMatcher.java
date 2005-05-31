@@ -7,7 +7,9 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface BooleanConsequenceMatcher extends ThrowsConsequenceMatcher {
+public interface BooleanConsequenceMatcher extends ThrowsConsequenceMatcher,
+	OccurencesMatcher {
+
 	OccurencesMatcher andReturn(boolean result);
 	
 	OccurencesMatcher andPerform(BooleanAction booleanAction);
