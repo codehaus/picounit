@@ -9,7 +9,7 @@ package picounit;
 
 import picounit.mocker.jmock.ConstraintStore;
 import picounit.mocker.jmock.HashMapConstraintStore;
-import picounit.mocker.jmock.JMockConstraintFactory;
+import picounit.mocker.jmock.JMockConstraints;
 import picounit.mocker.jmock.JMocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
@@ -28,7 +28,7 @@ public class JMockerTest implements Test {
 		ConstraintStore constraintStore = new HashMapConstraintStore();
 
 		this.mocker = new JMocker(constraintStore);
-		this.is = new JMockConstraintFactory(constraintStore);
+		this.is = new JMockConstraints(constraintStore);
 	}
 
 	public void testKissing() {

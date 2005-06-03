@@ -18,7 +18,7 @@ import picounit.StringConstraints;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JMockConstraintFactory implements Constraints {
+public class JMockConstraints implements Constraints {
 	private final Map sentinelToConstraintMap = new HashMap();
 	private final ProxyFactory proxyFactory = new ProxyFactory();
 	private final IntegerConstraints integerConstraints;
@@ -27,13 +27,13 @@ public class JMockConstraintFactory implements Constraints {
 	private final StringConstraints stringConstraints;
 	private final ObjectConstraints objectConstraints;
 
-	public JMockConstraintFactory(ConstraintStore constraintStore) {
+	public JMockConstraints(ConstraintStore constraintStore) {
 		this(new JMockIntegerConstraints(constraintStore), new JMockLongConstraints(constraintStore),
 			new JMockDoubleConstraints(constraintStore), new JMockStringConstraints(constraintStore),
 			new JMockObjectConstraints(constraintStore));
 	}
 
-	public JMockConstraintFactory(IntegerConstraints integerConstraints,
+	public JMockConstraints(IntegerConstraints integerConstraints,
 		LongConstraints longConstraints, DoubleConstraints doubleConstraints,
 		StringConstraints stringConstraints, ObjectConstraints objectConstraints) {
 

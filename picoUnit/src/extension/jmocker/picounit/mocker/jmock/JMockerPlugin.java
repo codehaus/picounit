@@ -25,6 +25,6 @@ public class JMockerPlugin implements Plugin {
 		ConstraintStore constraintStore = new HashMapConstraintStore();
 
 		registry.register(Mocker.class, new JMocker(constraintStore));
-		registry.register(Constraints.class, new JMockConstraintFactory(constraintStore));
+		registry.register(Constraints.class, new JMockConstraints(constraintStore));
 	}
 }

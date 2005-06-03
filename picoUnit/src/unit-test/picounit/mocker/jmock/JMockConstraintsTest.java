@@ -16,8 +16,8 @@ import previous.picounit.Mocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
-public class JMockConstraintFactoryTest implements Test {
-	private JMockConstraintFactory jmockConstraintFactory;
+public class JMockConstraintsTest implements Test {
+	private JMockConstraints jmockConstraintFactory;
 
 	private IntegerConstraints integerConstraints;
 	private LongConstraints longConstraints;
@@ -29,7 +29,7 @@ public class JMockConstraintFactoryTest implements Test {
 		DoubleConstraints doubleConstraints, StringConstraints stringConstraints,
 		ObjectConstraints objectConstraints) {
 		
-		this.jmockConstraintFactory = new JMockConstraintFactory(integerConstraints, longConstraints,
+		this.jmockConstraintFactory = new JMockConstraints(integerConstraints, longConstraints,
 			doubleConstraints, stringConstraints, objectConstraints);
 		
 		this.integerConstraints = integerConstraints;
