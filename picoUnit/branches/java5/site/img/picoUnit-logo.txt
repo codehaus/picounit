@@ -1,0 +1,16 @@
+Generated at www.flamingtext.com
+
+Electric
+Font Size: 85
+Font: Bizarre
+Text/Outline Gradient: Incandescent
+Outline Size: 1
+Background: White
+Text Pattern: Ice (used)
+Outline Pattern: Lightning (used)
+Overlay Pattern: Lightning (used)
+No shadow
+Not flattened
+
+
+http://www3.flamingtext.com/net-fu/dynamic.cgi?colorchoice=colorBackground&cgiscript=%2Fnet-fu%2Fdynamic.cgi&script=electric&enginehost=&engineport=&text=PicoUnit&fontsize=100&fontname=Bizarre+%28mrn%29&gradientTextGradient=Incandescent&gradientOutlineGradient=Incandescent&OutlineSize=5&toggleUseTextPattern=on&toggleUseTextPattern=false&patternTextPattern=Ice&toggleUseOutlinePattern=on&toggleUseOutlinePattern=false&patternOutlinePattern=Lightning&toggleUseOverlayPattern=on&toggleUseOverlayPattern=false&patternOverlayPattern=Lightning&toggleShadow=false&shadowXOffset=4&shadowYOffset=4&toggleFlattenImage=false&colorBackgroundR=255&colorBackgroundG=255&colorBackgroundB=255&

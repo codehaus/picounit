@@ -1,0 +1,30 @@
+/*****************************************************************************
+ * Copyright (C) Stacy Curl. All rights reserved.                            *
+ * ------------------------------------------------------------------------- *
+ * The software in this package is published under the terms of the BSD      *
+ * style license a copy of which has been included with this distribution in *
+ * the LICENSE.txt file.                                                     *
+ *****************************************************************************/
+package picounit.mocker;
+
+import picounit.Mocker;
+
+public interface MockerInterfaces extends
+	Mocker,
+
+	BooleanConsequenceMatcher,
+	ByteConsequenceMatcher,
+	CharConsequenceMatcher,
+	DoubleConsequenceMatcher,
+	FloatConsequenceMatcher,
+	IntConsequenceMatcher,
+	LongConsequenceMatcher,
+	ShortConsequenceMatcher,
+	StringConsequenceMatcher,
+	ObjectConsequenceMatcher,
+	ThrowsConsequenceMatcher,
+
+	OccurencesMatcher,
+
+	PostConsequenceMatcher {
+}
