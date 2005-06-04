@@ -2,8 +2,8 @@ package picounit;
 
 public interface DoubleConstraints {
 	double aDouble();
-	double oneOf(double[] oneOf);
-	double neitherOf(double[] neitherOf);
+	double oneOf(double ... oneOf);
+	double neitherOf(double ... neitherOf);
 	double notEqualTo(double notEqual);
 	double lessThan(double upperLimit);
 	double lessThanOrEqualTo(double upperLimit);

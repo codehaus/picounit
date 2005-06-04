@@ -50,17 +50,17 @@ public class JMocker implements MockerInterfaces {
 		this.jMockConstraintFactory = new JMockConstraints(constraintStore);
 	}
 
-	public Object mock(Class mockedType) {
+	public <Type> Type mock(Class mockedType) {
 		return mock(mockedType, CoreMock.mockNameFromClass(mockedType));
 	}
 
-	public Object mock(Class mockedType, String name) {
+	public <Type> Type mock(Class mockedType, String name) {
 		RecordingPlaybackMock recordingPlaybackMock = new RecordingPlaybackMock(
 			mockedType, name, invocationListener, this, constraintStore);
 
 		mocks.add(recordingPlaybackMock);
 
-		return recordingPlaybackMock.getMock();
+		return (Type) recordingPlaybackMock.getMock();
 	}
 
 	public Constraints constraint() {

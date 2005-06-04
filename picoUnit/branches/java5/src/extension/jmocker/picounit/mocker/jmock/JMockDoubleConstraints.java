@@ -28,11 +28,11 @@ public class JMockDoubleConstraints implements DoubleConstraints {
 		return constraintStore.putDouble(basicConstraints.isAnything());
 	}
 	
-	public double oneOf(double[] oneOf) {
+	public double oneOf(double ... oneOf) {
 		return constraintStore.putDouble(isEqual(oneOf));
 	}
-	
-	public double neitherOf(double[] neitherOf) {
+
+	public double neitherOf(double ... neitherOf) {
 		return constraintStore.putDouble(basicConstraints.not(isEqual(neitherOf)));
 	}
 	

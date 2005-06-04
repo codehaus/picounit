@@ -29,11 +29,11 @@ public class JMockStringConstraints implements StringConstraints {
 		return constraintStore.putString(basicConstraints.isAnything());
 	}
 	
-	public String oneOf(String[] oneOf) {
+	public String oneOf(String ... oneOf) {
 		return constraintStore.putString(isEqual(oneOf));
 	}
 
-	public String neitherOf(String[] neitherOf) {
+	public String neitherOf(String ... neitherOf) {
 		return constraintStore.putString(basicConstraints.not(isEqual(neitherOf)));
 	}
 

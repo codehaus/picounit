@@ -8,6 +8,6 @@
 package picounit.mocker;
 
 public interface MockFactory {
-	Object mock(Class interfaceClass);
-	Object mock(Class interfaceClass, String name);
+	<Type> Type mock(Class interfaceClass);
+	<Type> Type mock(Class interfaceClass, String name);
 }

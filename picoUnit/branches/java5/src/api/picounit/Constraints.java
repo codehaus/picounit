@@ -11,5 +11,5 @@ public interface Constraints extends IntegerConstraints, LongConstraints, Double
 	StringConstraints, ObjectConstraints {
 
 	Future future(Class futureType);
-	Object instanceOf(Class instanceOf);
+	<Type> Type instanceOf(Class instanceOf);
 }

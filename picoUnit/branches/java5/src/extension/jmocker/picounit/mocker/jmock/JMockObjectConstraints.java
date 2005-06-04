@@ -36,11 +36,11 @@ public class JMockObjectConstraints implements ObjectConstraints {
 		return constraintStore.putString(basicConstraints.isNotNull(Object.class));
 	}
 
-	public Object oneOf(Object[] oneOf) {
+	public Object oneOf(Object ... oneOf) {
 		return constraintStore.putString(isEqual(oneOf));
 	}
 	
-	public Object neitherOf(Object[] neitherOf) {
+	public Object neitherOf(Object ... neitherOf) {
 		return constraintStore.putString(basicConstraints.not(isEqual(neitherOf)));
 	}
 

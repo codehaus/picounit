@@ -28,11 +28,11 @@ public class JMockLongConstraints implements LongConstraints {
 		return constraintStore.putLong(basicConstraints.isAnything());
 	}
 	
-	public long oneOf(long[] oneOf) {
+	public long oneOf(long ... oneOf) {
 		return constraintStore.putLong(isEqual(oneOf));
 	}
 	
-	public long neitherOf(long[] neitherOf) {
+	public long neitherOf(long ... neitherOf) {
 		return constraintStore.putLong(basicConstraints.not(isEqual(neitherOf)));
 	}
 	

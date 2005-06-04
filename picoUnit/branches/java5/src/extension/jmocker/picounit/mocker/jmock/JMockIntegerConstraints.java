@@ -28,7 +28,7 @@ public class JMockIntegerConstraints implements IntegerConstraints {
 		return constraintStore.putInteger(basicConstraints.isAnything());
 	}
 
-	public int oneOf(int[] oneOf) {
+	public int oneOf(int ... oneOf) {
 		return constraintStore.putInteger(isEqual(oneOf));
 	}
 
@@ -36,7 +36,7 @@ public class JMockIntegerConstraints implements IntegerConstraints {
 		return constraintStore.putInteger(basicConstraints.isNotEqualTo(new Integer(notEqual)));
 	}
 	
-	public int neitherOf(int[] neitherOf) {
+	public int neitherOf(int ... neitherOf) {
 		return constraintStore.putInteger(basicConstraints.not(isEqual(neitherOf)));
 	}
 

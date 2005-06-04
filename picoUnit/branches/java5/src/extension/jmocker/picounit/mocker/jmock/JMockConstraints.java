@@ -44,8 +44,8 @@ public class JMockConstraints implements Constraints {
 		this.objectConstraints = objectConstraints;
 	}
 
-	public Object instanceOf(Class instanceOf) {
-		return proxyFactory.create(instanceOf, new InstanceOfInvocationHandler(instanceOf));
+	public <Type> Type instanceOf(Class instanceOf) {
+		return (Type) proxyFactory.create(instanceOf, new InstanceOfInvocationHandler(instanceOf));
 	}
 
 	public Future future(Class futureType) {
@@ -56,7 +56,7 @@ public class JMockConstraints implements Constraints {
 		return integerConstraints.anInteger();
 	}
 
-	public int oneOf(int[] oneOf) {
+	public int oneOf(int ... oneOf) {
 		return integerConstraints.oneOf(oneOf);
 	}
 
@@ -64,7 +64,7 @@ public class JMockConstraints implements Constraints {
 		return integerConstraints.notEqualTo(notEqual);
 	}
 	
-	public int neitherOf(int[] neitherOf) {
+	public int neitherOf(int ... neitherOf) {
 		return integerConstraints.neitherOf(neitherOf);
 	}
 
@@ -96,11 +96,11 @@ public class JMockConstraints implements Constraints {
 		return longConstraints.aLong();
 	}
 	
-	public long oneOf(long[] oneOf) {
+	public long oneOf(long ... oneOf) {
 		return longConstraints.oneOf(oneOf);
 	}
 	
-	public long neitherOf(long[] neitherOf) {
+	public long neitherOf(long ... neitherOf) {
 		return longConstraints.neitherOf(neitherOf);
 	}
 	
@@ -136,11 +136,11 @@ public class JMockConstraints implements Constraints {
 		return doubleConstraints.aDouble();
 	}
 	
-	public double oneOf(double[] oneOf) {
+	public double oneOf(double ... oneOf) {
 		return doubleConstraints.oneOf(oneOf);
 	}
 	
-	public double neitherOf(double[] neitherOf) {
+	public double neitherOf(double ... neitherOf) {
 		return doubleConstraints.neitherOf(neitherOf);
 	}
 	
@@ -176,11 +176,11 @@ public class JMockConstraints implements Constraints {
 		return stringConstraints.aString();
 	}
 	
-	public String oneOf(String[] oneOf) {
+	public String oneOf(String ... oneOf) {
 		return stringConstraints.oneOf(oneOf);
 	}
 
-	public String neitherOf(String[] neitherOf) {
+	public String neitherOf(String ... neitherOf) {
 		return stringConstraints.neitherOf(neitherOf);
 	}
 
@@ -224,11 +224,11 @@ public class JMockConstraints implements Constraints {
 		return objectConstraints.notANullObject();
 	}
 	
-	public Object oneOf(Object[] oneOf) {
+	public Object oneOf(Object ... oneOf) {
 		return objectConstraints.oneOf(oneOf);
 	}
 	
-	public Object neitherOf(Object[] neitherOf) {
+	public Object neitherOf(Object ... neitherOf) {
 		return objectConstraints.neitherOf(neitherOf);
 	}
 }

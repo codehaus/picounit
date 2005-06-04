@@ -2,8 +2,8 @@ package picounit;
 
 public interface LongConstraints {
 	long aLong();
-	long oneOf(long[] oneOf);
-	long neitherOf(long[] neitherOf);
+	long oneOf(long ... oneOf);
+	long neitherOf(long ... neitherOf);
 	long notEqualTo(long notEqual);
 	long lessThan(long upperLimit);
 	long lessThanOrEqualTo(long upperLimit);
