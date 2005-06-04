@@ -80,7 +80,7 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 
 		classFinder.findClasses(StartingClass.class, findAction);
 		registryEntry.registerWith((Registry) is.instanceOf(Registry.class));
-		mocker.expect(classLoader.loadClass(Ignore.class.getName())).andReturn(Ignore.class);
+		mocker.expect((Class) classLoader.loadClass(Ignore.class.getName())).andReturn(Ignore.class);
 
 		mocker.replay();
 

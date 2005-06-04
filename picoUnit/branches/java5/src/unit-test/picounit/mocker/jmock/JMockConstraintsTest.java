@@ -66,16 +66,16 @@ public class JMockConstraintsTest implements Test {
 	}
 	
 	public void testDelegatesToLongConstraints(Mocker should, Verify verify) {
-		should.call(longConstraints.aLong()).andReturn(111);
-		should.call(longConstraints.oneOf(severalLongs())).andReturn(222);
-		should.call(longConstraints.neitherOf(severalLongs())).andReturn(333);
-		should.call(longConstraints.notEqualTo(400)).andReturn(444);
-		should.call(longConstraints.lessThan(500)).andReturn(555);
-		should.call(longConstraints.lessThanOrEqualTo(600)).andReturn(666);
-		should.call(longConstraints.greaterThan(700)).andReturn(777);
-		should.call(longConstraints.greaterThanOrEqualTo(800)).andReturn(888);
-		should.call(longConstraints.between(911, 922)).andReturn(999);
-		should.call(longConstraints.notBetween(110, 220)).andReturn(010);
+		should.call(longConstraints.aLong()).andReturn(111L);
+		should.call(longConstraints.oneOf(severalLongs())).andReturn(222L);
+		should.call(longConstraints.neitherOf(severalLongs())).andReturn(333L);
+		should.call(longConstraints.notEqualTo(400)).andReturn(444L);
+		should.call(longConstraints.lessThan(500)).andReturn(555L);
+		should.call(longConstraints.lessThanOrEqualTo(600)).andReturn(666L);
+		should.call(longConstraints.greaterThan(700)).andReturn(777L);
+		should.call(longConstraints.greaterThanOrEqualTo(800)).andReturn(888L);
+		should.call(longConstraints.between(911, 922)).andReturn(999L);
+		should.call(longConstraints.notBetween(110, 220)).andReturn(010L);
 
 		should.doAboveWhen();
 

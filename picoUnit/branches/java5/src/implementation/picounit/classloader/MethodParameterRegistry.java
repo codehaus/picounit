@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MethodParameterRegistry {
-	private final Map methodParameters = new HashMap();
+	private final Map<String, String[]> methodParameters = new HashMap<String, String[]>();
 
 	public void register(String className, String methodName, String[] parameterNames) {
 		methodParameters.put(className + "." + methodName, parameterNames);
 	}
 
 	public String[] get(String className, String methodName) {
-		return (String[]) methodParameters.get(className + "." + methodName);
+		return methodParameters.get(className + "." + methodName);
 	}
 }

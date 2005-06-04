@@ -14,7 +14,7 @@ import junit.framework.Assert;
 
 public class Operations {
 	private StringBuffer operations = new StringBuffer();
-	private final Map data = new HashMap();
+	private final Map<String, Object> data = new HashMap<String, Object>();
 
 	public Operations clear() {
 		operations = new StringBuffer();

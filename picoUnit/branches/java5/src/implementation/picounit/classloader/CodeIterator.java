@@ -10,9 +10,9 @@ package picounit.classloader;
 import java.util.Iterator;
 
 public class CodeIterator {
-	private final Iterator iterator;
+	private final Iterator<Code> iterator;
 
-	public CodeIterator(Iterator iterator) {
+	public CodeIterator(Iterator<Code> iterator) {
 		this.iterator = iterator;
 	}
 
@@ -22,7 +22,7 @@ public class CodeIterator {
 
 	public Code next() {
 		if (iterator.hasNext()) {
-			return (Code) iterator.next();
+			return iterator.next();
 		}
 		else {
 			return NullCode.INSTANCE;

@@ -19,7 +19,7 @@ public class FutureImpl implements Future {
 	private final Verify verify = new DefaultVerify();
 	private final Class futureType;
 	Object value;
-	private final Set compareTo = new HashSet();
+	private final Set<Object> compareTo = new HashSet<Object>();
 
 	public FutureImpl(Class futureType) {
 		this.futureType = futureType;
@@ -28,7 +28,7 @@ public class FutureImpl implements Future {
 	public void setValue(Object value) {
 		verify.instanceOf(futureType, value);
 		
-		for (Iterator iterator = compareTo.iterator(); iterator.hasNext();) {
+		for (Iterator<Object> iterator = compareTo.iterator(); iterator.hasNext();) {
 			verify.equal(value, iterator.next());
 		}
 

@@ -164,7 +164,7 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 	}
 
 	private static Map createDefaultMap() {
-		Map defaultMap = new HashMap();
+		Map<Class, Object> defaultMap = new HashMap<Class, Object>();
 		defaultMap.put(boolean.class, Boolean.FALSE);
 		defaultMap.put(byte.class, new Byte((byte)0));
 		defaultMap.put(short.class, new Short((short)0));

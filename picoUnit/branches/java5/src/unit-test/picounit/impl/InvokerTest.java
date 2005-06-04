@@ -103,8 +103,8 @@ public class InvokerTest implements Test {
 
 	public void testInvokesProtectedMethods(Mocker mocker, Verify verify) throws Exception {
 		Fixture fixture = new Fixture();
-		mocker.expect(resolver.get(SomeClass.junitSetUp)).andReturn((new Object[0]));
 		mocker.expect(resolver.get(SomeClass.picoSetUp)).andReturn((new Object[] {fixture}));
+		mocker.expect(resolver.get(SomeClass.junitSetUp)).andReturn((new Object[0]));
 
 		mocker.replay();
 

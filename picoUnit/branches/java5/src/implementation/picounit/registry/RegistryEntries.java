@@ -9,12 +9,11 @@ package picounit.registry;
 
 import picounit.Registry;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class RegistryEntries implements Registry, RegistryEntry {
-	private final List entries = new LinkedList();
+	private final List<RegistryEntry> entries = new LinkedList<RegistryEntry>();
 
 	public void register(Class type, Class implementation) {
 		addEntry(new InterfaceToImplementationRegistryEntry(type, implementation));
@@ -29,9 +28,7 @@ public class RegistryEntries implements Registry, RegistryEntry {
 	}
 
 	public void registerWith(Registry registry) {
-		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
-			RegistryEntry registryEntry = (RegistryEntry) iterator.next();
-
+		for(RegistryEntry registryEntry: entries) {
 			registryEntry.registerWith(registry);
 		}
 	}

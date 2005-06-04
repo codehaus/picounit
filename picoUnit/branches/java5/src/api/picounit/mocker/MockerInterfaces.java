@@ -12,17 +12,7 @@ import picounit.Mocker;
 public interface MockerInterfaces extends
 	Mocker,
 
-	BooleanConsequenceMatcher,
-	ByteConsequenceMatcher,
-	CharConsequenceMatcher,
-	DoubleConsequenceMatcher,
-	FloatConsequenceMatcher,
-	IntConsequenceMatcher,
-	LongConsequenceMatcher,
-	ShortConsequenceMatcher,
-	StringConsequenceMatcher,
-	ObjectConsequenceMatcher,
-	ThrowsConsequenceMatcher,
+	ConsequenceMatcher,
 
 	OccurencesMatcher,
 

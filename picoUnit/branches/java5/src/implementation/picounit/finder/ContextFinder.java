@@ -30,7 +30,7 @@ public class ContextFinder {
 	public ContextClass[] findContexts(Class testClass, final Condition condition) {
 		File sourceRoot = fileSystem.getSourceRoot(testClass);
 
-		final List listContextClasses = new LinkedList();
+		final List<ContextClass> listContextClasses = new LinkedList<ContextClass>();
 
 		classFinder.findClasses(sourceRoot, sourceRoot,
 			new AboveClassDirectoryCondition(fileSystem.getClassFile(testClass), sourceRoot),
@@ -40,11 +40,11 @@ public class ContextFinder {
 	}
 
 	public static class AddContextClassFindAction implements FindAction {
-		private final List listContextClasses;
+		private final List<ContextClass> listContextClasses;
 		private final Condition condition;
 		private final ClassLoader classLoader;
 
-		private AddContextClassFindAction(List listContextClasses, Condition condition,
+		private AddContextClassFindAction(List<ContextClass> listContextClasses, Condition condition,
 			ClassLoader classLoader) {
 
 			this.listContextClasses = listContextClasses;

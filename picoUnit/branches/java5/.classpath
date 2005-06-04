@@ -9,7 +9,7 @@
 	<classpathentry output="build/jmocker-classes" kind="src" path="src/extension/jmocker"/>
 	<classpathentry output="build/example-code-classes" kind="src" path="src/examples/code"/>
 	<classpathentry output="build/example-test-classes" kind="src" path="src/examples/test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2sdk1.5.0"/>
 	<classpathentry kind="lib" path="lib/cglib-full-2.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/picocontainer-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jmock-20050507-203802.jar"/>

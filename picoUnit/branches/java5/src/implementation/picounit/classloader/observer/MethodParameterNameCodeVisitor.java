@@ -21,7 +21,7 @@ public class MethodParameterNameCodeVisitor implements CodeVisitor {
 	public static final String OBJECT_TYPE_REGEX = "\\[*L[^;]*;";
 	
 	private int numParameters = 0;
-	private List parameters = new LinkedList();
+	private List<String> parameters = new LinkedList<String>();
 	private String methodName;
 	private String className;
 	private final MethodParameterListener methodParameterListener;

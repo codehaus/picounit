@@ -18,5 +18,5 @@ public interface ConstraintStore {
 	String putString(Constraint stringConstraint);
 
 	Constraint getConstraint(Object parameter);
-	Constraint[] getConstraints(List parameters);
+	Constraint[] getConstraints(List<Object> parameters);
 }

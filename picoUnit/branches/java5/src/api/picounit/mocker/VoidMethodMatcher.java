@@ -10,15 +10,5 @@ package picounit.mocker;
 public interface VoidMethodMatcher {
 	OccurencesMatcher raise(Throwable throwable);
 
-	OccurencesMatcher perform(BooleanAction booleanAction);
-	OccurencesMatcher perform(ByteAction byteAction);
-	OccurencesMatcher perform(CharAction charAction);
-	OccurencesMatcher perform(DoubleAction doubleAction);
-	OccurencesMatcher perform(FloatAction floatAction);
-	OccurencesMatcher perform(IntAction intAction);
-	OccurencesMatcher perform(LongAction longAction);
-	OccurencesMatcher perform(ShortAction shortAction);
-	OccurencesMatcher perform(StringAction stringAction);
-	OccurencesMatcher perform(ObjectAction objectAction);
-	OccurencesMatcher perform(VoidAction voidAction);
+	<Type> OccurencesMatcher perform(Action<Type> action);
 }

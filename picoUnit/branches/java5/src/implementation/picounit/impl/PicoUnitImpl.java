@@ -61,8 +61,9 @@ public class PicoUnitImpl {
 		try {
 			return testFinder.findTests(testFilter, registryEntries, name, reloadClass(startingClass), type, methodParameterRegistry);
 		}
-		catch (NullPointerException nullPointerException) {
-			throw new PicoUnitException(nullPointerException);
+		catch (RuntimeException runtimeException) {
+			runtimeException.printStackTrace();
+			throw new PicoUnitException(runtimeException);
 		}
 	}
 

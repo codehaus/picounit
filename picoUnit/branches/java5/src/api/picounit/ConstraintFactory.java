@@ -11,5 +11,4 @@ package picounit;
  * @deprecated Please use picounit.Constraints instead
  */
 public interface ConstraintFactory extends Constraints {
-
 }

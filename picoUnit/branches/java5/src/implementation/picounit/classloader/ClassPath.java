@@ -22,7 +22,7 @@ public class ClassPath {
 	public ClassPath(String classPath, CodeFactory codeFactory) {
 		StringTokenizer stringTokenizer = new StringTokenizer(classPath, File.pathSeparator);
 
-		List code = new LinkedList();
+		List<Code> code = new LinkedList<Code>();
 		while(stringTokenizer.hasMoreTokens()) {
 			String classPathEntry = stringTokenizer.nextToken();
 
@@ -46,7 +46,7 @@ public class ClassPath {
 		for (int index = 0; index < code.length && byteCode == null; index++ ) {
 			byteCode = code[index].findClass(className);
 		}
-
+		
 		return byteCode;
 	}
 

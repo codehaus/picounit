@@ -19,7 +19,7 @@ public class PicoClassLoader extends ClassLoader {
 	private final ClassPath classPath;
 	private ClassMutator classMutator;
 	private ClassObserver classObserver;
-	private final Map loadedClasses = new HashMap();
+	private final Map<String, Class> loadedClasses = new HashMap<String, Class>();
 	
 	public PicoClassLoader(ClassLoader parent) {
 		this(parent, new ClassPath());

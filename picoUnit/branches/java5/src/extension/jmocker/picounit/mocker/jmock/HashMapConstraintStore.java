@@ -10,12 +10,11 @@ package picounit.mocker.jmock;
 import org.jmock.core.Constraint;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class HashMapConstraintStore implements ConstraintStore {
-	private Map sentinelToConstraintMap = new HashMap();
+	private Map<Object, Constraint> sentinelToConstraintMap = new HashMap<Object, Constraint>();
 	private final SentinelSource sentinelSource;
 	
 	public HashMapConstraintStore() {
@@ -64,12 +63,12 @@ public class HashMapConstraintStore implements ConstraintStore {
 		return constraint != null ? constraint : new ProxyAwareIsEqual(parameter); 
 	}
 
-	public Constraint[] getConstraints(List parameters) {
+	public Constraint[] getConstraints(List<Object> parameters) {
 		Constraint[] constraints = new Constraint[parameters.size()];
 
 		int index = 0;
-		for (Iterator iterator = parameters.iterator(); iterator.hasNext();) {
-			constraints[index++] = getConstraint(iterator.next());
+		for(Object parameter : parameters) {
+			constraints[index++] = getConstraint(parameter);
 		}
 
 		return constraints;

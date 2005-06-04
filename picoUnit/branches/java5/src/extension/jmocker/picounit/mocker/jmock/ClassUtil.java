@@ -14,23 +14,22 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class ClassUtil {
 	public Constructor getBestConstructor(Class aClass) {
-		List constructors = Arrays.asList(aClass.getDeclaredConstructors());
+		List<Constructor> constructors = Arrays.asList(aClass.getDeclaredConstructors());
 		final ConstructorComparator constructorComparator = new ConstructorComparator();
 
-		Collections.sort(constructors, new Comparator() {
-			public int compare(Object o1, Object o2) {
+		Collections.sort(constructors, new Comparator<Constructor>() {
+			public int compare(Constructor o1, Constructor o2) {
 				return constructorComparator.compare(o1, o2);
 			}
 		});
-
-		for (Iterator iterator = constructors.iterator(); iterator.hasNext();) {
-			System.out.println(iterator.next());
+		
+		for (Constructor constructor : constructors) {
+			System.out.println(constructor);
 		}
 
 		return (Constructor) constructors.get(0);
@@ -124,12 +123,12 @@ public class ClassUtil {
 		return Modifier.isPrivate(declaredConstructor.getModifiers());
 	}
 
-	private final Set primativeTypes = primativeTypes();
+	private final Set<Class> primativeTypes = primativeTypes();
 
 	private final StubInvocationHandler stubInvocationHandler = new StubInvocationHandler();
 
-	private Set primativeTypes() {
-		Set primativeTypes = new HashSet();
+	private Set<Class> primativeTypes() {
+		Set<Class> primativeTypes = new HashSet<Class>();
 
 		primativeTypes.add(boolean.class);
 		primativeTypes.add(byte.class);

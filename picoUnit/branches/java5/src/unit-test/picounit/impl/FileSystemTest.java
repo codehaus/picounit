@@ -36,7 +36,7 @@ public class FileSystemTest implements Test {
 		verify.equal(thisClassFile(), fileSystem.getRelativeFile(thisPackageFile(), thisRelativeFileName()));
 		verify.equal(thisClassFile(), fileSystem.getRelativeFile(sourceRoot(), getClass().getName().replace('.', File.separatorChar) + ".class"));
 	}
-
+	
 	private String thisRelativeFileName() {
 		String className = getClass().getName();
 

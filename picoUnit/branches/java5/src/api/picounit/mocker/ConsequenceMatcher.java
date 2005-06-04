@@ -7,6 +7,8 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface ByteAction {
-	byte perform();
+public interface ConsequenceMatcher<Type> extends ThrowsConsequenceMatcher {
+	OccurencesMatcher andReturn(Type result);
+
+	OccurencesMatcher andPerform(Action<Type> charAction);
 }

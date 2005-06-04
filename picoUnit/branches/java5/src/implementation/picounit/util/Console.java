@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Console {
-	private static final Set printCache = new HashSet();
-	private static final Set printErrorCache = new HashSet();
+	private static final Set<String> printCache = new HashSet<String>();
+	private static final Set<String> printErrorCache = new HashSet<String>();
 
 	public void println(String toPrint) {
 		if (!cacheContains(printCache, toPrint)) {
@@ -29,7 +29,7 @@ public class Console {
 	public void ignore(String toIgnore) {
 	}
 
-	private static boolean cacheContains(Set cache, String item) {
+	private static boolean cacheContains(Set<String> cache, String item) {
 		boolean contains = cache.contains(item);
 		
 		cache.add(item);
