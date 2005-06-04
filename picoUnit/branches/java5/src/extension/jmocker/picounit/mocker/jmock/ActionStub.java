@@ -5,27 +5,25 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.classloader;
+package picounit.mocker.jmock;
 
-import java.util.Iterator;
+import org.jmock.core.Invocation;
+import org.jmock.core.Stub;
 
-public class CodeIterator {
-	private final Iterator<Code> iterator;
+import picounit.mocker.Action;
 
-	public CodeIterator(Iterator<Code> iterator) {
-		this.iterator = iterator;
+public class ActionStub<Type> implements Stub {
+	private final Action<Type> action;
+
+	public ActionStub(Action<Type> action) {
+		this.action = action;
+	}
+	
+	public Object invoke(Invocation invocation) throws Throwable {
+		return action.perform();
 	}
 
-	public boolean hasNext() {
-		return iterator.hasNext();
-	}
-
-	public Code next() {
-		if (iterator.hasNext()) {
-			return iterator.next();
-		}
-		else {
-			return NullCode.INSTANCE;
-		}
+	public StringBuffer describeTo(StringBuffer stringBuffer) {
+		return null;
 	}
 }

@@ -7,6 +7,7 @@
  *****************************************************************************/
 package picounit.classloader;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class FindClassCodeVisitor implements CodeVisitor {
 		}
 	}
 
-	public CodeIterator iterator() {
-		return new CodeIterator(codeContaining.iterator());
+	public Iterator<Code> iterator() {
+		return codeContaining.iterator();
 	}
 }
