@@ -19,10 +19,12 @@ public class ClassNotFoundFailingTest extends TestCase {
 		this.classNotFoundException = classNotFoundException;
 	}
 
+	@Override
 	public int countTestCases() {
 		return 1;
 	}
 
+	@Override
 	public void run(TestResult testResult) {
 		testResult.startTest(this);
 

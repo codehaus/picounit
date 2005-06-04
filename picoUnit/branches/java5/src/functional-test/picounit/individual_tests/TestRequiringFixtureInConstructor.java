@@ -15,6 +15,7 @@ import junit.framework.TestResult;
 
 public class TestRequiringFixtureInConstructor implements Test {
 	public static final Validator validator = new Validator(TestRequiringFixtureInConstructor.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			Assert.assertEquals(1, testResult.runCount());
 			Assert.assertEquals(0, testResult.failureCount() + testResult.errorCount());

@@ -19,6 +19,7 @@ public class NoTestsFoundTestCase extends TestCase {
 		this.startingClass = startingClass;
 	}
 
+	@Override
 	public void run(TestResult testResult) {
 		testResult.startTest(this);
 
@@ -27,6 +28,7 @@ public class NoTestsFoundTestCase extends TestCase {
 		testResult.endTest(this);
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;
@@ -37,6 +39,7 @@ public class NoTestsFoundTestCase extends TestCase {
 		return startingClass.equals(other.startingClass);
 	}
 
+	@Override
 	public int hashCode() {
 		return startingClass.hashCode();
 	}

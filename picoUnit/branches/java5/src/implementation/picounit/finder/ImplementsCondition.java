@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.finder;
 
-
 import java.lang.reflect.Modifier;
 
 public class ImplementsCondition implements Condition {
@@ -22,6 +21,7 @@ public class ImplementsCondition implements Condition {
 			!Modifier.isAbstract(aClass.getModifiers());
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;
@@ -32,10 +32,12 @@ public class ImplementsCondition implements Condition {
 		return toImplement.equals(other.toImplement);
 	}
 
+	@Override
 	public int hashCode() {
 		return toImplement.hashCode();
 	}
 
+	@Override
 	public String toString() {
 		return getClass().getName() + ": " + toImplement;
 	}

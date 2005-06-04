@@ -51,14 +51,17 @@ public class PicoUnitTestCase extends TestCase {
 		this.thrower = thrower;
 	}
 
+	@Override
 	public int countTestCases() {
 		return 1;
 	}
 
+	@Override
 	public String getName() {
 		return testMethod.getName() + "(" + testMethod.getDeclaringClass().getName() + ")";
 	}
 
+	@Override
 	public void run(TestResult result) {
 		result.startTest(this);
 

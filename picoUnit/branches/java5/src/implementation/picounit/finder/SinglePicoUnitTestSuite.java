@@ -74,6 +74,7 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 		}
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;

@@ -24,6 +24,6 @@ public class ActionStub<Type> implements Stub {
 	}
 
 	public StringBuffer describeTo(StringBuffer stringBuffer) {
-		return null;
+		return stringBuffer;
 	}
 }

@@ -47,7 +47,7 @@ public class ClassDirectory implements Code {
 	public boolean containsClass(String className) {
 		return classFile(className).exists();
 	}
-	
+
 	public boolean equals(Code code) {
 		if (code == null || !code.getClass().equals(getClass())) {
 			return false;
@@ -57,7 +57,8 @@ public class ClassDirectory implements Code {
 
 		return directory.equals(other.directory);
 	}
-	
+
+	@Override
 	public String toString() {
 		return "ClassDirectory: " + directory;
 	}

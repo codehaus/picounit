@@ -10,7 +10,6 @@ package picounit.mocker.jmock;
 import org.jmock.core.Constraint;
 import org.jmock.core.constraint.IsEqual;
 
-
 public class ProxyAwareIsEqual extends IsEqual implements Constraint {
 	private final Object equalArg;
 
@@ -20,10 +19,12 @@ public class ProxyAwareIsEqual extends IsEqual implements Constraint {
 		this.equalArg = equalArg;
 	}
 
+	@Override
 	public StringBuffer describeTo( StringBuffer buffer ) {
 		return isProxy() ? describeProxy(buffer) : super.describeTo(buffer); 
 	}
 
+	@Override
 	public String toString() {
 		return isProxy() ? equalArg.toString() : super.toString(); 
 	}

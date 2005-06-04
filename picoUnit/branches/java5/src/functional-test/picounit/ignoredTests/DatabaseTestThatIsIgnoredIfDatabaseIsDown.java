@@ -17,6 +17,7 @@ public class DatabaseTestThatIsIgnoredIfDatabaseIsDown implements Test, Ignore {
 	private final Database database;
 	
 	public static final Validator validator = new Validator(DatabaseTestThatIsIgnoredIfDatabaseIsDown.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("ignoredWhen testDatabase");
 		}

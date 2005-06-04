@@ -52,6 +52,7 @@ public class IgnoreCondition {
 		return ignoreReason.isIgnored();
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;
@@ -63,10 +64,12 @@ public class IgnoreCondition {
 			testInstantiator.equals(other.testInstantiator);
 	}
 	
+	@Override
 	public int hashCode() {
 		return getClass().hashCode();
 	}
 
+	@Override
 	public String toString() {
 		return "Ignore[" + implementsCondition + "," + testInstantiator + "]";
 	}

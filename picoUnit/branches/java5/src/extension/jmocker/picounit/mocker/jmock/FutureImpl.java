@@ -12,13 +12,12 @@ import picounit.Verify;
 import picounit.verify.DefaultVerify;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class FutureImpl implements Future {
 	private final Verify verify = new DefaultVerify();
 	private final Class futureType;
-	Object value;
+	private Object value;
 	private final Set<Object> compareTo = new HashSet<Object>();
 
 	public FutureImpl(Class futureType) {
@@ -27,9 +26,9 @@ public class FutureImpl implements Future {
 
 	public void setValue(Object value) {
 		verify.instanceOf(futureType, value);
-		
-		for (Iterator<Object> iterator = compareTo.iterator(); iterator.hasNext();) {
-			verify.equal(value, iterator.next());
+
+		for (Object item : compareTo) {
+			verify.equal(value, item);
 		}
 
 		this.value = value;
@@ -38,11 +37,13 @@ public class FutureImpl implements Future {
 	public Object getValue() {
 		return value;
 	}
-	
+
+	@Override
 	public int hashCode() {
 		return futureType.hashCode();
 	}
 	
+	@Override
 	public boolean equals(Object object) {
 		compareTo.add(object);
 

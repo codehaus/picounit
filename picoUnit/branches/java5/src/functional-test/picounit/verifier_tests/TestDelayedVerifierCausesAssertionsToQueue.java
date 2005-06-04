@@ -21,6 +21,7 @@ import junit.framework.TestResult;
 
 public class TestDelayedVerifierCausesAssertionsToQueue implements Test {
 	public static final Validator validator = new Validator(TestDelayedVerifierCausesAssertionsToQueue.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("mockerThrew exceptionDispatcherThrew");
 		}

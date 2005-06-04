@@ -15,10 +15,12 @@ public class AlwaysPassDirectoryCondition implements DirectoryCondition {
 		return true;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		return object != null && getClass().equals(object.getClass());
 	}
 	
+	@Override
 	public int hashCode() {
 		return getClass().hashCode();
 	}

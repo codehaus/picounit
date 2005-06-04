@@ -23,10 +23,12 @@ public class IgnoredTestSuite extends TestSuite {
 			super(name);
 		}
 
+		@Override
 		public int countTestCases() {
 			return 1;
 		}
 
+		@Override
 		public void run(TestResult testResult) {
 			testResult.startTest(this);
 			testResult.endTest(this);

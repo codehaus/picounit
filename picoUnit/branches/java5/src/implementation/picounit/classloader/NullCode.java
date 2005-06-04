@@ -31,6 +31,7 @@ public class NullCode implements Code {
 		return null;
 	}
 	
+	@Override
 	public String toString() {
 		return "NullCode";
 	}

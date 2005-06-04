@@ -13,6 +13,7 @@ import junit.framework.TestResult;
 
 public class TestWithSetUpAndTearDown implements Test {
 	public static final Validator validator = new Validator(TestWithSetUpAndTearDown.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("setUp testOne tearDown");
 		}

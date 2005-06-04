@@ -17,6 +17,7 @@ public class WebServerTestThatIsIgnoredIfWebServerIsDown implements Test, Ignore
 	private final WebServer webServer;
 
 	public static final Validator validator = new Validator(WebServerTestThatIsIgnoredIfWebServerIsDown.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("ignoredWhen");
 		}

@@ -20,7 +20,7 @@ public abstract class EqualsInvocationHandler implements InvocationHandler {
 			return new Boolean(args[0] != null && equals(args[0]));
 		}
 		else if (args == null || args.length == 0 && methodUtil.isHashCode(method)) {
-			return new Integer(getClass().hashCode());
+			return new Integer(hashCode());
 		}
 		else if (args == null || args.length == 0 && methodUtil.isToString(method)) {
 			return toString();
@@ -31,4 +31,9 @@ public abstract class EqualsInvocationHandler implements InvocationHandler {
 
 	public abstract boolean equals(Object object);
 	public abstract String toString();
+	
+	@Override
+	public final int hashCode() {
+		return getClass().hashCode();
+	}
 }

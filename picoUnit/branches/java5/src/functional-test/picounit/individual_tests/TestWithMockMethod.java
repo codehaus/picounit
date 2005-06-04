@@ -13,6 +13,7 @@ import junit.framework.TestResult;
 
 public class TestWithMockMethod implements Test {
 	public static final Validator validator = new Validator(TestWithMockMethod.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("mock test");
 		}

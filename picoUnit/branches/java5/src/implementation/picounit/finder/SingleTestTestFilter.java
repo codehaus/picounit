@@ -24,6 +24,7 @@ public class SingleTestTestFilter implements TestFilter {
 		return true;
 	}
 	
+	@Override
 	public String toString() {
 		return "SingleTestTestFilter(" + testClass.getName() + ")";
 	}

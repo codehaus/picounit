@@ -18,6 +18,7 @@ public class NoTestsFoundException extends RuntimeException {
 		this.startingClass = startingClass;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;
@@ -28,6 +29,7 @@ public class NoTestsFoundException extends RuntimeException {
 		return startingClass.equals(other.startingClass);
 	}
 	
+	@Override
 	public int hashCode() {
 		return startingClass.hashCode();
 	}

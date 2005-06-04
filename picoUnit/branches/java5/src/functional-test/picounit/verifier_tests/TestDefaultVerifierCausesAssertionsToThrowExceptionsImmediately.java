@@ -21,6 +21,7 @@ import junit.framework.TestResult;
 
 public class TestDefaultVerifierCausesAssertionsToThrowExceptionsImmediately implements Test {
 	public static final Validator validator = new Validator(TestDefaultVerifierCausesAssertionsToThrowExceptionsImmediately.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("verifyThrew mockerThrew");
 		}

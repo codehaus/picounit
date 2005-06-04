@@ -29,7 +29,8 @@ public class StringMatching implements Constraint {
         	.append(pattern)
         	.append("\"");
 	}
-	
+
+	@Override
 	public boolean equals(Object object) {
 		if (object == null || !object.getClass().equals(getClass())) {
 			return false;
@@ -40,6 +41,7 @@ public class StringMatching implements Constraint {
 		return pattern.equals(other.pattern);
 	}
 	
+	@Override
 	public int hashCode() {
 		return pattern.hashCode();
 	}

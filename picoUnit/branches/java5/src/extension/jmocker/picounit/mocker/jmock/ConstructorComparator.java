@@ -10,11 +10,8 @@ package picounit.mocker.jmock;
 import java.lang.reflect.Constructor;
 import java.util.Comparator;
 
-public class ConstructorComparator implements Comparator {
-	public int compare(Object l, Object r) {
-		Constructor left = (Constructor) l;
-		Constructor right = (Constructor) r;
-
+public class ConstructorComparator implements Comparator<Constructor> {
+	public int compare(Constructor left, Constructor right) {
 		Visibility leftVisibility = new Visibility(left.getModifiers());
 		Visibility rightVisibility = new Visibility(right.getModifiers());
 
@@ -59,6 +56,7 @@ public class ConstructorComparator implements Comparator {
 		return 0;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		return object != null && object.getClass().equals(getClass());
 	}

@@ -15,6 +15,7 @@ import junit.framework.TestResult;
 
 public class IgnoredTest implements Test, Ignore {
 	public static final Validator validator = new Validator(IgnoredTest.class) {
+		@Override
 		public void validate(TestResult testResult) {
 			matches("ignoredWhen");
 		}

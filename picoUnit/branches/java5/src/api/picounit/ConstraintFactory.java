@@ -10,5 +10,6 @@ package picounit;
 /**
  * @deprecated Please use picounit.Constraints instead
  */
+@Deprecated
 public interface ConstraintFactory extends Constraints {
 }

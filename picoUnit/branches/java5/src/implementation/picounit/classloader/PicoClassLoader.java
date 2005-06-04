@@ -45,6 +45,7 @@ public class PicoClassLoader extends ClassLoader {
 		return this;
 	}
 
+	@Override
 	public Class loadClass(String className) throws ClassNotFoundException {
 		if (isJDKClass(className)) {
 			return getParent().loadClass(className);
