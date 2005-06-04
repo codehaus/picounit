@@ -84,9 +84,9 @@ public class FileSystem {
 	}
 
 	private String getRelativeClassFileName(String className) {
-		return className.replace('.', File.separatorChar) + ".class";
+		return className.replace('.', '/') + ".class";
 	}
-	
+
 	public boolean equals(Object object) {
 		if (object == null || !getClass().equals(object.getClass())) {
 			return false;

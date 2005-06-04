@@ -30,6 +30,8 @@
 	<property name="pluginFileName" value="picounit-plugin.properties"/>
 	<property name="corePluginProperties" value="${coreClasses}/${pluginFileName}"/>
 	<property name="jmockerPluginProperties" value="${jmockerClasses}/${pluginFileName}"/>
+	
+	<property name="jarjar-jar" value="${buildLibDir}/jarjar-0.6.jar"/>
 
 	<property name="testReports" value="${buildDir}/test-reports"/>
 
@@ -240,7 +242,7 @@
 	</target>
 	
 	<target name="repackageApi" depends="jarApi">
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${buildLibDir}/jarjar-0.2.jar"/>
+		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
 		<jarjar jarfile="${buildLibDir}/previous-picounit-api.jar">
 			<zipfileset src="${apiJar}"/>
 
@@ -250,7 +252,7 @@
 	
 	<target name="repackageCore" depends="jarCore">
 		<echo file="${coreClasses}/${pluginFileName}">plugin-class=previous.picounit.registry.DefaultPlugin</echo>
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${buildLibDir}/jarjar-0.2.jar"/>
+		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
 		<jarjar jarfile="${buildLibDir}/previous-picounit-core.jar">
 			<fileset dir="${coreClasses}">
 				<include name="picounit-plugin.properties"/>
@@ -265,7 +267,7 @@
 
 	<target name="repackageJMocker" depends="jarJMocker">
 		<echo file="${jmockerClasses}/${pluginFileName}">plugin-class=previous.picounit.mocker.jmock.JMockerPlugin</echo>
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${buildLibDir}/jarjar-0.2.jar"/>
+		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
 		<jarjar jarfile="${buildLibDir}/previous-picounit-jmocker.jar">
 			<fileset dir="${jmockerClasses}">
 				<include name="picounit-plugin.properties"/>
@@ -279,7 +281,7 @@
 	</target>
 
 	<target name="jarjar" description="o Create the jarjar" depends="compile, test">
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${buildLibDir}/jarjar-0.2.jar"/>
+		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
 		<jarjar jarfile="target/${final.name}-complete.jar">
 			<fileset dir="${classesdir}"/>
 			<zipfileset src="lib/cglib-full-2.0.2.jar"/>
