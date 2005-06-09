@@ -18,4 +18,5 @@ public interface IntegerConstraints {
 	int greaterThanOrEqualTo(int lowerLimit);
 	int between(int lowerLimit, int upperLimit);
 	int notBetween(int lowerLimit, int upperLimit);
+	int almostEqualTo(int equalTo, int errorAllowed);
 }

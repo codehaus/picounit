@@ -66,6 +66,12 @@ public class JMockDoubleConstraints implements DoubleConstraints {
 		return constraintStore.putDouble(basicConstraints.isNotBetween(new Double(lowerLimit), new Double(upperLimit)));
 	}
 	
+	public double almostEqualTo(double equalTo, double errorAllowed) {
+		errorAllowed = Math.abs(errorAllowed);
+		
+		return between(equalTo - errorAllowed, equalTo + errorAllowed);
+	}
+	
 	private Constraint isEqual(double[] oneOf) {
 		Constraint[] equals = new Constraint[oneOf.length];
 

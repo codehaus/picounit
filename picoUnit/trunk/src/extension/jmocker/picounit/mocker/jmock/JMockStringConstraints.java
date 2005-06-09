@@ -8,6 +8,7 @@
 package picounit.mocker.jmock;
 
 import org.jmock.core.Constraint;
+import org.jmock.core.constraint.IsNot;
 import org.jmock.core.constraint.StringContains;
 
 import picounit.StringConstraints;
@@ -44,13 +45,21 @@ public class JMockStringConstraints implements StringConstraints {
 	public String aStringContaining(String toContain) {
 		return constraintStore.putString(new StringContains(toContain));
 	}
+	
+	public String aStringNotContaining(String notToContain) {
+		return constraintStore.putString(new IsNot(new StringContains(notToContain)));
+	}
 
-	public String equaTolIgnoringCase(String toEqual) {
+	public String equalToIgnoringCase(String toEqual) {
 		return constraintStore.putString(new StringEqualIgnoreCase(toEqual));
 	}
 	
 	public String aStringMatching(String pattern) {
 		return constraintStore.putString(new StringMatching(pattern));
+	}
+	
+	public String aStringNotMatching(String pattern) {
+		return constraintStore.putString(new IsNot(new StringMatching(pattern)));
 	}
 	
 	public String aNullString() {

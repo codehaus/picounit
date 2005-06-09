@@ -16,7 +16,7 @@
 	<property name="unitTestClasses" value="${buildDir}/unit-test-classes"/>
 	<property name="unitTestModelClasses" value="${buildDir}/unit-test-model-classes"/>
 	<property name="functionalTestClasses" value="${buildDir}/functional-test-classes"/>
-	<property name="exampleClasses" value="${buildDir}/example-classes"/>
+	<property name="exampleTestClasses" value="${buildDir}/example-test-classes"/>
 
 	<property name="source" value="src"/>
 	<property name="apiSource" value="${source}/api"/>
@@ -25,7 +25,7 @@
 	<property name="unitTestSource" value="${source}/unit-test"/>
 	<property name="unitTestModelSource" value="${source}/unit-test-model"/>
 	<property name="functionalTestSource" value="${source}/functional-test"/>
-	<property name="exampleSource" value="${source}/examples"/>
+	<property name="exampleTestSource" value="${source}/examples/test"/>
 	
 	<property name="pluginFileName" value="picounit-plugin.properties"/>
 	<property name="corePluginProperties" value="${coreClasses}/${pluginFileName}"/>
@@ -41,7 +41,7 @@
 		<mkdir dir="${unitTestModelClasses}"/>
 		<mkdir dir="${coreClasses}"/>
 		<mkdir dir="${jmockerClasses}"/>
-		<mkdir dir="${exampleClasses}"/>
+		<mkdir dir="${exampleTestClasses}"/>
 		<mkdir dir="${testReports}"/>
 	</target>
 	
@@ -52,7 +52,7 @@
 		</zip>
 	</target>
 
-	<target name="compile" depends="compileCore, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests"/>
+	<target name="compile" depends="compileCore, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests, compileExampleTests"/>
 
 	<target name="compileCore" description="o Compile the code" depends="init">
 		<javac destdir="${coreClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
@@ -166,7 +166,30 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
+	<target name="compileExampleTests" depends="compileCore, compileJMocker, compileUnitTestModel">
+		<javac destdir="${exampleTestClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+			<src>
+				<pathelement location="${exampleTestSource}"/>
+			</src>
+			<classpath>
+				<fileset dir="${libDir}">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="${buildLibDir}">
+					<include name="*.jar"/>
+				</fileset>
+				<path location="${coreClasses}"/>
+				<path location="${jmockerClasses}"/>
+			</classpath>
+		</javac>
+		<copy todir="${functionalTestClasses}">
+			<fileset dir="${functionalTestSource}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
+
 	<target name="jar" description="o Create the jars" depends="compile, test, jarApi, jarCore, jarJMocker"/>
 
 	<target name="jarApi" depends="compileCore, test">
@@ -194,7 +217,7 @@
 		<delete dir="${unitTestModelClasses}"/>
 		<delete dir="${coreClasses}"/>
 		<delete dir="${jmockerClasses}"/>
-		<delete dir="${exampleClasses}"/>
+		<delete dir="${exampleTestClasses}"/>
 		<delete dir="${testReports}"/>
 		<delete file="${apiJar}"/>
 		<delete file="${coreJar}"/>
@@ -220,6 +243,7 @@
 				<path location="${unitTestClasses}"/>
 				<path location="${unitTestModelClasses}"/>
 				<path location="${functionalTestClasses}"/>
+				<path location="${exampleTestClasses}"/>
 			</classpath>
 			<batchtest todir="${testReports}">
 				<fileset dir="${unitTestSource}">
@@ -232,6 +256,10 @@
 				<fileset dir="${functionalTestSource}">
 					<include name="**/**TestSuite.java"/>
 					<exclude name="**/Abstract*.java" />
+				</fileset>
+				<fileset dir="${exampleTestSource}">
+					<include name="**/**TestSuite.java"/>
+					<exclude name="**/Abstract*.java"/>
 				</fileset>
 			</batchtest>
 		</junit>

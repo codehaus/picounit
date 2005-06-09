@@ -7,7 +7,6 @@
 	<classpathentry output="build/core-classes" kind="src" path="src/api"/>
 	<classpathentry output="build/core-classes" kind="src" path="src/implementation"/>
 	<classpathentry output="build/jmocker-classes" kind="src" path="src/extension/jmocker"/>
-	<classpathentry output="build/example-code-classes" kind="src" path="src/examples/code"/>
 	<classpathentry output="build/example-test-classes" kind="src" path="src/examples/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/cglib-full-2.0.2.jar"/>

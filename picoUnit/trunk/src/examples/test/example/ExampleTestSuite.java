@@ -10,7 +10,7 @@ package example;
 import picounit.PicoUnit;
 import junit.framework.Test;
 
-public class ExampleSuite {
+public class ExampleTestSuite {
 	public static Test suite() {
 		return new PicoUnit("Example Tests").generateJUnitTest();
 	}

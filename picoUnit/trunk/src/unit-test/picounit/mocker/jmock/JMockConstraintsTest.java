@@ -50,6 +50,7 @@ public class JMockConstraintsTest implements Test {
 		should.call(integerConstraints.greaterThanOrEqualTo(800)).andReturn(888);
 		should.call(integerConstraints.between(911, 922)).andReturn(999);
 		should.call(integerConstraints.notBetween(110, 220)).andReturn(010);
+		should.call(integerConstraints.almostEqualTo(119, 5)).andReturn(123);
 
 		should.doAboveWhen();
 
@@ -63,6 +64,7 @@ public class JMockConstraintsTest implements Test {
 		verify.equal(888, jmockConstraintFactory.greaterThanOrEqualTo(800));
 		verify.equal(999, jmockConstraintFactory.between(911, 922));
 		verify.equal(010, jmockConstraintFactory.notBetween(110, 220));
+		verify.equal(123, jmockConstraintFactory.almostEqualTo(119, 5));
 	}
 	
 	public void testDelegatesToLongConstraints(Mocker should, Verify verify) {
@@ -76,6 +78,7 @@ public class JMockConstraintsTest implements Test {
 		should.call(longConstraints.greaterThanOrEqualTo(800)).andReturn(888);
 		should.call(longConstraints.between(911, 922)).andReturn(999);
 		should.call(longConstraints.notBetween(110, 220)).andReturn(010);
+		should.call(longConstraints.almostEqualTo(119, 5)).andReturn(123);
 
 		should.doAboveWhen();
 
@@ -89,6 +92,7 @@ public class JMockConstraintsTest implements Test {
 		verify.equal(888, jmockConstraintFactory.greaterThanOrEqualTo(800L));
 		verify.equal(999, jmockConstraintFactory.between(911L, 922L));
 		verify.equal(010, jmockConstraintFactory.notBetween(110L, 220L));
+		verify.equal(123, jmockConstraintFactory.almostEqualTo(119L, 5L));
 	}
 	
 	public void testDelegatesToDoubleConstraints(Mocker should, Verify verify) {
@@ -102,6 +106,7 @@ public class JMockConstraintsTest implements Test {
 		should.call(doubleConstraints.greaterThanOrEqualTo(800.8)).andReturn(888.8);
 		should.call(doubleConstraints.between(911.9, 922.9)).andReturn(999.9);
 		should.call(doubleConstraints.notBetween(110.1, 220.2)).andReturn(010.1);
+		should.call(doubleConstraints.almostEqualTo(119.2, 5.3)).andReturn(123.4);
 
 		should.doAboveWhen();
 
@@ -115,6 +120,7 @@ public class JMockConstraintsTest implements Test {
 		verify.equal(888.8, jmockConstraintFactory.greaterThanOrEqualTo(800.8));
 		verify.equal(999.9, jmockConstraintFactory.between(911.9, 922.9));
 		verify.equal(010.1, jmockConstraintFactory.notBetween(110.1, 220.2));
+		verify.equal(123.4, jmockConstraintFactory.almostEqualTo(119.2, 5.3));
 	}
 
 	public void testDelegatesToStringConstraints(Mocker should, Verify verify) {
@@ -124,23 +130,27 @@ public class JMockConstraintsTest implements Test {
 		should.call(stringConstraints.oneOf(severalStrings())).andReturn("oneOf");
 		should.call(stringConstraints.neitherOf(severalStrings())).andReturn("neitherOf");
 		should.call(stringConstraints.notEqualTo("notEqual")).andReturn("notEqualTo");
-		should.call(stringConstraints.equaTolIgnoringCase("equalIgnoringCase")).andReturn("equalToIgnoringCase");
+		should.call(stringConstraints.equalToIgnoringCase("equalIgnoringCase")).andReturn("equalToIgnoringCase");
 		should.call(stringConstraints.aStringContaining("containing")).andReturn("aStringContaining");
+		should.call(stringConstraints.aStringNotContaining("notContaining")).andReturn("aStringNotContaining");
 		should.call(stringConstraints.aStringMatching("pattern")).andReturn("aStringMatching");
-		
+		should.call(stringConstraints.aStringNotMatching("pattern")).andReturn("aStringNotMatching");
+
 		should.doAboveWhen();
-		
+
 		verify.equal("aString", jmockConstraintFactory.aString());
 		verify.equal("null", jmockConstraintFactory.aNullString());
 		verify.equal("notNull", jmockConstraintFactory.notANullString());
 		verify.equal("oneOf", jmockConstraintFactory.oneOf(severalStrings()));
 		verify.equal("neitherOf", jmockConstraintFactory.neitherOf(severalStrings()));
 		verify.equal("notEqualTo", jmockConstraintFactory.notEqualTo("notEqual"));
-		verify.equal("equalToIgnoringCase", jmockConstraintFactory.equaTolIgnoringCase("equalIgnoringCase"));
+		verify.equal("equalToIgnoringCase", jmockConstraintFactory.equalToIgnoringCase("equalIgnoringCase"));
 		verify.equal("aStringContaining", jmockConstraintFactory.aStringContaining("containing"));
+		verify.equal("aStringNotContaining", jmockConstraintFactory.aStringNotContaining("notContaining"));
 		verify.equal("aStringMatching", jmockConstraintFactory.aStringMatching("pattern"));
+		verify.equal("aStringNotMatching", jmockConstraintFactory.aStringNotMatching("pattern"));
 	}
-	
+
 	public void testDelegatesToObjectConstaints(Mocker should, Verify verify) {
 		Object anObject = new Object();
 		Object[] someObjects = new Object[] {"String", new Integer(1), new Double(3.3)};

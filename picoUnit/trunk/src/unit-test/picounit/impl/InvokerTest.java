@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.impl;
 
-import picounit.Interface;
 import picounit.Invokable;
 import picounit.reflection.Invoker;
 import picounit.registry.Resolver;
@@ -16,7 +15,6 @@ import previous.picounit.Mocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class InvokerTest implements Test {

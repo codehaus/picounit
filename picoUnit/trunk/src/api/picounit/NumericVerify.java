@@ -7,16 +7,16 @@
  *****************************************************************************/
 package picounit;
 
-public interface DoubleConstraints {
-	double aDouble();
-	double oneOf(double[] oneOf);
-	double neitherOf(double[] neitherOf);
-	double notEqualTo(double notEqual);
-	double lessThan(double upperLimit);
-	double lessThanOrEqualTo(double upperLimit);
-	double greaterThan(double lowerLimit);
-	double greaterThanOrEqualTo(double lowerLimit);
-	double between(double lowerLimit, double upperLimit);
-	double notBetween(double lowerLimit, double upperLimit);
-	double almostEqualTo(double equalTo, double errorAllowed);
+public interface NumericVerify {
+	void isGreaterThan(int greaterThan, int actual);
+	void isGreaterThan(long greaterThan, long actual);
+	
+	void isGreaterThanOrEqualTo(int greaterThanOrEqual, int actual);
+	void isGreaterThanOrEqualTo(long greaterThanOrEqual, long actual);
+
+	void isLessThan(int lessThan, int actual);
+	void isLessThan(long lessThan, long actual);
+	
+	void isLessThanOrEqualTo(int lessThanOrEqualTo, int actual);
+	void isLessThanOrEqualTo(long lessThanOrEqualTo, long actual);
 }

@@ -63,6 +63,12 @@ public class JMockLongConstraints implements LongConstraints {
 	public long notBetween(long lowerLimit, long upperLimit) {
 		return constraintStore.putLong(basicConstraints.isNotBetween(new Long(lowerLimit), new Long(upperLimit)));
 	}
+	
+	public long almostEqualTo(long equalTo, long errorAllowed) {
+		errorAllowed = Math.abs(errorAllowed);
+		
+		return between(equalTo - errorAllowed, equalTo + errorAllowed);
+	}
 
 	private Constraint isEqual(long[] oneOf) {
 		Constraint[] equals = new Constraint[oneOf.length];

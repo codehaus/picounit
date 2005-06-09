@@ -52,6 +52,9 @@ public class JMockConstraints implements Constraints {
 		return (Future) proxyFactory.create(Future.class, new FutureInvocationHandler(futureType));
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// IntegerConstraints
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public int anInteger() {
 		return integerConstraints.anInteger();
 	}
@@ -91,7 +94,14 @@ public class JMockConstraints implements Constraints {
 	public int notBetween(int lowerLimit, int upperLimit) {
 		return integerConstraints.notBetween(lowerLimit, upperLimit);
 	}
+	
+	public int almostEqualTo(int equalTo, int errorAllowed) {
+		return integerConstraints.almostEqualTo(equalTo, errorAllowed);
+	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// LongConstraints
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public long aLong() {
 		return longConstraints.aLong();
 	}
@@ -131,7 +141,14 @@ public class JMockConstraints implements Constraints {
 	public long notBetween(long lowerLimit, long upperLimit) {
 		return longConstraints.notBetween(lowerLimit, upperLimit);
 	}
+	
+	public long almostEqualTo(long equalTo, long errorAllowed) {
+		return longConstraints.almostEqualTo(equalTo, errorAllowed);
+	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// DoubleConstraints
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public double aDouble() {
 		return doubleConstraints.aDouble();
 	}
@@ -172,6 +189,13 @@ public class JMockConstraints implements Constraints {
 		return doubleConstraints.notBetween(lowerLimit, upperLimit);
 	}
 	
+	public double almostEqualTo(double equalTo, double errorAllowed) {
+		return doubleConstraints.almostEqualTo(equalTo, errorAllowed);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// StringConstraints
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public String aString() {
 		return stringConstraints.aString();
 	}
@@ -192,22 +216,33 @@ public class JMockConstraints implements Constraints {
 		return stringConstraints.aStringContaining(toContain);
 	}
 
-	public String equaTolIgnoringCase(String toEqual) {
-		return stringConstraints.equaTolIgnoringCase(toEqual);
+	public String aStringNotContaining(String notToContain) {
+		return stringConstraints.aStringNotContaining(notToContain);
+	}
+
+	public String equalToIgnoringCase(String toEqual) {
+		return stringConstraints.equalToIgnoringCase(toEqual);
 	}
 	
 	public String aStringMatching(String pattern) {
 		return stringConstraints.aStringMatching(pattern);
 	}
 	
+	public String aStringNotMatching(String pattern) {
+		return stringConstraints.aStringNotMatching(pattern);
+	}
+
 	public String aNullString() {
 		return stringConstraints.aNullString();
 	}
-	
+
 	public String notANullString() {
 		return stringConstraints.notANullString()	;
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// ObjectConstraints
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public Object notEqual(Object notEqual) {
 		return objectConstraints.notEqual(notEqual);
 	}

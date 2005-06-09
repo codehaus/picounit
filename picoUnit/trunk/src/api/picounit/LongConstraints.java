@@ -18,4 +18,5 @@ public interface LongConstraints {
 	long greaterThanOrEqualTo(long lowerLimit);
 	long between(long lowerLimit, long upperLimit);
 	long notBetween(long lowerLimit, long upperLimit);
+	long almostEqualTo(long equalTo, long errorAllowed);
 }

@@ -49,7 +49,7 @@ public class JMockerTest implements Test {
 		Boy mockBoy = (Boy) mocker.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
-		mocker.expect(mockBoy.listen(is.equaTolIgnoringCase("BLAH blah"))).andReturn("yada yada");
+		mocker.expect(mockBoy.listen(is.equalToIgnoringCase("BLAH blah"))).andReturn("yada yada");
 
 		mocker.replay();
 

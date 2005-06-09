@@ -62,7 +62,7 @@ public class VerifyTest implements previous.picounit.Test {
 	 	
 	 	fail();
 	}
-
+	
 	public void testThat() {
 		verify.that(true);
 

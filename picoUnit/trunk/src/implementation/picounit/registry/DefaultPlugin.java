@@ -11,6 +11,7 @@ import picounit.ArrayVerify;
 import picounit.Configuration;
 import picounit.Environment;
 import picounit.FileVerify;
+import picounit.NumericVerify;
 import picounit.Plugin;
 import picounit.Registry;
 import picounit.StringVerify;
@@ -19,6 +20,7 @@ import picounit.util.FileReader;
 import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultArrayVerify;
 import picounit.verify.DefaultFileVerify;
+import picounit.verify.DefaultNumericVerify;
 import picounit.verify.DefaultStringVerify;
 import picounit.verify.DefaultVerify;
 import picounit.verify.DelayedThrower;
@@ -36,15 +38,18 @@ public class DefaultPlugin implements Plugin {
 
 	public void insert(Properties pluginProperties) {
 		registry.register(ArrayVerify.class, DefaultArrayVerify.class);
-		registry.register(ArrayUtil.class);
+			registry.register(ArrayUtil.class);
 	
 		registry.register(FileVerify.class, DefaultFileVerify.class);
 			registry.register(FileReader.class);
+			
+		registry.register(NumericVerify.class, DefaultNumericVerify.class);
 	
 		registry.register(StringVerify.class, DefaultStringVerify.class);
 			registry.register(StringUtil.class);
 	
 		registry.register(Verify.class, DefaultVerify.class);
+
 		registry.register(Thrower.class, DelayedThrower.class);
 	
 		registry.register(Environment.class);

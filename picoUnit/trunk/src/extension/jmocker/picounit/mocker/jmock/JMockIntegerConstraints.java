@@ -63,6 +63,12 @@ public class JMockIntegerConstraints implements IntegerConstraints {
 	public int notBetween(int lowerLimit, int upperLimit) {
 		return constraintStore.putInteger(basicConstraints.isNotBetween(new Integer(lowerLimit), new Integer(upperLimit)));
 	}
+	
+	public int almostEqualTo(int equalTo, int errorAllowed) {
+		errorAllowed = Math.abs(errorAllowed);
+
+		return between(equalTo - errorAllowed, equalTo + errorAllowed);
+	}
 
 	private Constraint isEqual(int[] oneOf) {
 		Constraint[] equals = new Constraint[oneOf.length];

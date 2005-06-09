@@ -10,6 +10,7 @@ package picounit.verify;
 import java.util.Arrays;
 
 public class ArrayUtil {
+	// TODO: Recheck these numbers, they may not work for all sizes of double/float [9 June 2005]
 	public final double SMALLEST_DOUBLE_DELTA = 0.000000000000001;
 	public final float SMALLEST_FLOAT_DELTA = 0.0000001f;
 

@@ -14,7 +14,9 @@ public interface StringConstraints {
 	String oneOf(String[] oneOf);
 	String neitherOf(String[] neitherOf);
 	String notEqualTo(String notEqual);
-	String equaTolIgnoringCase(String toEqual);
+	String equalToIgnoringCase(String toEqual);
 	String aStringContaining(String toContain);
+	String aStringNotContaining(String notToContain);
 	String aStringMatching(String pattern);
+	String aStringNotMatching(String pattern);
 }
