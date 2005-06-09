@@ -124,7 +124,7 @@ public class JMockConstraintsTest implements Test {
 		should.call(stringConstraints.oneOf(severalStrings())).andReturn("oneOf");
 		should.call(stringConstraints.neitherOf(severalStrings())).andReturn("neitherOf");
 		should.call(stringConstraints.notEqualTo("notEqual")).andReturn("notEqualTo");
-		should.call(stringConstraints.equaTolIgnoringCase("equalIgnoringCase")).andReturn("equalToIgnoringCase");
+		should.call(stringConstraints.equalToIgnoringCase("equalIgnoringCase")).andReturn("equalToIgnoringCase");
 		should.call(stringConstraints.aStringContaining("containing")).andReturn("aStringContaining");
 		should.call(stringConstraints.aStringMatching("pattern")).andReturn("aStringMatching");
 		
@@ -136,7 +136,7 @@ public class JMockConstraintsTest implements Test {
 		verify.equal("oneOf", jmockConstraintFactory.oneOf(severalStrings()));
 		verify.equal("neitherOf", jmockConstraintFactory.neitherOf(severalStrings()));
 		verify.equal("notEqualTo", jmockConstraintFactory.notEqualTo("notEqual"));
-		verify.equal("equalToIgnoringCase", jmockConstraintFactory.equaTolIgnoringCase("equalIgnoringCase"));
+		verify.equal("equalToIgnoringCase", jmockConstraintFactory.equalToIgnoringCase("equalIgnoringCase"));
 		verify.equal("aStringContaining", jmockConstraintFactory.aStringContaining("containing"));
 		verify.equal("aStringMatching", jmockConstraintFactory.aStringMatching("pattern"));
 	}

@@ -192,8 +192,8 @@ public class JMockConstraints implements Constraints {
 		return stringConstraints.aStringContaining(toContain);
 	}
 
-	public String equaTolIgnoringCase(String toEqual) {
-		return stringConstraints.equaTolIgnoringCase(toEqual);
+	public String equalToIgnoringCase(String toEqual) {
+		return stringConstraints.equalToIgnoringCase(toEqual);
 	}
 	
 	public String aStringMatching(String pattern) {

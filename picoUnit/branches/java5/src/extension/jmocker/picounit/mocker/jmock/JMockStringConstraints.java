@@ -45,7 +45,7 @@ public class JMockStringConstraints implements StringConstraints {
 		return constraintStore.putString(new StringContains(toContain));
 	}
 
-	public String equaTolIgnoringCase(String toEqual) {
+	public String equalToIgnoringCase(String toEqual) {
 		return constraintStore.putString(new StringEqualIgnoreCase(toEqual));
 	}
 	
