@@ -7,6 +7,7 @@
  *****************************************************************************/
 package picounit.impl;
 
+import picounit.Interface;
 import picounit.Invokable;
 import picounit.reflection.Invoker;
 import picounit.registry.Resolver;
@@ -15,6 +16,7 @@ import previous.picounit.Mocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class InvokerTest implements Test {
@@ -114,5 +116,47 @@ public class InvokerTest implements Test {
 
 		verify.that("Shoule have called PicoUnit style setUp", someClass.picoUnitSetUpCalled);
 		verify.that("Should have called JUnit style setUp", someClass.jUnitStyleSetUpCalled);
+	}
+	
+	public static class Base {
+		private final StringBuffer stringBuffer;
+
+		public Base(StringBuffer stringBuffer) {
+			this.stringBuffer = stringBuffer;
+		}
+		
+		public void method() {
+			stringBuffer.append("Base.method ");
+		}
+		
+		public static final Method method = new MethodUtil().getMethod(Base.class, "method");
+	}
+	
+	public static class Derived extends Base {
+		private final StringBuffer stringBuffer;
+
+		public Derived(StringBuffer stringBuffer) {
+			super(stringBuffer);
+			this.stringBuffer = stringBuffer;
+		}
+		
+		public void method(String parameter) {
+			stringBuffer.append("Derived.method(" + parameter + ") ");			
+		}
+		
+		public static final Method method = new MethodUtil().getMethod(Derived.class, "method", String.class);
+	}
+	
+	public void testInvokesBaseMethodsBeforeDerivedMethods(Mocker should, Verify verify) throws Exception {
+		should.call(resolver.get(Base.method)).andReturn(new Object[0]);
+		should.call(resolver.get(Derived.method)).andReturn(new Object[] {"parameter"});
+
+		should.doAboveWhen();
+
+		StringBuffer stringBuffer = new StringBuffer();
+
+		invoker.invoke("method", new Derived(stringBuffer));
+
+		verify.equal("Base.method Derived.method(parameter)", stringBuffer.toString().trim());
 	}
 }

@@ -69,7 +69,16 @@ public class Invoker {
 	public void invoke(String pattern, Object target) throws IllegalArgumentException,
 		IllegalAccessException, InvocationTargetException {
 
-		Method[] methods = target.getClass().getDeclaredMethods();
+		invoke(pattern, target, target.getClass());
+	}
+
+	private void invoke(String pattern, Object target, Class targetClass) throws IllegalAccessException, InvocationTargetException {
+		Class superClass = targetClass.getSuperclass();
+		if (!superClass.equals(Object.class)) {
+			invoke(pattern, target, superClass);
+		}
+		
+		Method[] methods = targetClass.getDeclaredMethods();
 
 		for (int index = 0; index < methods.length; index++) {
 			Method method = methods[index];

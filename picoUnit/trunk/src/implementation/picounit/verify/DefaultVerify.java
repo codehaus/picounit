@@ -75,6 +75,30 @@ public class DefaultVerify implements Verify {
 		}
 	}
 	
+	public void equal(byte expected, byte actual) {
+		if (expected != actual) {
+			fail(message(expected, actual));
+		}
+	}
+	
+	public void equal(String message, byte expected, byte actual) {
+		if (expected != actual) {
+			fail(message(message, expected, actual));
+		}
+	}
+	
+	public void equal(char expected, char actual) {
+		if (expected != actual) {
+			fail(message(expected, actual));
+		}
+	}
+	
+	public void equal(String message, char expected, char actual) {
+		if (expected != actual) {
+			fail(message(message, expected, actual));
+		}
+	}
+	
 	public void equal(double expected, double actual) {
 		equal(expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
 	}
@@ -84,14 +108,58 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(double expected, double actual, double delta) {
-		if (Math.abs(expected - actual) > delta) {
-			fail();
+		if (isEqual(expected, actual, delta)) {
+			fail(message(expected, actual));
+		}
+	}
+
+	public void equal(String message, double expected, double actual, double delta) {
+		if (isEqual(expected, actual, delta)) {
+			fail(message(message, expected, actual));
 		}
 	}
 	
-	public void equal(String message, double expected, double actual, double delta) {
-		if (Math.abs(expected - actual) > delta) {
-			fail(message);
+	public void equal(float expected, float actual) {
+		equal(expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
+	}
+	
+	public void equal(String message, float expected, float actual) {
+		equal(message, expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
+	}
+	
+	public void equal(float expected, float actual, float delta) {
+		if (isEqual(expected, actual, delta)) {
+			fail(message(expected, actual));
+		}
+	}
+	
+	public void equal(String message, float expected, float actual, float delta) {
+		if (isEqual(expected, actual, delta)) {
+			fail(message(message, expected, actual));
+		}
+	}
+	
+	public void equal(int expected, int actual) {
+		if (expected != actual) {
+			fail(message(expected, actual));
+		}
+	}
+	
+	public void equal(String message, int expected, int actual) {
+		if (expected != actual) {
+			fail(message(message, expected, actual));
+		}
+	}
+	
+	public void equal(short expected, short actual) {
+		if (expected != actual) {
+			fail(message(expected, actual));
+		}
+	}
+	
+	public void equal(String message, short expected, short actual) {
+		if (expected != actual) {
+			fail(message(message, expected, actual));
 		}
 	}
 
@@ -260,6 +328,90 @@ public class DefaultVerify implements Verify {
 			fail(notEqualMessage(message, notExpected));
 		}
 	}
+	
+	public void notEqual(byte notExpected, byte actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, byte notExpected, byte actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(char notExpected, char actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, char notExpected, char actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(double notExpected, double actual) {
+		if (isEqual(notExpected, actual)) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, double notExpected, double actual) {
+		if (isEqual(notExpected, actual)) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(double notExpected, double actual, double delta) {
+		if (isEqual(notExpected, actual, delta)) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, double notExpected, double actual, double delta) {
+		if (isEqual(notExpected, actual, delta)) {
+			fail(message);
+		}
+	}
+	
+	public void notEqual(float notExpected, float actual) {
+		if (isEqual(notExpected, actual)) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, float notExpected, float actual) {
+		if (isEqual(notExpected, actual)) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(float notExpected, float actual, float delta) {
+		if (isEqual(notExpected, actual, delta)) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, float notExpected, float actual, float delta) {
+		if (isEqual(notExpected, actual, delta)) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(int notExpected, int actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, int notExpected, int actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
 
 	public void notEqual(long notExpected, long actual) {
 		if (notExpected == actual) {
@@ -268,6 +420,18 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, long notExpected, long actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(message, notExpected));
+		}
+	}
+	
+	public void notEqual(short notExpected, short actual) {
+		if (notExpected == actual) {
+			fail(notEqualMessage(notExpected));
+		}
+	}
+	
+	public void notEqual(String message, short notExpected, short actual) {
 		if (notExpected == actual) {
 			fail(notEqualMessage(message, notExpected));
 		}
@@ -461,14 +625,26 @@ public class DefaultVerify implements Verify {
 		}
 	}
 
+	private boolean isEqual(double expected, double actual) {
+		return isEqual(expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
+	}
+
+	private boolean isEqual(double expected, double actual, double delta) {
+		return Math.abs(expected - actual) > delta;
+	}
+	
+	private boolean isEqual(float expected, float actual) {
+		return isEqual(expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
+	}
+
+	private boolean isEqual(float expected, float actual, float delta) {
+		return Math.abs(expected - actual) > delta;
+	}
+
 	private boolean equalImpl(Object expected, Object actual) {
 		return bothNull(expected, actual) ||
 			neitherNull(expected, actual) &&
 				(arrayEquals(expected, actual) || ordinaryEquals(expected, actual));
-	}
-
-	private boolean ordinaryEquals(Object expected, Object actual) {
-		return expected.equals(actual);
 	}
 
 	private boolean bothNull(Object expected, Object actual) {
@@ -484,12 +660,24 @@ public class DefaultVerify implements Verify {
 			Arrays.equals((Object[]) expected, (Object[]) actual);
 	}
 
+	private boolean ordinaryEquals(Object expected, Object actual) {
+		return expected.equals(actual);
+	}
+
 	private String message(boolean expected, boolean actual) {
 		return message(new Boolean(expected), new Boolean(actual));
 	}
 
 	private String message(String message, boolean expected, boolean actual) {
 		return message(message, new Boolean(expected), new Boolean(actual));
+	}
+
+	private String message(double expected, double actual) {
+		return message(null, new Double(expected), new Double(actual));
+	}
+
+	private String message(String message, double expected, double actual) {
+		return message(message, new Double(expected), new Double(actual));
 	}
 
 	private String message(long expected, long actual) {
@@ -515,28 +703,36 @@ public class DefaultVerify implements Verify {
 		}
 	}
 	
-	private String notEqualMessage(boolean expected) {
-		return notEqualMessage(new Boolean(expected));
+	private String notEqualMessage(boolean notExpected) {
+		return notEqualMessage(new Boolean(notExpected));
 	}
 	
-	private String notEqualMessage(long expected) {
-		return notEqualMessage(new Long(expected));
+	private String notEqualMessage(double notExpected) {
+		return notEqualMessage(new Double(notExpected));
+	}
+	
+	private String notEqualMessage(long notExpected) {
+		return notEqualMessage(new Long(notExpected));
 	}
 
-	private String notEqualMessage(Object expected) {
-		return "expected not equal: <" + expected + ">";
+	private String notEqualMessage(Object notExpected) {
+		return "expected not equal: <" + notExpected + ">";
 	}
 	
-	private String notEqualMessage(String message, boolean expected) {
-		return notEqualMessage(message, new Boolean(expected));
+	private String notEqualMessage(String message, boolean notExpected) {
+		return notEqualMessage(message, new Boolean(notExpected));
 	}
 
-	private String notEqualMessage(String message, long expected) {
-		return notEqualMessage(message, new Long(expected));
+	private String notEqualMessage(String message, double notExpected) {
+		return notEqualMessage(message, new Double(notExpected));
+	}
+
+	private String notEqualMessage(String message, long notExpected) {
+		return notEqualMessage(message, new Long(notExpected));
 	}
 	
-	private String notEqualMessage(String message, Object expected) {
-		return message + ", " + "expected not equal: <" + expected + ">";
+	private String notEqualMessage(String message, Object notExpected) {
+		return message + ", " + "expected not equal: <" + notExpected + ">";
 	}
 
 	private String toString(Object object) {
@@ -551,10 +747,5 @@ public class DefaultVerify implements Verify {
 		else {
 			return object.toString();
 		}
-	}
-
-	private boolean oneNullOtherNotNull(Object expected, Object actual) {
-		return (expected == null && actual != null) ||
-			(expected != null && actual == null);
 	}
 }
