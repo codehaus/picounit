@@ -7,14 +7,24 @@
  *****************************************************************************/
 package picounit;
 
+import previous.picounit.Verify;
+import previous.picounit.verify.DefaultVerify;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 public class Operations {
 	private StringBuffer operations = new StringBuffer();
 	private final Map data = new HashMap();
+	private final Verify verify;
+	
+	public Operations() {
+		this(new DefaultVerify());
+	}
+
+	public Operations(Verify verify) {
+		this.verify = verify;
+	}
 
 	public Operations clear() {
 		operations = new StringBuffer();
@@ -52,6 +62,7 @@ public class Operations {
 	}
 
 	public void matches(String toMatch) {
-		Assert.assertEquals(toMatch, operations());
+		verify.equal(toMatch, operations());
+//		Assert.assertEquals(toMatch, operations());
 	}
 }

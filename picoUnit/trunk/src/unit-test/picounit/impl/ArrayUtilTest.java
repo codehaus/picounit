@@ -45,7 +45,7 @@ public class ArrayUtilTest implements Test {
 		assertDoesntContain(new double[] {0.0, 1.0, 1.5, 2.0}, -1.0);
 		assertContains(new double[] {0.0, 1.0, 1.5, 2.0}, 1.5);
 
-		assertDoesntContain(new double[] {0.0, 1.0, 1.5, 2.0}, 1.0 + arrayUtil.SMALLEST_DOUBLE_DELTA);
+		assertDoesntContain(new double[] {0.0, 1.0, 1.5, 2.0}, smallestAdditionTo(1.0));
 	}
 
 	public void testFloatArrayContains() {
@@ -53,7 +53,7 @@ public class ArrayUtilTest implements Test {
 		assertDoesntContain(new float[] {0.0f, 1.0f, 1.5f, 2.0f}, -1.0f);
 		assertContains(new float[] {0.0f, 1.0f, 1.5f, 2.0f}, 1.5f);
 
-		assertDoesntContain(new float[] {0.0f, 1.0f, 1.5f, 2.0f}, 1.0f + arrayUtil.SMALLEST_FLOAT_DELTA);
+		assertDoesntContain(new float[] {0.0f, 1.0f, 1.5f, 2.0f}, smallestAdditionTo(1.0f));
 	}
 	
 	public void testIntegerArrayContains() {
@@ -430,16 +430,8 @@ public class ArrayUtilTest implements Test {
 		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
 	}
 
-	private void assertDoesntContain(double[] searchIn, double searchFor, double delta) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor, delta));
-	}
-
 	private void assertDoesntContain(float[] searchIn, float searchFor) {
 		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
-	}
-
-	private void assertDoesntContain(float[] searchIn, float searchFor, float delta) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor, delta));
 	}
 
 	private void assertDoesntContain(int[] searchIn, int searchFor) {
@@ -840,5 +832,13 @@ public class ArrayUtilTest implements Test {
 
 	private String shouldNotEqual(short[] expected, short[] actual) {
 		return stringUtil.toString(actual) + " should not equal " + stringUtil.toString(expected);
+	}
+
+	private double smallestAdditionTo(double value) {
+		return Double.longBitsToDouble(Double.doubleToLongBits(value) + 1);
+	}
+
+	private float smallestAdditionTo(float value) {
+		return Float.intBitsToFloat(Float.floatToIntBits(value) + 1);
 	}
 }

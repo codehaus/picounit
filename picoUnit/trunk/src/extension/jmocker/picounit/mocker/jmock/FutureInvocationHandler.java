@@ -15,20 +15,21 @@ import java.lang.reflect.Method;
 
 public class FutureInvocationHandler implements InvocationHandler {
 	private final MethodUtil methodUtil = new MethodUtil();
-	private final Future futureEquals;
+	private final Future future;
 
-	public FutureInvocationHandler(Class futureType) {
-		futureEquals = new FutureImpl(futureType);
+	public FutureInvocationHandler(Future future) {
+		this.future = future;
 	}
-
+	
 	public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
 		if (method.getDeclaringClass().equals(Future.class) ||
 			methodUtil.isHashCode(method) ||
 			methodUtil.isEquals(method)) {
-			return method.invoke(futureEquals, arguments);
+
+			return method.invoke(future, arguments);
 		}
 		else {
-			return method.invoke(futureEquals.getValue(), arguments);
+			return method.invoke(future.getValue(), arguments);
 		}
 	}
 }

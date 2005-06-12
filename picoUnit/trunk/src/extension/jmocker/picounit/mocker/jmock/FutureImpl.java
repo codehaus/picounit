@@ -16,13 +16,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class FutureImpl implements Future {
-	private final Verify verify = new DefaultVerify();
 	private final Class futureType;
-	Object value;
+	private final Verify verify;
 	private final Set compareTo = new HashSet();
-
+	private Object value;
+	
 	public FutureImpl(Class futureType) {
 		this.futureType = futureType;
+		this.verify = DefaultVerify.create();
 	}
 
 	public void setValue(Object value) {

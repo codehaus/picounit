@@ -24,10 +24,9 @@ public class PersonMapperTest extends TestCase {
 	}
 
 	public void testSavingAPersonAddsOneMorePersonToTheDatabase() {
-		Person fred = new Person("Fred Dibner");
-
 		int previousPopulation = countPeople();
 
+		Person fred = new Person("Fred Dibner");
 		personMapper.save(fred);
 
 		assertEquals(previousPopulation + 1, countPeople());

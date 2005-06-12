@@ -30,9 +30,7 @@ public class MethodParameterNameCodeVisitor implements CodeVisitor {
 		this.methodParameterListener = methodParameterListener;
 	}
 	
-	public CodeVisitor visit(String className, int access, String methodName, String description,
-		String[] exceptions, Attribute attrs) {
-
+	public CodeVisitor visit(String className, String methodName, String description) {
 		this.className = className;
 		this.methodName = methodName;
 		this.numParameters = getNumParameters(description);

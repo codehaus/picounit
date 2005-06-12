@@ -7,14 +7,20 @@
  *****************************************************************************/
 package picounit.verify;
 
-public class ImmediateThrower implements Thrower {
-	public void errorEvent(Error error) {
-		throw error;
+public class NumericUtil {
+	public boolean isEqual(double first, double second) {
+		return Double.doubleToLongBits(first) == Double.doubleToLongBits(second);
 	}
 
-	public void dispatchError() {
+	public boolean isEqual(double first, double second, double delta) {
+		return Math.abs(first - second) <= delta;
 	}
 
-	public void clearError() {
+	public boolean isEqual(float first, float second) {
+		return Float.floatToIntBits(first) == Float.floatToIntBits(second);
+	}
+
+	public boolean isEqual(float first, float second, float delta) {
+		return Math.abs(first - second) <= delta;
 	}
 }

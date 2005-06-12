@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit;
 
-
 public class AClass {
 	public interface Public {}
 	public interface Package {}

@@ -48,7 +48,7 @@ public class BasicConstraints {
 	}
 
 	public Constraint isBetween(Comparable lowerLimit, Comparable upperLimit) {
-		return and(isGreaterThan(lowerLimit), isLessThan(lowerLimit));
+		return and(isGreaterThan(lowerLimit), isLessThan(upperLimit));
 	}
 
 	public Constraint isNotBetween(Comparable lowerLimit, Comparable upperLimit) {

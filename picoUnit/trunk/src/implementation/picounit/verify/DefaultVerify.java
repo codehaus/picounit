@@ -20,12 +20,15 @@ public class DefaultVerify implements Verify {
 	private final ArrayUtil arrayUtil;
 	private final StringUtil stringUtil;
 	private final Thrower thrower;
+	private final NumericUtil numericUtil;
 
-	public DefaultVerify() {
-		this(new ArrayUtil(), new StringUtil(), new ImmediateThrower());
+	public static Verify create() {
+		return new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(),
+			new ImmediateThrower());
 	}
 
-	public DefaultVerify(ArrayUtil arrayUtil, StringUtil stringUtil, Thrower thrower) {
+	public DefaultVerify(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil, Thrower thrower) {
+		this.numericUtil = numericUtil;
 		this.arrayUtil = arrayUtil;
 		this.stringUtil = stringUtil;
 		this.thrower = thrower;
@@ -100,41 +103,49 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(double expected, double actual) {
-		equal(expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
+		if (!numericUtil.isEqual(expected, actual)) {
+			fail(message(expected, actual));
+		}
 	}
 	
 	public void equal(String message, double expected, double actual) {
-		equal(message, expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
+		if (!numericUtil.isEqual(expected, actual)) {
+			fail(message(message, expected, actual));
+		}
 	}
 	
 	public void equal(double expected, double actual, double delta) {
-		if (isEqual(expected, actual, delta)) {
+		if (!numericUtil.isEqual(expected, actual, delta)) {
 			fail(message(expected, actual));
 		}
 	}
 
 	public void equal(String message, double expected, double actual, double delta) {
-		if (isEqual(expected, actual, delta)) {
+		if (!numericUtil.isEqual(expected, actual, delta)) {
 			fail(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(float expected, float actual) {
-		equal(expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
+		if (!numericUtil.isEqual(expected, actual)) {
+			fail(message(expected, actual));
+		}
 	}
 	
 	public void equal(String message, float expected, float actual) {
-		equal(message, expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
+		if (!numericUtil.isEqual(expected, actual)) {
+			fail(message(message, expected, actual));
+		}
 	}
 	
 	public void equal(float expected, float actual, float delta) {
-		if (isEqual(expected, actual, delta)) {
+		if (!numericUtil.isEqual(expected, actual, delta)) {
 			fail(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, float expected, float actual, float delta) {
-		if (isEqual(expected, actual, delta)) {
+		if (!numericUtil.isEqual(expected, actual, delta)) {
 			fail(message(message, expected, actual));
 		}
 	}
@@ -354,49 +365,49 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(double notExpected, double actual) {
-		if (isEqual(notExpected, actual)) {
+		if (numericUtil.isEqual(notExpected, actual)) {
 			fail(notEqualMessage(notExpected));
 		}
 	}
-	
+
 	public void notEqual(String message, double notExpected, double actual) {
-		if (isEqual(notExpected, actual)) {
+		if (numericUtil.isEqual(notExpected, actual)) {
 			fail(notEqualMessage(message, notExpected));
 		}
 	}
-	
+
 	public void notEqual(double notExpected, double actual, double delta) {
-		if (isEqual(notExpected, actual, delta)) {
+		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			fail(notEqualMessage(notExpected));
 		}
 	}
-	
+
 	public void notEqual(String message, double notExpected, double actual, double delta) {
-		if (isEqual(notExpected, actual, delta)) {
+		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			fail(message);
 		}
 	}
 	
 	public void notEqual(float notExpected, float actual) {
-		if (isEqual(notExpected, actual)) {
+		if (numericUtil.isEqual(notExpected, actual)) {
 			fail(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, float notExpected, float actual) {
-		if (isEqual(notExpected, actual)) {
+		if (numericUtil.isEqual(notExpected, actual)) {
 			fail(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(float notExpected, float actual, float delta) {
-		if (isEqual(notExpected, actual, delta)) {
+		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			fail(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, float notExpected, float actual, float delta) {
-		if (isEqual(notExpected, actual, delta)) {
+		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			fail(notEqualMessage(message, notExpected));
 		}
 	}
@@ -624,23 +635,7 @@ public class DefaultVerify implements Verify {
 			that(message, instanceOf.isAssignableFrom(object.getClass()));
 		}
 	}
-
-	private boolean isEqual(double expected, double actual) {
-		return isEqual(expected, actual, arrayUtil.SMALLEST_DOUBLE_DELTA);
-	}
-
-	private boolean isEqual(double expected, double actual, double delta) {
-		return Math.abs(expected - actual) > delta;
-	}
 	
-	private boolean isEqual(float expected, float actual) {
-		return isEqual(expected, actual, arrayUtil.SMALLEST_FLOAT_DELTA);
-	}
-
-	private boolean isEqual(float expected, float actual, float delta) {
-		return Math.abs(expected - actual) > delta;
-	}
-
 	private boolean equalImpl(Object expected, Object actual) {
 		return bothNull(expected, actual) ||
 			neitherNull(expected, actual) &&

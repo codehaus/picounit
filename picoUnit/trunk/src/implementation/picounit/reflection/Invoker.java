@@ -31,16 +31,14 @@ public class Invoker {
 	public void invoke(Method method, Object target) throws IllegalArgumentException,
 		IllegalAccessException, InvocationTargetException {
 
-		Object[] parameters = resolver.get(method);
-		
 		boolean accessible = method.isAccessible();
 		method.setAccessible(true);
 
 		try {
-			Object result = method.invoke(target, parameters);
+			Object result = method.invoke(target, resolver.get(method));
 
 			if (result != null) {
-				postInvocation(parameters, result);
+				postInvocation(result);
 			}
 		}
 		finally {
@@ -48,7 +46,7 @@ public class Invoker {
 		}
 	}
 
-	private void postInvocation(Object[] parameters, Object result) throws IllegalAccessException,
+	private void postInvocation(Object result) throws IllegalAccessException,
 		InvocationTargetException {
 		
 		if (result instanceof Context) {

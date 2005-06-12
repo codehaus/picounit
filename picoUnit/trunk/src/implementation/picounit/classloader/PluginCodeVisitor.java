@@ -9,7 +9,6 @@ package picounit.classloader;
 
 import picounit.Plugin;
 import picounit.reflection.Instantiator;
-import picounit.util.Console;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.Properties;
 
 public class PluginCodeVisitor implements CodeVisitor {
 	private final Instantiator instantiator;
-	private final Console console = new Console();
 
 	public PluginCodeVisitor(Instantiator instantiator) {
 		this.instantiator = instantiator;
@@ -37,7 +35,7 @@ public class PluginCodeVisitor implements CodeVisitor {
 		try {
 			InputStream pluginData = code.openFile(Plugin.FILE_NAME);
 			if (pluginData != null) {
-				instantiateAndInsertPlugin(code, loadPluginProperties(pluginData));
+				instantiateAndInsertPlugin(loadPluginProperties(pluginData));
 			}
 		}
 		catch (FileNotFoundException fileNotFoundException) {
@@ -46,7 +44,7 @@ public class PluginCodeVisitor implements CodeVisitor {
 		}
 	}
 
-	private void instantiateAndInsertPlugin(Code code, Properties pluginProperties)  {
+	private void instantiateAndInsertPlugin(Properties pluginProperties)  {
 		String pluginClassName = pluginProperties.getProperty(Plugin.CLASS_NAME_KEY);
 
 		try {
@@ -66,10 +64,6 @@ public class PluginCodeVisitor implements CodeVisitor {
 		}
 		catch (ClassCastException classCastException) {
 		}
-	}
-
-	private boolean isPrevious(String className) {
-		return className.startsWith("previous");
 	}
 
 	private Properties loadPluginProperties(InputStream inputStream) throws IOException {

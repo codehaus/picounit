@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.verify;
 
-
 public class ImmediateThrower implements Thrower {
 	public void errorEvent(Error error) {
 		throw error;

@@ -55,7 +55,7 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 
 			if (method.getName().startsWith("test") && testFilter.matches(method)) {
 				addTest(new PicoUnitTestCase(method, instantiator, invoker, mockInvoker, mocker,
-					contextFinder, registry, methodParameterRegistry, thrower));
+					contextFinder, thrower));
 			}
 		}
 

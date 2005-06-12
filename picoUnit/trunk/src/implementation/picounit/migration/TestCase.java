@@ -16,7 +16,6 @@ public class TestCase implements Test {
 	public Constraints is;
 	public Mocker should;
 	private Verify verify;
-
 	interface PreventCollision {} 
 
 	public void setUp(Constraints is, Mocker should, Verify verify, PreventCollision preventCollision) {

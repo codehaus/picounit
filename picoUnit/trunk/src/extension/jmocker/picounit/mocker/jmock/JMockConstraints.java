@@ -15,11 +15,7 @@ import picounit.LongConstraints;
 import picounit.ObjectConstraints;
 import picounit.StringConstraints;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class JMockConstraints implements Constraints {
-	private final Map sentinelToConstraintMap = new HashMap();
 	private final ProxyFactory proxyFactory = new ProxyFactory();
 	private final IntegerConstraints integerConstraints;
 	private final LongConstraints longConstraints;
@@ -49,7 +45,8 @@ public class JMockConstraints implements Constraints {
 	}
 
 	public Future future(Class futureType) {
-		return (Future) proxyFactory.create(Future.class, new FutureInvocationHandler(futureType));
+		return (Future) proxyFactory.create(Future.class,
+			new FutureInvocationHandler(new FutureImpl(futureType)));
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

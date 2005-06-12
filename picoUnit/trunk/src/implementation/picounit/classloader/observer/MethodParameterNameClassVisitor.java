@@ -37,7 +37,7 @@ public class MethodParameterNameClassVisitor implements ClassVisitor {
 	}
 
 	public CodeVisitor visitMethod(int access, String name, String desc, String[] exceptions, Attribute attrs) {
-		return methodParameterNameCodeVisitor.visit(className, access, name, desc, exceptions, attrs);
+		return methodParameterNameCodeVisitor.visit(className, name, desc);
 	}
 
 	public void visitAttribute(Attribute attr) {

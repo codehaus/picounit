@@ -28,7 +28,7 @@ public class JMockConstraintsTest implements Test {
 	public void mock(IntegerConstraints integerConstraints, LongConstraints longConstraints,
 		DoubleConstraints doubleConstraints, StringConstraints stringConstraints,
 		ObjectConstraints objectConstraints) {
-		
+
 		this.jmockConstraintFactory = new JMockConstraints(integerConstraints, longConstraints,
 			doubleConstraints, stringConstraints, objectConstraints);
 		

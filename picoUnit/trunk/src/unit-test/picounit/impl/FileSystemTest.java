@@ -9,7 +9,7 @@ package picounit.impl;
 
 import picounit.finder.FileSystem;
 import picounit.impl.fileSystem.StartingClass;
-import picounit.verify.DefaultArrayVerify;
+import previous.picounit.ArrayVerify;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
@@ -18,9 +18,7 @@ import java.io.File;
 public class FileSystemTest implements Test {
 	private final FileSystem fileSystem = new FileSystem();
 	
-	private final DefaultArrayVerify arrayVerify = new DefaultArrayVerify();
-
-	public void testGetSiblingFiles() {
+	public void testGetSiblingFiles(ArrayVerify arrayVerify) {
 		File[] siblingFiles = fileSystem.getSiblingFiles(StartingClass.class);
 
 		arrayVerify.contains(siblingFiles, file("SiblingClass.class"));

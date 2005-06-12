@@ -21,29 +21,18 @@ import picounit.registry.RegistryEntry;
 import previous.picounit.Constraints;
 import previous.picounit.Mocker;
 import previous.picounit.Verify;
-
-import java.io.File;
-
 import junit.framework.TestSuite;
 
 public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 	private DirectoryScanningTestFinder testFinder;
 	
 	private ClassFinder classFinder;
-	private ContextFinder contextFinder;
-	private TestInstantiator testInstantiator;
 	private ClassLoader classLoader;
 	private TestFilter testFilter;
 	private RegistryEntry registryEntry;
 	private MethodParameterRegistry methodParameterRegistry;
 	
 	private final FindAction findAction;
-
-	private final File sourceRoot = new File("sourceRoot");
-	private final File testClassFile = new File("testClassFile");
-	private final File nonTestClassFile = new File("nonTestClassFile");
-	private final File nonClassFile = new File("nonClassFile");
-	private final File directory = new File("directory");
 
 	private final Mocker mocker;
 	private final Verify verify;
@@ -65,8 +54,6 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 			new DirectoryScanningTestFinder(classFinder, contextFinder, testInstantiator, classLoader);
 		
 		this.classFinder = classFinder;
-		this.contextFinder = contextFinder;
-		this.testInstantiator = testInstantiator;
 		this.classLoader = classLoader;
 		this.testFilter = testFilter;
 		this.registryEntry = registryEntry;

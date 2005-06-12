@@ -8,15 +8,19 @@
 package picounit;
 
 public interface NumericVerify {
-	void isGreaterThan(int greaterThan, int actual);
+	void isGreaterThan(double greaterThan, double actual);
+	void isGreaterThan(float greaterThan, float actual);
 	void isGreaterThan(long greaterThan, long actual);
-	
-	void isGreaterThanOrEqualTo(int greaterThanOrEqual, int actual);
+
+	void isGreaterThanOrEqualTo(double greaterThanOrEqual, double actual);
+	void isGreaterThanOrEqualTo(float greaterThanOrEqual, float actual);
 	void isGreaterThanOrEqualTo(long greaterThanOrEqual, long actual);
 
-	void isLessThan(int lessThan, int actual);
+	void isLessThan(double lessThan, double actual);
+	void isLessThan(float lessThan, float actual);
 	void isLessThan(long lessThan, long actual);
-	
-	void isLessThanOrEqualTo(int lessThanOrEqualTo, int actual);
+
+	void isLessThanOrEqualTo(double lessThanOrEqualTo, double actual);
+	void isLessThanOrEqualTo(float lessThanOrEqualTo, float actual);
 	void isLessThanOrEqualTo(long lessThanOrEqualTo, long actual);
 }

@@ -4,16 +4,13 @@ import picounit.Context;
 import picounit.DelegateTestResult;
 import picounit.DelegatingTestResult;
 import picounit.Mocker;
-import picounit.Registry;
 import picounit.Test;
-import picounit.classloader.MethodParameterRegistry;
 import picounit.finder.ContextClass;
 import picounit.finder.ContextFinder;
 import picounit.finder.ImplementsCondition;
 import picounit.finder.PicoUnitTestCase;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
-import picounit.registry.Resolver;
 import picounit.util.MethodUtil;
 import picounit.verify.Thrower;
 import previous.picounit.Verify;
@@ -34,20 +31,16 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	private ContextFinder contextFinder;
 	private ContextClass contextClass;
 	private Context context;
-	private Registry registry;
-	private Resolver resolver;
-	private MethodParameterRegistry methodParameterRegistry;
 	private Thrower thrower;
 
 	private PicoUnitTestCase picoUnitTestCase(Method testMethod) {
 		return new PicoUnitTestCase(testMethod, instantiator, invoker, mockInvoker, mockedMocker,
-			contextFinder, resolver, methodParameterRegistry, thrower);
+			contextFinder, thrower);
 	}
 	
 	public void mock(DelegateTestResult delegateTestResult, Instantiator instantiator, Invoker invoker,
 		Invoker mockInvoker, Mocker mockedMocker, ContextFinder contextFinder,
-		ContextClass contextClass, Context context, Registry registry, Resolver resolver,
-		MethodParameterRegistry methodParameterRegistry, Thrower thrower) {
+		ContextClass contextClass, Context context, Thrower thrower) {
 		
 		this.testResult = new DelegatingTestResult(delegateTestResult);
 
@@ -59,9 +52,6 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		this.contextFinder = contextFinder;
 		this.contextClass = contextClass;
 		this.context = context;
-		this.registry = registry;
-		this.resolver = resolver;
-		this.methodParameterRegistry = methodParameterRegistry;
 		this.thrower = thrower;
 	}
 

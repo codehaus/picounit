@@ -15,7 +15,6 @@ import previous.picounit.Verify;
 
 public class MockResolverTest implements Test {
 	private Mocker mockedMocker;
-	private MethodParameterRegistry methodParameterRegistry;
 	
 	private MockResolver mockResolver;
 
@@ -30,7 +29,6 @@ public class MockResolverTest implements Test {
 		this.mockResolver = new MockResolver(mockedMocker, methodParameterRegistry);
 		
 		this.mockedMocker = mockedMocker;
-		this.methodParameterRegistry = methodParameterRegistry;
 		this.firstToMock = firstToMock;
 		this.secondToMock = secondToMock;
 	}

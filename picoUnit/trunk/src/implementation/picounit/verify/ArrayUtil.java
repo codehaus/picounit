@@ -10,9 +10,15 @@ package picounit.verify;
 import java.util.Arrays;
 
 public class ArrayUtil {
-	// TODO: Recheck these numbers, they may not work for all sizes of double/float [9 June 2005]
-	public final double SMALLEST_DOUBLE_DELTA = 0.000000000000001;
-	public final float SMALLEST_FLOAT_DELTA = 0.0000001f;
+	private final NumericUtil numericUtil;
+
+	public ArrayUtil() {
+		this(new NumericUtil());
+	}
+
+	public ArrayUtil(NumericUtil numericUtil) {
+		this.numericUtil = numericUtil;
+	}
 
 	public boolean contains(boolean[] searchIn, boolean searchFor) {
 		for (int index = 0; index < searchIn.length; index++ ) {
@@ -39,12 +45,18 @@ public class ArrayUtil {
 	}
 
 	public boolean contains(double[] searchIn, double searchFor) {
-		return contains(searchIn, searchFor, SMALLEST_DOUBLE_DELTA);
+		for (int index = 0; index < searchIn.length; index++ ) {
+			if (numericUtil.isEqual(searchIn[index], searchFor)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean contains(double[] searchIn, double searchFor, double delta) {
 		for (int index = 0; index < searchIn.length; index++ ) {
-			if (Math.abs(searchIn[index] - searchFor) <= delta) {
+			if (numericUtil.isEqual(searchIn[index], searchFor, delta)) {
 				return true;
 			}
 		}
@@ -53,12 +65,18 @@ public class ArrayUtil {
 	}
 	
 	public boolean contains(float[] searchIn, float searchFor) {
-		return contains(searchIn, searchFor, SMALLEST_FLOAT_DELTA);		
+		for (int index = 0; index < searchIn.length; index++ ) {
+			if (numericUtil.isEqual(searchIn[index], searchFor)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean contains(float[] searchIn, float searchFor, float delta) {
 		for (int index = 0; index < searchIn.length; index++ ) {
-			if (Math.abs(searchIn[index] - searchFor) <= delta) {
+			if (numericUtil.isEqual(searchIn[index], searchFor, delta)) {
 				return true;
 			}
 		}
@@ -155,7 +173,21 @@ public class ArrayUtil {
 	}
 
 	public boolean equal(double[] left, double[] right) {
-		return equal(left, right, SMALLEST_DOUBLE_DELTA);
+		if (left == null && right == null) {
+			return true;
+		}
+
+		if (left == null || right == null || left.length != right.length) {
+			return false;
+		}
+
+		for (int index = 0; index < right.length; index++ ) {
+			if (!numericUtil.isEqual(left[index], right[index])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public boolean equal(double[] left, double[] right, double delta) {
@@ -168,7 +200,7 @@ public class ArrayUtil {
 		}
 
 		for (int index = 0; index < right.length; index++ ) {
-			if (Math.abs(left[index] - right[index]) > delta) {
+			if (!numericUtil.isEqual(left[index], right[index], delta)) {
 				return false;
 			}
 		}
@@ -177,7 +209,21 @@ public class ArrayUtil {
 	}
 
 	public boolean equal(float[] left, float[] right) {
-		return equal(left, right, SMALLEST_FLOAT_DELTA);
+		if (left == null && right == null) {
+			return true;
+		}
+
+		if (left == null || right == null || left.length != right.length) {
+			return false;
+		}
+
+		for (int index = 0; index < right.length; index++ ) {
+			if (!numericUtil.isEqual(left[index], right[index])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public boolean equal(float[] left, float[] right, float delta) {
@@ -190,7 +236,7 @@ public class ArrayUtil {
 		}
 
 		for (int index = 0; index < right.length; index++ ) {
-			if (Math.abs(left[index] - right[index]) > delta) {
+			if (!numericUtil.isEqual(left[index], right[index], delta)) {
 				return false;
 			}
 		}
@@ -307,7 +353,21 @@ public class ArrayUtil {
 	}
 
 	public boolean notEqual(double[] left, double[] right) {
-		return notEqual(left, right, SMALLEST_DOUBLE_DELTA);
+		if (left == null && right == null) {
+			return false;
+		}
+
+		if ((left == null && right != null) || (left != null && right == null) || (left.length != right.length)) {
+			return true;
+		}
+
+		for (int index = 0; index < right.length; index++ ) {
+			if (!numericUtil.isEqual(left[index], right[index])) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean notEqual(double[] left, double[] right, double delta) {
@@ -320,7 +380,7 @@ public class ArrayUtil {
 		}
 
 		for (int index = 0; index < right.length; index++ ) {
-			if (Math.abs(left[index] - right[index]) >= delta) {
+			if (!numericUtil.isEqual(left[index], right[index], delta)) {
 				return true;
 			}
 		}
@@ -329,7 +389,21 @@ public class ArrayUtil {
 	}
 
 	public boolean notEqual(float[] left, float[] right) {
-		return notEqual(left, right, SMALLEST_FLOAT_DELTA);
+		if (left == null && right == null) {
+			return false;
+		}
+
+		if ((left == null && right != null) || (left != null && right == null) || (left.length != right.length)) {
+			return true;
+		}
+
+		for (int index = 0; index < right.length; index++ ) {
+			if (!numericUtil.isEqual(left[index], right[index])) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean notEqual(float[] left, float[] right, float delta) {
@@ -342,7 +416,7 @@ public class ArrayUtil {
 		}
 
 		for (int index = 0; index < right.length; index++ ) {
-			if (Math.abs(left[index] - right[index]) >= delta) {
+			if (!numericUtil.isEqual(left[index], right[index], delta)) {
 				return true;
 			}
 		}

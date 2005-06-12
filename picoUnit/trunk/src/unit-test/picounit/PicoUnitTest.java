@@ -17,12 +17,9 @@ import junit.framework.TestSuite;
 
 public class PicoUnitTest implements previous.picounit.Test {
 	private static class StartingClass implements Test {}
-	private final Class startingClass = StartingClass.class;
 
 	private final TestFilter testFilter = null;
 	private final ContextFinder contextFinder = null;
-	private final Registry registry = null;
-	private final Configuration picoUnitConfiguration = null;
 	private final MethodParameterRegistry methodParameterRegistry = null;
 	private final PicoUnit picoUnit = new PicoUnit();
 

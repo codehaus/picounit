@@ -14,7 +14,6 @@ import org.jmock.core.matcher.InvokeCountMatcher;
 import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.ThrowStub;
 
-import picounit.Constraints;
 import picounit.Occurences;
 import picounit.PicoUnitException;
 import picounit.mocker.BooleanAction;
@@ -61,7 +60,6 @@ import java.util.List;
 public class JMocker implements MockerInterfaces {
 	private final List mocks = new LinkedList();
 	private final ConstraintStore constraintStore;
-	private final JMockConstraints jMockConstraintFactory;
 
 	private final RecordingPlaybackMockListener invocationListener = new RecordingPlaybackMockListener() {
 		public void recordingPlaybackMockEvent(RecordingPlaybackMock recordingPlaybackMock) {
@@ -77,7 +75,6 @@ public class JMocker implements MockerInterfaces {
 
 	public JMocker(ConstraintStore constraintStore) {
 		this.constraintStore = constraintStore;
-		this.jMockConstraintFactory = new JMockConstraints(constraintStore);
 	}
 
 	public Object mock(Class mockedType) {
@@ -91,10 +88,6 @@ public class JMocker implements MockerInterfaces {
 		mocks.add(recordingPlaybackMock);
 
 		return recordingPlaybackMock.getMock();
-	}
-
-	public Constraints constraint() {
-		return jMockConstraintFactory;
 	}
 
 	public BooleanConsequenceMatcher call(boolean ignore) {

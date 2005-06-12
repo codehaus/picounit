@@ -9,10 +9,8 @@ package picounit.finder;
 
 import picounit.Context;
 import picounit.Mocker;
-import picounit.classloader.MethodParameterRegistry;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
-import picounit.registry.Resolver;
 import picounit.verify.Thrower;
 
 import java.lang.reflect.InvocationTargetException;
@@ -31,13 +29,10 @@ public class PicoUnitTestCase extends TestCase {
 	private final Invoker mockInvoker;
 	private final Mocker mocker;
 	private final ContextFinder contextFinder;
-	private final Resolver resolver;
-	private final MethodParameterRegistry methodParameterRegistry;
 	private final Thrower thrower;
 
 	public PicoUnitTestCase(Method testMethod, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mocker, ContextFinder contextFinder, Resolver resolver,
-		MethodParameterRegistry methodParameterRegistry, Thrower thrower) {
+		Invoker mockInvoker, Mocker mocker, ContextFinder contextFinder, Thrower thrower) {
 
 		this.testMethod = testMethod;
 		this.testClass = testMethod.getDeclaringClass();
@@ -46,8 +41,6 @@ public class PicoUnitTestCase extends TestCase {
 		this.mockInvoker = mockInvoker;
 		this.mocker = mocker;
 		this.contextFinder = contextFinder;
-		this.resolver = resolver;
-		this.methodParameterRegistry = methodParameterRegistry;
 		this.thrower = thrower;
 	}
 

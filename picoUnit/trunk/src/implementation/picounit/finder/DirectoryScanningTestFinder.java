@@ -23,6 +23,7 @@ public class DirectoryScanningTestFinder implements TestFinder {
 	private final ContextFinder contextFinder;
 	private final ClassLoader classLoader;
 	private final PackageUtil packageUtil = new PackageUtil();
+	private final TestInstantiator testInstantiator;
 
 	public DirectoryScanningTestFinder(ClassLoader classLoader) {
 		this(new ClassFinder(), new ContextFinder(classLoader),
@@ -34,6 +35,7 @@ public class DirectoryScanningTestFinder implements TestFinder {
 
 		this.classFinder = classFinder;
 		this.contextFinder = contextFinder;
+		this.testInstantiator = testInstantiator;
 		this.classLoader = classLoader;
 	}
 
@@ -45,7 +47,6 @@ public class DirectoryScanningTestFinder implements TestFinder {
 
 		RegistryImpl registry = new RegistryFactory().create();
 		registryEntry.registerWith(registry);
-		TestInstantiator testInstantiator = new TestInstantiator(registry, classLoader);
 		Class ignoreClass = new ClassReloader().reloadClass(classLoader, Ignore.class);
 
 		classFinder.findClasses(startingClass, new AddTestFindAction(testFilter, classLoader, testSuite,

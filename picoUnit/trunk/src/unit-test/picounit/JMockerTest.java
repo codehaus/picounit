@@ -7,9 +7,7 @@
  *****************************************************************************/
 package picounit;
 
-import picounit.mocker.jmock.ConstraintStore;
 import picounit.mocker.jmock.HashMapConstraintStore;
-import picounit.mocker.jmock.JMockConstraints;
 import picounit.mocker.jmock.JMocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
@@ -19,23 +17,17 @@ import java.lang.reflect.InvocationTargetException;
 import junit.framework.AssertionFailedError;
 
 public class JMockerTest implements Test {
-	private final Mocker mocker;
-	private final Constraints is;
-	private final Verify verify;
+	private Mocker mocker;
 
-	public JMockerTest(Verify verify) {
-		this.verify = verify;
-		ConstraintStore constraintStore = new HashMapConstraintStore();
-
-		this.mocker = new JMocker(constraintStore);
-		this.is = new JMockConstraints(constraintStore);
+	public void mock() {
+		this.mocker = new JMocker(new HashMapConstraintStore());
 	}
 
 	public void testKissing() {
 		Boy mockBoy = (Boy) mocker.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
-		mocker.expect(mockBoy.money(is.greaterThan(100))).andReturn(4);
+		mocker.expect(mockBoy.money(125)).andReturn(4);
 		mockBoy.kiss();
 
 		mocker.replay();
@@ -45,11 +37,11 @@ public class JMockerTest implements Test {
 		mocker.verify();
 	}
 
-	public void testTalking() {
+	public void testTalking(Verify verify) {
 		Boy mockBoy = (Boy) mocker.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
-		mocker.expect(mockBoy.listen(is.equalToIgnoringCase("BLAH blah"))).andReturn("yada yada");
+		mocker.expect(mockBoy.listen("blah blah")).andReturn("yada yada");
 
 		mocker.replay();
 
@@ -60,7 +52,7 @@ public class JMockerTest implements Test {
 		verify.equal("yada yada", result);
 	}
 	
-	public void testCanMockInterfaces() throws SomeException {
+	public void testCanMockInterfaces(Verify verify) throws SomeException {
 		Object mock = mocker.mock(Interface.class);
 
 		verify.notNull(mock);
@@ -83,7 +75,7 @@ public class JMockerTest implements Test {
 		verify.fail("AssertionFailedError: Expectation failure on verify");
 	}
 
-	public void testCanMockClasses() {
+	public void testCanMockClasses(Verify verify) {
 		Object mock = mocker.mock(Implementation.class);
 
 		verify.notNull(mock);
@@ -106,7 +98,7 @@ public class JMockerTest implements Test {
 		verify.fail("AssertionFailedError: Expectation failure on verify");
 	}
 	
-	public void testCanMockAbstractClasses() {
+	public void testCanMockAbstractClasses(Verify verify) {
 		Object mock = mocker.mock(AbstractClass.class);
 
 		verify.notNull(mock);
@@ -135,7 +127,7 @@ public class JMockerTest implements Test {
 		mock.equals(mock);
 	}
 
-	public void testThrowsExceptionsCorrectly() throws SomeException {
+	public void testThrowsExceptionsCorrectly(Verify verify) throws SomeException {
 		Interface mock = (Interface) mocker.mock(Interface.class);
 
 		mock.method();
@@ -153,7 +145,7 @@ public class JMockerTest implements Test {
 		mocker.verify();
 	}
 
-	public void testThrowsAwkwardExceptionsCorrectly() throws InvocationTargetException {
+	public void testThrowsAwkwardExceptionsCorrectly(Verify verify) throws InvocationTargetException {
 		Interface mock = (Interface) mocker.mock(Interface.class);
 
 		mock.awkwardMethod();
@@ -172,7 +164,7 @@ public class JMockerTest implements Test {
 		mocker.verify();
 	}
     
-	public void testCannotFinishExpectationsWithoutSettingReturnValueForPrimativeMethods() {
+	public void testCannotFinishExpectationsWithoutSettingReturnValueForPrimativeMethods(Verify verify) {
 		Interface mock = (Interface) mocker.mock(Interface.class);
 
 		mock.booleanMethod();
@@ -187,7 +179,7 @@ public class JMockerTest implements Test {
 		}
 	}
 	
-	public void testCannotMoveToNextExpectationWithoutSettingReturnValueForPrimativeMethods()
+	public void testCannotMoveToNextExpectationWithoutSettingReturnValueForPrimativeMethods(Verify verify)
 		throws SomeException {
 
 		Interface mock = (Interface) mocker.mock(Interface.class);
@@ -204,7 +196,7 @@ public class JMockerTest implements Test {
 		}
 	}
 
-	public void testOmittingReturnValueForNonPrimativesSetsValueToNull() {
+	public void testOmittingReturnValueForNonPrimativesSetsValueToNull(Verify verify) {
 		Interface mockInterface = (Interface) mocker.mock(Interface.class);
 
 		mockInterface.objectMethod();

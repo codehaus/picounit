@@ -15,10 +15,6 @@ public class DefaultArrayVerify implements ArrayVerify {
 	private final ArrayUtil arrayUtil;
 	private final StringUtil stringUtil;
 
-	public DefaultArrayVerify() {
-		this(new DefaultVerify(), new ArrayUtil(), new StringUtil());
-	}
-
 	public DefaultArrayVerify(Verify verify, ArrayUtil arrayUtil, StringUtil stringUtil) {
 		this.verify = verify;
 		this.arrayUtil = arrayUtil;
@@ -176,5 +172,4 @@ public class DefaultArrayVerify implements ArrayVerify {
 	private String shouldNotContain(short[] searchIn, short searchFor) {
 		return stringUtil.toString(searchIn) + " should not contain '" + searchFor + "'";
 	}
-
 }

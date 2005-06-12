@@ -10,6 +10,7 @@ package picounit;
 import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultVerify;
 import picounit.verify.ImmediateThrower;
+import picounit.verify.NumericUtil;
 import picounit.verify.StringUtil;
 
 import java.util.Arrays;
@@ -25,13 +26,14 @@ public class VerifyTest implements previous.picounit.Test {
 	private final previous.picounit.Mocker mocker;
 	private final previous.picounit.Verify previousVerify;
 
+
 	public VerifyTest(previous.picounit.Mocker mocker, previous.picounit.Verify previousVerify) {
 		this.mocker = mocker;
 		this.previousVerify = previousVerify;
 	}
 
-	public void mock(ArrayUtil arrayUtil, StringUtil stringUtil) {
-		this.verify = new DefaultVerify(arrayUtil, stringUtil, new ImmediateThrower());
+	public void mock(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil) {
+		this.verify = new DefaultVerify(numericUtil, arrayUtil, stringUtil, new ImmediateThrower());
 
 		this.arrayUtil = arrayUtil;
 		this.stringUtil = stringUtil;

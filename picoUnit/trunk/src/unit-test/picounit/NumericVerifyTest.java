@@ -8,17 +8,67 @@
 package picounit;
 
 import junit.framework.AssertionFailedError;
+import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultNumericVerify;
 import picounit.verify.DefaultVerify;
+import picounit.verify.ImmediateThrower;
+import picounit.verify.NumericUtil;
+import picounit.verify.StringUtil;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
 public class NumericVerifyTest implements Test {
-	private final NumericVerify numericVerify = new DefaultNumericVerify(new DefaultVerify());
+	// TODO Convert this into a collaboration test
+	private final DefaultVerify defaultVerify =
+		new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(), new ImmediateThrower());
+	private final NumericVerify numericVerify = new DefaultNumericVerify(defaultVerify);
+	private final Verify verify;
+
+	public NumericVerifyTest(Verify verify) {
+		this.verify = verify;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// greaterThan
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	// --- double ---------------------------------------------------------------------------------
+
+	public void testADoubleIsGreaterThanABitLessThanItself() {
+		numericVerify.isGreaterThan(100.0, deductSmallestIncrementFrom(100.0));
+	}
+	
+	public void testADoubleIsNotGreaterThanItself() {
+		try {
+			numericVerify.isGreaterThan(100.0, 100.0);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not greater than 100.0", assertionFailedError.getMessage());
+
+			return;
+		}
+
+		assertionFailedErrorExpected();
+	}
+
+	// --- float ----------------------------------------------------------------------------------
+	
+	public void testAFloatIsGreaterThanABitLessThanItself() {
+		numericVerify.isGreaterThan(100.0f, deductSmallestIncrementFrom(100.0f));
+	}
+	
+	public void testAFloatIsNotGreaterThanItself() {
+		try {
+			numericVerify.isGreaterThan(100.0f, 100.0f);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not greater than 100.0", assertionFailedError.getMessage());
+
+			return;
+		}
+
+		assertionFailedErrorExpected();
+	}
 
 	// --- int ------------------------------------------------------------------------------------
 
@@ -26,7 +76,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isGreaterThan(100, 99);
 	}
 	
-	public void testAnIntegerIsNotGreaterThanItself(Verify verify) {
+	public void testAnIntegerIsNotGreaterThanItself() {
 		try {
 			numericVerify.isGreaterThan(100, 100);
 		}
@@ -36,16 +86,16 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 
 	// --- long -----------------------------------------------------------------------------------
 
-	public void testALongIsGreaterThanOneLessThanItself(Verify verify) {
+	public void testALongIsGreaterThanOneLessThanItself() {
 		numericVerify.isGreaterThan(100L, 99L);
 	}
 
-	public void testALongIsNotGreaterThanItself(Verify verify) {
+	public void testALongIsNotGreaterThanItself() {
 		try {
 			numericVerify.isGreaterThan(100L, 100L);
 		}
@@ -55,12 +105,56 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// greaterThanOrEqualTo
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	// --- double ---------------------------------------------------------------------------------
+
+	public void testADoubleIsGreaterThanOrEqualToItself() {
+		numericVerify.isGreaterThanOrEqualTo(100.0, 100.0); 
+	}
+	
+	public void testADoubleIsNotGreaterThanOrEqualToABitMoreThanItself() {
+		double aLittleMoreThan100 = addSmallestIncrementTo(100.0);
+
+		try {
+			numericVerify.isGreaterThanOrEqualTo(100.0, aLittleMoreThan100);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not greater than or equal to " + aLittleMoreThan100,
+				assertionFailedError.getMessage());
+			
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
+	
+	// --- float ----------------------------------------------------------------------------------
+
+	public void testAFloatIsGreaterThanOrEqualToItself() {
+		numericVerify.isGreaterThanOrEqualTo(100.0f, 100.0f); 
+	}
+	
+	public void testAFloatIsNotGreaterThanOrEqualToABitMoreThanItself() {
+		float aLittleMoreThan100 = addSmallestIncrementTo(100.0f);
+
+		try {
+			numericVerify.isGreaterThanOrEqualTo(100.0f, aLittleMoreThan100);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not greater than or equal to " + aLittleMoreThan100,
+				assertionFailedError.getMessage());
+			
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
 
 	// --- int ------------------------------------------------------------------------------------
 
@@ -68,7 +162,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isGreaterThanOrEqualTo(100, 100);
 	}
 	
-	public void testAnIntegerIsNotGreaterThanOrEqualToOneMoreThanItself(Verify verify) {
+	public void testAnIntegerIsNotGreaterThanOrEqualToOneMoreThanItself() {
 		try {
 			numericVerify.isGreaterThanOrEqualTo(100, 101);
 		}
@@ -78,7 +172,7 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 	
 	// --- long -----------------------------------------------------------------------------------
@@ -87,7 +181,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isGreaterThanOrEqualTo(100L, 100L);
 	}
 	
-	public void testALongIsNotGreaterThanOrEqualToOneMoreThanItself(Verify verify) {
+	public void testALongIsNotGreaterThanOrEqualToOneMoreThanItself() {
 		try {
 			numericVerify.isGreaterThanOrEqualTo(100L, 101L);
 		}
@@ -97,12 +191,50 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// lessThan
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	// --- double ---------------------------------------------------------------------------------
+	
+	public void testADoubleIsLessThanALittleBitMoreThanItself() {
+		numericVerify.isLessThan(100.0, addSmallestIncrementTo(100.0)); 
+	}
+	
+	public void testADoubleIsNotLessThanItself() {
+		try {
+			numericVerify.isLessThan(100.0, 100.0);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not less than 100.0", assertionFailedError.getMessage());
+			
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
+
+	// --- float ----------------------------------------------------------------------------------
+
+	public void testAFloatIsLessThanALittleBitMoreThanItself() {
+		numericVerify.isLessThan(100.0f, addSmallestIncrementTo(100.0f)); 
+	}
+	
+	public void testAFloatIsNotLessThanItself() {
+		try {
+			numericVerify.isLessThan(100.0f, 100.0f);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not less than 100.0", assertionFailedError.getMessage());
+			
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
 
 	// --- int ------------------------------------------------------------------------------------
 
@@ -110,7 +242,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isLessThan(100, 101);
 	}
 	
-	public void testAnIntegerIsNotLessThanItself(Verify verify) {
+	public void testAnIntegerIsNotLessThanItself() {
 		try {
 			numericVerify.isLessThan(100, 100);
 		}
@@ -120,7 +252,7 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 		
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 
 	// --- long -----------------------------------------------------------------------------------
@@ -129,7 +261,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isLessThan(1L, 100L);
 	}
 	
-	public void testALongIsNotLessThanItself(Verify verify) {
+	public void testALongIsNotLessThanItself() {
 		try {
 			numericVerify.isLessThan(100L, 100L);
 		}
@@ -139,12 +271,56 @@ public class NumericVerifyTest implements Test {
 			return;
 		}
 		
-		verify.fail("AssertionFailedError expected");
+		assertionFailedErrorExpected();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// lessThanOrEqualTo
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	// --- double ---------------------------------------------------------------------------------
+	
+	public void testADoubleIsLessThanOrEqualToItself() {
+		numericVerify.isLessThanOrEqualTo(100.0, 100.0); 
+	}
+	
+	public void testADoubleIsNotLessThanOrEqualToALittleLessThanItself() {
+		double aLittleLessThan100 = deductSmallestIncrementFrom(100.0);
+
+		try {
+			numericVerify.isLessThanOrEqualTo(100.0, aLittleLessThan100);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not less than or equal to " + aLittleLessThan100,
+				assertionFailedError.getMessage());
+
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
+
+	// --- float ----------------------------------------------------------------------------------
+
+	public void testAFloatIsLessThanOrEqualToItself() {
+		numericVerify.isLessThanOrEqualTo(100.0f, 100.0f); 
+	}
+	
+	public void testAFloatIsNotLessThanOrEqualToALittleLessThanItself() {
+		float aLittleLessThan100 = deductSmallestIncrementFrom(100.0f);
+
+		try {
+			numericVerify.isLessThanOrEqualTo(100.0f, aLittleLessThan100);
+		}
+		catch (AssertionFailedError assertionFailedError) {
+			verify.equal("100.0 is not less than or equal to " + aLittleLessThan100,
+				assertionFailedError.getMessage());
+
+			return;
+		}
+		
+		assertionFailedErrorExpected();
+	}
 
 	// --- int ------------------------------------------------------------------------------------
 	
@@ -152,7 +328,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isLessThanOrEqualTo(100, 100);
 	}
 	
-	public void testAnIntegerIsNotLessThanOrEqualToOneLessThanItself(Verify verify) {
+	public void testAnIntegerIsNotLessThanOrEqualToOneLessThanItself() {
 		 try {
 			 numericVerify.isLessThanOrEqualTo(100, 99);
 		 }
@@ -162,7 +338,7 @@ public class NumericVerifyTest implements Test {
 			 return;
 		 }
 		 
-		 verify.fail("AssertionFailedError expected");
+		 assertionFailedErrorExpected();
 	}
 
 	// --- long -----------------------------------------------------------------------------------
@@ -171,7 +347,7 @@ public class NumericVerifyTest implements Test {
 		numericVerify.isLessThanOrEqualTo(100L, 100L);
 	}
 	
-	public void testALongIsNotLessThanOrEqualToOneLessThanItself(Verify verify) {
+	public void testALongIsNotLessThanOrEqualToOneLessThanItself() {
 		 try {
 			 numericVerify.isLessThanOrEqualTo(100L, 99L);
 		 }
@@ -181,6 +357,26 @@ public class NumericVerifyTest implements Test {
 			 return;
 		 }
 		 
-		 verify.fail("AssertionFailedError expected");
+		 assertionFailedErrorExpected();
+	}
+
+	private void assertionFailedErrorExpected() {
+		verify.fail("AssertionFailedError expected");
+	}
+
+	private double addSmallestIncrementTo(double value) {
+		return Double.longBitsToDouble(Double.doubleToLongBits(value) + 1);
+	}
+
+	private double deductSmallestIncrementFrom(double value) {
+		return Double.longBitsToDouble(Double.doubleToLongBits(value) - 1);
+	}
+
+	private float addSmallestIncrementTo(float value) {
+		return Float.intBitsToFloat(Float.floatToIntBits(value) + 1);
+	}
+
+	private float deductSmallestIncrementFrom(float value) {
+		return Float.intBitsToFloat(Float.floatToIntBits(value) - 1);
 	}
 }
