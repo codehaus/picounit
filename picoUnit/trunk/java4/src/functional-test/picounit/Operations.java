@@ -19,7 +19,7 @@ public class Operations {
 	private final Verify verify;
 	
 	public Operations() {
-		this(new DefaultVerify());
+		this(DefaultVerify.create());
 	}
 
 	public Operations(Verify verify) {
