@@ -12,6 +12,7 @@ import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultNumericVerify;
 import picounit.verify.DefaultVerify;
 import picounit.verify.ImmediateThrower;
+import picounit.verify.NullVerifiable;
 import picounit.verify.NumericUtil;
 import picounit.verify.StringUtil;
 import previous.picounit.Test;
@@ -20,7 +21,7 @@ import previous.picounit.Verify;
 public class NumericVerifyTest implements Test {
 	// TODO Convert this into a collaboration test
 	private final DefaultVerify defaultVerify =
-		new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(), new ImmediateThrower());
+		new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(), new ImmediateThrower(), new NullVerifiable());
 	private final NumericVerify numericVerify = new DefaultNumericVerify(defaultVerify);
 	private final Verify verify;
 

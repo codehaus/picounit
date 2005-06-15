@@ -16,6 +16,7 @@ import org.jmock.core.stub.ThrowStub;
 
 import picounit.Occurences;
 import picounit.PicoUnitException;
+import picounit.impl.Verifiable;
 import picounit.mocker.BooleanAction;
 import picounit.mocker.BooleanConsequenceMatcher;
 import picounit.mocker.ByteAction;
@@ -57,7 +58,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class JMocker implements MockerInterfaces {
+public class JMocker implements MockerInterfaces, Verifiable {
 	private final List mocks = new LinkedList();
 	private final ConstraintStore constraintStore;
 

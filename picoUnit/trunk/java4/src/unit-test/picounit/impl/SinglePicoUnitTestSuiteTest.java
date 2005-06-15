@@ -9,7 +9,6 @@ package picounit.impl;
 
 import picounit.Test;
 import picounit.classloader.MethodParameterRegistry;
-import picounit.finder.ContextFinder;
 import picounit.finder.NoTestsFoundTestCase;
 import picounit.finder.SinglePicoUnitTestSuite;
 import picounit.finder.TestFilter;
@@ -19,9 +18,9 @@ import previous.picounit.Verify;
 
 public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 	private final TestFilter testFilter = null;
-	private final ContextFinder contextFinder = null;
 	private final MethodParameterRegistry methodParameterRegistry = null;
 	private RegistryEntry registryEntry;
+	private ClassLoader classLoader = null;
 
 	private final Verify verify;
 
@@ -101,7 +100,7 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 	}
 
 	public SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
-		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, contextFinder,
-			methodParameterRegistry);
+		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+			classLoader);
 	}
 }

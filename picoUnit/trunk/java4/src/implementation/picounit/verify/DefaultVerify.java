@@ -8,6 +8,7 @@
 package picounit.verify;
 
 import picounit.Verify;
+import picounit.impl.Verifiable;
 
 import java.util.Arrays;
 
@@ -21,625 +22,869 @@ public class DefaultVerify implements Verify {
 	private final StringUtil stringUtil;
 	private final Thrower thrower;
 	private final NumericUtil numericUtil;
+	private final Verifiable verifiable;
 
 	public static Verify create() {
 		return new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(),
-			new ImmediateThrower());
+			new ImmediateThrower(), new NullVerifiable());
 	}
 
-	public DefaultVerify(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil, Thrower thrower) {
+	public DefaultVerify(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil,
+		Thrower thrower, Verifiable verifiable) {
+
 		this.numericUtil = numericUtil;
 		this.arrayUtil = arrayUtil;
 		this.stringUtil = stringUtil;
 		this.thrower = thrower;
+		this.verifiable = verifiable;
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// picounit.Verify
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void fail() {
-		thrower.errorEvent(new AssertionFailedError());
+		verifiable.verify();
+
+		raise();
 	}
 
+
 	public void fail(String message) {
-		thrower.errorEvent(new AssertionFailedError(message));
+		verifiable.verify();
+
+		raise(message);
 	}
 
 	public void that(boolean expression) {
+		verifiable.verify();
+
 		if (!expression) {
-			fail(message(true, false));
+			raise(message(true, false));
 		}
 	}
 
 	public void that(String message, boolean expression) {
+		verifiable.verify();
+
 		if (!expression) {
-			fail(message(message, true, false));
+			raise(message(message, true, false));
 		}
 	}
 
 	public void not(boolean expression) {
+		verifiable.verify();
+
 		if (expression) {
-			fail(message(false, true));
+			raise(message(false, true));
 		}
 	}
 
 	public void not(String message, boolean expression) {
+		verifiable.verify();
+
 		if (expression) {
-			fail(message(message, false, true));
+			raise(message(message, false, true));
 		}
 	}
 
 	public void equal(boolean expected, boolean actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 
 	public void equal(String message, boolean expected, boolean actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(byte expected, byte actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, byte expected, byte actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(char expected, char actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, char expected, char actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(double expected, double actual) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual)) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, double expected, double actual) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual)) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(double expected, double actual, double delta) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual, delta)) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 
 	public void equal(String message, double expected, double actual, double delta) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual, delta)) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(float expected, float actual) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual)) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, float expected, float actual) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual)) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(float expected, float actual, float delta) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual, delta)) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, float expected, float actual, float delta) {
+		verifiable.verify();
+
 		if (!numericUtil.isEqual(expected, actual, delta)) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(int expected, int actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, int expected, int actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 	
 	public void equal(short expected, short actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, short expected, short actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 
 	public void equal(long expected, long actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(expected, actual));
+			raise(message(expected, actual));
 		}
 	}
 	
 	public void equal(String message, long expected, long actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 
 	public void equal(boolean[] expected, boolean[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(byte[] expected, byte[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(char[] expected, char[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(double[] expected, double[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(double[] expected, double[] actual, double delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			String message = message(stringUtil.toString(expected), stringUtil.toString(actual)) +
 				" (with delta: " + delta + ")";
 
-			fail(message);
+			raise(message);
 		}
 	}
 
 	public void equal(float[] expected, float[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(float[] expected, float[] actual, float delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			String message = message(stringUtil.toString(expected), stringUtil.toString(actual)) +
 				" (with delta: " + delta + ")";
 
-			fail(message);
+			raise(message);
 		}
 	}
 
 	public void equal(int[] expected, int[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(long[] expected, long[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(short[] expected, short[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 	
 	public void equal(String message, boolean[] expected, boolean[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, byte[] expected, byte[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, char[] expected, char[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, double[] expected, double[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, double[] expected, double[] actual, double delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual, delta)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
 				" (with delta: " + delta + ")");
 		}
 	}
 
 	public void equal(String message, float[] expected, float[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, float[] expected, float[] actual, float delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual, delta)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
 				" (with delta: " + delta + ")");
 		}
 	}
 
 	public void equal(String message, int[] expected, int[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, long[] expected, long[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 
 	public void equal(String message, short[] expected, short[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.equal(expected, actual)) {
-			fail(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
+			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
 		}
 	}
 	
 	public void equal(Object expected, Object actual) {
-		equal(null, expected, actual);
+		verifiable.verify();
+
+		if (!equalImpl(expected, actual)) {
+			raise(message(expected, actual));
+		}
 	}
 
 	public void equal(String message, Object expected, Object actual) {
-		if (expected == actual) {
-			return;
-		}
+		verifiable.verify();
 
 		if (!equalImpl(expected, actual)) {
-			fail(message(message, expected, actual));
+			raise(message(message, expected, actual));
 		}
 	}
 
 	public void notEqual(boolean notExpected, boolean actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, boolean notExpected, boolean actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(byte notExpected, byte actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, byte notExpected, byte actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(char notExpected, char actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, char notExpected, char actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(double notExpected, double actual) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual)) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, double notExpected, double actual) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 
 	public void notEqual(double notExpected, double actual, double delta) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, double notExpected, double actual, double delta) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
-			fail(message);
+			raise(message);
 		}
 	}
 	
 	public void notEqual(float notExpected, float actual) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual)) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, float notExpected, float actual) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(float notExpected, float actual, float delta) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, float notExpected, float actual, float delta) {
+		verifiable.verify();
+
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(int notExpected, int actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, int notExpected, int actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 
 	public void notEqual(long notExpected, long actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, long notExpected, long actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(short notExpected, short actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 	
 	public void notEqual(String message, short notExpected, short actual) {
+		verifiable.verify();
+
 		if (notExpected == actual) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void notEqual(boolean[] notExpected, boolean[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(byte[] notExpected, byte[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(char[] notExpected, char[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(double[] notExpected, double[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(double[] notExpected, double[] actual, double delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
-			fail("expected <" + stringUtil.toString(actual) + "> not equal <" +
+			raise("expected <" + stringUtil.toString(actual) + "> not equal <" +
 				stringUtil.toString(notExpected) + "> (with delta: " + delta + ")");
 		}
 	}
 
 	public void notEqual(float[] notExpected, float[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(float[] notExpected, float[] actual, float delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
-			fail("expected <" + stringUtil.toString(actual) + "> not equal <" +
+			raise("expected <" + stringUtil.toString(actual) + "> not equal <" +
 				stringUtil.toString(notExpected) + "> (with delta: " + delta + ")");
 		}
 	}
 
 	public void notEqual(int[] notExpected, int[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(long[] notExpected, long[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(short[] notExpected, short[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(stringUtil.toString(notExpected)));
+			raise(notEqualMessage(stringUtil.toString(notExpected)));
 		}
 	}
 	
 	public void notEqual(String message, boolean[] notExpected, boolean[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, byte[] notExpected, byte[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, char[] notExpected, char[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, double[] notExpected, double[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, double[] notExpected, double[] actual, double delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
-			fail(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
+			raise(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
 				stringUtil.toString(notExpected) + "> (with delta: " + delta + ")");
 		}
 	}
 
 	public void notEqual(String message, float[] notExpected, float[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, float[] notExpected, float[] actual, float delta) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
-			fail(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
+			raise(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
 				stringUtil.toString(notExpected) + "> (with delta: " + delta + ")");
 		}
 	}
 
 	public void notEqual(String message, int[] notExpected, int[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, long[] notExpected, long[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(String message, short[] notExpected, short[] actual) {
+		verifiable.verify();
+
 		if (!arrayUtil.notEqual(notExpected, actual)) {
-			fail(notEqualMessage(message, stringUtil.toString(notExpected)));
+			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
 		}
 	}
 
 	public void notEqual(Object notExpected, Object actual) {
+		verifiable.verify();
+
 		if (equalImpl(notExpected, actual)) {
-			fail(notEqualMessage(notExpected));
+			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, Object notExpected, Object actual) {
+		verifiable.verify();
+
 		if(equalImpl(notExpected, actual)) {
-			fail(notEqualMessage(message, notExpected));
+			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void same(Object expected, Object actual) {
+		verifiable.verify();
+
 		if (expected != actual) {
-			fail("expected same: <" + expected + ">, but was: <" + actual + ">");
+			raise("expected same: <" + expected + ">, but was: <" + actual + ">");
 		}
 	}
 
 	public void same(String message, Object expected, Object actual) {
-		if (expected != actual) {
-			fail(message + ", expected same: <" + expected + ">, but was: <" + actual + ">");
+		verifiable.verify();
+
+		if (!sameReference(expected, actual)) {
+			raise(message + ", expected same: <" + expected + ">, but was: <" + actual + ">");
 		}
 	}
 	
 	public void notSame(Object notExpected, Object actual) {
-		if (notExpected == actual) {
-			fail("expected not same: <" + notExpected + ">");
+		verifiable.verify();
+
+		if (sameReference(notExpected, actual)) {
+			raise("expected not same: <" + notExpected + ">");
 		}
 	}
 
 	public void notSame(String message, Object notExpected, Object actual) {
-		if (notExpected == actual) {
-			fail(message + ", expected not same: <" + notExpected + ">");
+		verifiable.verify();
+
+		if (sameReference(notExpected, actual)) {
+			raise(message + ", expected not same: <" + notExpected + ">");
 		}
 	}
 
 	public void isNull(Object object) {
-		equal(null, object);
+		verifiable.verify();
+
+		if (object != null) {
+			raise("expected null, but was: <" + object + ">");
+		}
 	}
 	
 	public void isNull(String message, Object object) {
-		equal(message, null, object);
+		verifiable.verify();
+		
+		if (object != null) {
+			raise(message + ", expected null, but was: <" + object + ">");
+		}
 	}
 
 	public void notNull(Object object) {
-		notEqual(null, object);
+		verifiable.verify();
+		
+		if (object == null) {
+			raise("expected non-null");
+		}
 	}
 	
 	public void notNull(String message, Object object) {
-		notEqual(message, null, object);
+		verifiable.verify();
+
+		if (object == null) {
+			raise(message + ", expected non-null");
+		}
 	}
 
 	public void instanceOf(Class instanceOf, Object object) {
-		if (object != null) {
-			that(instanceOf.isAssignableFrom(object.getClass()));
+		verifiable.verify();
+
+		if (!isInstanceOf(instanceOf, object)) {
+			raise("expected instance of: <" + instanceOf.getName() +
+				">, but was: <" + object + ">");
 		}
 	}
 
 	public void instanceOf(String message, Class instanceOf, Object object) {
-		if (object != null) {
-			that(message, instanceOf.isAssignableFrom(object.getClass()));
+		verifiable.verify();
+
+		if (!isInstanceOf(instanceOf, object)) {
+			raise(message + ", expected instance of: <" + instanceOf.getName() +
+				">, but was: <" + object + ">");
 		}
 	}
 	
+	public void notInstanceOf(Class notInstanceOf, Object object) {
+		verifiable.verify();
+
+		if (isInstanceOf(notInstanceOf, object)) {
+			raise("expected not instance of: <" + notInstanceOf.getName() +
+				">, but was: <" + object + ">");
+		}
+	}
+
+	public void notInstanceOf(String message, Class notInstanceOf, Object object) {
+		verifiable.verify();
+
+		if (isInstanceOf(notInstanceOf, object)) {
+			raise(message + ", expected not instance of: <" + notInstanceOf.getName() +
+				">, but was: <" + object + ">");
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Utility Methods
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private boolean equalImpl(Object expected, Object actual) {
 		return bothNull(expected, actual) ||
-			neitherNull(expected, actual) &&
-				(arrayEquals(expected, actual) || ordinaryEquals(expected, actual));
+			neitherNull(expected, actual) && (sameReference(expected, actual) ||
+				arrayEquals(expected, actual) ||
+				ordinaryEquals(expected, actual));
+	}
+
+	private boolean sameReference(Object expected, Object actual) {
+		return expected == actual;
 	}
 
 	private boolean bothNull(Object expected, Object actual) {
@@ -657,6 +902,10 @@ public class DefaultVerify implements Verify {
 
 	private boolean ordinaryEquals(Object expected, Object actual) {
 		return expected.equals(actual);
+	}
+
+	private boolean isInstanceOf(Class instanceOf, Object object) {
+		return object != null && instanceOf.isAssignableFrom(object.getClass());
 	}
 
 	private String message(boolean expected, boolean actual) {
@@ -742,5 +991,13 @@ public class DefaultVerify implements Verify {
 		else {
 			return object.toString();
 		}
+	}
+
+	private void raise() {
+		thrower.errorEvent(new AssertionFailedError());
+	}
+
+	private void raise(String message) {
+		thrower.errorEvent(new AssertionFailedError(message));
 	}
 }

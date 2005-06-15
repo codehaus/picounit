@@ -8,23 +8,17 @@
 package picounit.registry;
 
 import picounit.Configuration;
-import picounit.Registry;
-import picounit.verify.DelayedThrower;
-import picounit.verify.ImmediateThrower;
-import picounit.verify.Thrower;
 
 public class DefaultConfiguration implements Configuration {
-	private final Registry registry;
-
-	public DefaultConfiguration(Registry registry) {
-		this.registry = registry;
-	}
-
+	/**
+	 * @deprecated Mocker errors always thrown before verify errors 
+	 */
 	public void throwVerifyErrorsBeforeMockerErrors() {
-		registry.register(Thrower.class, ImmediateThrower.class);
 	}
 
+	/**
+	 * @deprecated Mocker errors always thrown before verify errors 
+	 */
 	public void throwMockerErrorsBeforeVerifyErrors() {
-		registry.register(Thrower.class, DelayedThrower.class);
 	}
 }

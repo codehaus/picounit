@@ -30,4 +30,16 @@ public class DefaultStringVerify implements StringVerify {
 			verify.fail("'" + searchIn + "' does not contain '" + searchFor + "'");
 		}
 	}
+
+	public void doesNotContain(String searchIn, String searchFor) {
+		if (searchIn == null) {
+			verify.fail("<searchIn> is null !");
+		}
+		else if (searchFor == null) {
+			verify.fail("<searchFor> is null !");	
+		}
+		else if (stringUtil.contains(searchIn, searchFor)) {
+			verify.fail("'" + searchIn + "' contains '" + searchFor + "'");
+		}
+	}
 }

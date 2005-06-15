@@ -16,6 +16,7 @@ import picounit.Plugin;
 import picounit.Registry;
 import picounit.StringVerify;
 import picounit.Verify;
+import picounit.impl.EnvironmentImpl;
 import picounit.util.FileReader;
 import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultArrayVerify;
@@ -23,7 +24,7 @@ import picounit.verify.DefaultFileVerify;
 import picounit.verify.DefaultNumericVerify;
 import picounit.verify.DefaultStringVerify;
 import picounit.verify.DefaultVerify;
-import picounit.verify.DelayedThrower;
+import picounit.verify.ImmediateThrower;
 import picounit.verify.NumericUtil;
 import picounit.verify.StringUtil;
 import picounit.verify.Thrower;
@@ -39,23 +40,17 @@ public class DefaultPlugin implements Plugin {
 
 	public void insert(Properties pluginProperties) {
 		registry.register(ArrayVerify.class, DefaultArrayVerify.class);
-			registry.register(ArrayUtil.class);
-
 		registry.register(FileVerify.class, DefaultFileVerify.class);
-			registry.register(FileReader.class);
-		
 		registry.register(NumericVerify.class, DefaultNumericVerify.class);
-
 		registry.register(StringVerify.class, DefaultStringVerify.class);
-			registry.register(StringUtil.class);
-
 		registry.register(Verify.class, DefaultVerify.class);
-			registry.register(NumericUtil.class);
-
-		registry.register(Thrower.class, DelayedThrower.class);
-	
-		registry.register(Environment.class);
-	
+		registry.register(Thrower.class, ImmediateThrower.class);
+		registry.register(Environment.class, EnvironmentImpl.class);
 		registry.register(Configuration.class, DefaultConfiguration.class);
+
+		registry.register(ArrayUtil.class);
+		registry.register(FileReader.class);
+		registry.register(NumericUtil.class);
+		registry.register(StringUtil.class);
 	}
 }

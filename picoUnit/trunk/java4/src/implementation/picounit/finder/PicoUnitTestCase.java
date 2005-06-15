@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.finder;
 
-import picounit.Context;
+import picounit.LifeCycle;
 import picounit.Mocker;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
@@ -28,11 +28,11 @@ public class PicoUnitTestCase extends TestCase {
 	private final Invoker invoker;
 	private final Invoker mockInvoker;
 	private final Mocker mocker;
-	private final ContextFinder contextFinder;
 	private final Thrower thrower;
+	private final LifeCycleInstantiator lifeCycleInstantiator;
 
 	public PicoUnitTestCase(Method testMethod, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mocker, ContextFinder contextFinder, Thrower thrower) {
+		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifeCycleInstantiator lifeCycleInstantiator) {
 
 		this.testMethod = testMethod;
 		this.testClass = testMethod.getDeclaringClass();
@@ -40,8 +40,8 @@ public class PicoUnitTestCase extends TestCase {
 		this.invoker = invoker;
 		this.mockInvoker = mockInvoker;
 		this.mocker = mocker;
-		this.contextFinder = contextFinder;
 		this.thrower = thrower;
+		this.lifeCycleInstantiator = lifeCycleInstantiator;
 	}
 
 	public int countTestCases() {
@@ -56,9 +56,9 @@ public class PicoUnitTestCase extends TestCase {
 		result.startTest(this);
 
 		try {
-			Context[] contexts = getContexts();
+			LifeCycle[] lifeCycles = getLifeCycles();
 
-			setUp(contexts);
+			setUp(lifeCycles);
 
 			Object testInstance = instantiator.instantiate(testClass);
 
@@ -72,7 +72,7 @@ public class PicoUnitTestCase extends TestCase {
 
 			tearDown(testInstance);
 
-			tearDown(contexts);
+			tearDown(lifeCycles);
 
 			mocker.verify();
 
@@ -88,7 +88,14 @@ public class PicoUnitTestCase extends TestCase {
 			result.addError(this, illegalArgumentException);
 		}
 		catch (InvocationTargetException invocationTargetException) {
-			result.addError(this, invocationTargetException.getTargetException());
+			Throwable targetException = invocationTargetException.getTargetException();
+
+			if (targetException instanceof AssertionFailedError) {
+				result.addFailure(this, (AssertionFailedError) targetException);
+			}
+			else {
+				result.addError(this, targetException);
+			}
 		}
 		catch (ClassNotFoundException classNotFoundException) {
 			result.addError(this, classNotFoundException);
@@ -111,24 +118,15 @@ public class PicoUnitTestCase extends TestCase {
 		mockInvoker.invoke("mock", testInstance);
 	}
 
-	private Context[] getContexts() throws IllegalArgumentException, InstantiationException,
+	private LifeCycle[] getLifeCycles() throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
-		ContextClass[] contextClasses =
-			contextFinder.findContexts(testClass, new ImplementsCondition(Context.class));
-		
-		Context[] contexts = new Context[contextClasses.length];
-
-		for (int index = 0; index < contextClasses.length; index++) {
-			contexts[index] = contextClasses[index].getContext(instantiator);
-		}
-		
-		return contexts;
+		return lifeCycleInstantiator.instantiate(testClass);
 	}
-	
-	private void setUp(Context[] contexts) throws IllegalAccessException, InvocationTargetException {
-		for (int index = 0; index < contexts.length; index++) {
-			setUp(contexts[index]);
+
+	private void setUp(LifeCycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
+		for (int index = 0; index < lifeCycles.length; index++) {
+			setUp(lifeCycles[index]);
 		}
 	}
 
@@ -144,7 +142,7 @@ public class PicoUnitTestCase extends TestCase {
 		invoker.invoke("tearDown", target);
 	}
 
-	private void tearDown(Context[] contexts) throws IllegalAccessException, InvocationTargetException {
+	private void tearDown(LifeCycle[] contexts) throws IllegalAccessException, InvocationTargetException {
 		for (int index = 0; index < contexts.length; index++) {
 			tearDown(contexts[index]);
 		}

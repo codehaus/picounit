@@ -16,6 +16,7 @@ import org.jmock.core.stub.ThrowStub;
 
 import picounit.Occurences;
 import picounit.PicoUnitException;
+import picounit.impl.Verifiable;
 import picounit.mocker.Action;
 import picounit.mocker.ConsequenceMatcher;
 import picounit.mocker.ExpectationMatcher;
@@ -28,7 +29,7 @@ import picounit.mocker.jmock.action.VoidActionStub;
 import java.util.LinkedList;
 import java.util.List;
 
-public class JMocker implements MockerInterfaces {
+public class JMocker implements MockerInterfaces, Verifiable {
 	private final List<RecordingPlaybackMock> mocks = new LinkedList<RecordingPlaybackMock>();
 	private final ConstraintStore constraintStore;
 

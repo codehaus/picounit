@@ -5,14 +5,15 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.finder;
+package picounit;
 
-import picounit.Context;
-import picounit.reflection.Instantiator;
-
-import java.lang.reflect.InvocationTargetException;
-
-public interface ContextClass {
-	Context getContext(Instantiator instantiator) throws InstantiationException, IllegalAccessException,
-		ClassNotFoundException, IllegalArgumentException, InvocationTargetException;
+/**
+ * Interface for registering dependancies for use in tests. Implement this interface and place
+ * the implementation in the same package or higher than your tests, your implementation will be
+ * instantiated and its setUp methods will be called before the test is run, after the test has
+ * run your implementations's tearDown methods will be called. 
+ * 
+ * @author Stacy Curl
+ */
+public interface LifeCycle extends Context {
 }

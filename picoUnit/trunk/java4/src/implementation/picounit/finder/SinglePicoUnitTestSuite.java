@@ -27,7 +27,7 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 	private final Class testClass;
 
 	public SinglePicoUnitTestSuite(String testName, Class testClass, TestFilter testFilter, RegistryEntry registryEntry,
-		ContextFinder contextFinder, MethodParameterRegistry methodParameterRegistry) {
+		MethodParameterRegistry methodParameterRegistry, ClassLoader classLoader) {
 
 		super(testName);
 
@@ -47,6 +47,8 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 		Invoker mockInvoker = new Invoker(mockResolver, invoker);
 
 		Instantiator instantiator = new OrdinaryInstantiator(registry);
+		LifeCycleInstantiator lifeCycleInstantiator =
+			new LifeCycleInstantiatorImpl(classLoader, instantiator);
 
 		Thrower thrower = (Thrower) registry.get(Thrower.class);
 
@@ -55,7 +57,7 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 
 			if (method.getName().startsWith("test") && testFilter.matches(method)) {
 				addTest(new PicoUnitTestCase(method, instantiator, invoker, mockInvoker, mocker,
-					contextFinder, thrower));
+					thrower, lifeCycleInstantiator));
 			}
 		}
 

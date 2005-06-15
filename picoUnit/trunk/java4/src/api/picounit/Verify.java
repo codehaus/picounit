@@ -123,4 +123,7 @@ public interface Verify {
 
 	void instanceOf(Class instanceOf, Object object);
 	void instanceOf(String message, Class instanceOf, Object object);
+
+	void notInstanceOf(Class notInstanceOf, Object object);
+	void notInstanceOf(String message, Class notInstanceOf, Object object);
 }

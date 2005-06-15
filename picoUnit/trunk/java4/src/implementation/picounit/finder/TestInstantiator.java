@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.finder;
 
-import picounit.Context;
+import picounit.LifeCycle;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
 import picounit.reflection.OrdinaryInstantiator;
@@ -17,46 +17,42 @@ import java.lang.reflect.InvocationTargetException;
 
 public class TestInstantiator {
 	private final Instantiator instantiator;
-	private final ContextFinder contextFinder;
 	private final Invoker invoker;
-	
-	public TestInstantiator(Resolver resolver, ClassLoader classLoader) {
-		this(new OrdinaryInstantiator(resolver), new ContextFinder(classLoader), new Invoker(resolver));
+	private final LifeCycleInstantiator lifeCycleInstantiator;
+
+	public static TestInstantiator create(Resolver resolver, ClassLoader classLoader) {
+		Instantiator instantiator = new OrdinaryInstantiator(resolver);
+
+		return new TestInstantiator(instantiator, new Invoker(resolver),
+			new LifeCycleInstantiatorImpl(classLoader, instantiator));
 	}
 
-	public TestInstantiator(Instantiator instantiator, ContextFinder contextFinder, Invoker invoker) {
+	public TestInstantiator(Instantiator instantiator, Invoker invoker,
+		LifeCycleInstantiator lifeCycleInstantiator) {
+
 		this.instantiator = instantiator;
-		this.contextFinder = contextFinder;
 		this.invoker = invoker;
+		this.lifeCycleInstantiator = lifeCycleInstantiator;
 	}
 
 	public Object instantiate(Class testClass) throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
-		setUp(getContexts(testClass));
+		setUp(getLifeCycles(testClass));
 
 		return instantiator.instantiate(testClass);
 	}
 
-	private Context[] getContexts(Class testClass) throws IllegalArgumentException,
+	private LifeCycle[] getLifeCycles(Class testClass) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, ClassNotFoundException,
 		InvocationTargetException {
-
-		ContextClass[] contextClasses =
-			contextFinder.findContexts(testClass, new ImplementsCondition(Context.class));
-
-		Context[] contexts = new Context[contextClasses.length];
-
-		for (int index = 0; index < contextClasses.length; index++) {
-			contexts[index] = contextClasses[index].getContext(instantiator);
-		}
-
-		return contexts;
+		
+		return lifeCycleInstantiator.instantiate(testClass);
 	}
 	
-	private void setUp(Context[] contexts) throws IllegalAccessException, InvocationTargetException {
-		for (int index = 0; index < contexts.length; index++) {
-			setUp(contexts[index]);
+	private void setUp(LifeCycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
+		for (int index = 0; index < lifeCycles.length; index++) {
+			setUp(lifeCycles[index]);
 		}
 	}
 

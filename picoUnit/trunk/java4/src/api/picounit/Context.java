@@ -14,6 +14,8 @@ package picounit;
  * run your context's tearDown methods will be called.
  * 
  * @author Stacy Curl
+ * 
+ * @deprecated Use LifeCycle instead
  */
 public interface Context {
 	/*

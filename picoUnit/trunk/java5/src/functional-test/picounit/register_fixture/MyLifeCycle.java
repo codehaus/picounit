@@ -5,23 +5,17 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.ignoredTests;
+package picounit.register_fixture;
 
-import picounit.Context;
+import picounit.LifeCycle;
 import picounit.Registry;
 
-public class ContextForIgnoredTests implements Context {
+public class MyLifeCycle implements LifeCycle {
+	public static MyFixture myFixture;
+
 	public void setUp(Registry registry) {
-		registry.register(WebServer.class, new WebServer() {
-			public boolean isRunning() {
-				return false;
-			}
-		});
-		
-		registry.register(Database.class, new Database() {
-			public boolean isRunning() {
-				return true;
-			}
-		});
+		myFixture = new MyFixture();
+
+		registry.register(MyFixture.class, myFixture);
 	}
 }

@@ -8,7 +8,6 @@
 package picounit;
 
 import picounit.classloader.MethodParameterRegistry;
-import picounit.finder.ContextFinder;
 import picounit.finder.SinglePicoUnitTestSuite;
 import picounit.finder.TestFilter;
 import picounit.registry.RegistryEntry;
@@ -19,8 +18,8 @@ public class PicoUnitTest implements previous.picounit.Test {
 	private static class StartingClass implements Test {}
 
 	private final TestFilter testFilter = null;
-	private final ContextFinder contextFinder = null;
 	private final MethodParameterRegistry methodParameterRegistry = null;
+	private final ClassLoader classLoader = null;
 	private final PicoUnit picoUnit = new PicoUnit();
 
 	private RegistryEntry registryEntry;
@@ -38,7 +37,7 @@ public class PicoUnitTest implements previous.picounit.Test {
 	public void xtestGenerateSingleCreatesSinglePicoUnitTestSuite() {
 		verify.equal(singleTest(StartingClass.class.getName(), 
 		new SinglePicoUnitTestSuite(StartingClass.class.getName(), StartingClass.class, testFilter,
-			registryEntry, contextFinder, methodParameterRegistry)), picoUnit.generateSingleJUnitTest(StartingClass.class));
+			registryEntry, methodParameterRegistry, classLoader)), picoUnit.generateSingleJUnitTest(StartingClass.class));
 	}
 
 	private TestSuite singleTest(String name, SinglePicoUnitTestSuite test) {
@@ -66,7 +65,7 @@ public class PicoUnitTest implements previous.picounit.Test {
 	}
 	
 	private SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
-		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, contextFinder,
-			methodParameterRegistry);
+		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+			classLoader);
 	}
 }

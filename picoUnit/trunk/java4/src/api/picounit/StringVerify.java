@@ -9,4 +9,5 @@ package picounit;
 
 public interface StringVerify {
 	void contains(String searchIn, String searchFor);
+	void doesNotContain(String searchIn, String searchFor);
 }

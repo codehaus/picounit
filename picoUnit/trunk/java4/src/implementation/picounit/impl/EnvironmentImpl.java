@@ -5,12 +5,15 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit;
+package picounit.impl;
+
+import picounit.Environment;
+import picounit.PicoUnitException;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Environment {
+public class EnvironmentImpl implements Environment {
 	private File tempDirectory;
 	
 	public File getRootTempDirectory() {

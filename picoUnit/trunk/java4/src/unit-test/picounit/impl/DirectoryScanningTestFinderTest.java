@@ -12,7 +12,6 @@ import picounit.Registry;
 import picounit.Test;
 import picounit.classloader.MethodParameterRegistry;
 import picounit.finder.ClassFinder;
-import picounit.finder.ContextFinder;
 import picounit.finder.DirectoryScanningTestFinder;
 import picounit.finder.FindAction;
 import picounit.finder.TestFilter;
@@ -46,12 +45,12 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 		this.findAction = (FindAction) is.instanceOf(FindAction.class);
 	}
 	
-	public void mock(ClassFinder classFinder, ContextFinder contextFinder,
-		TestInstantiator testInstantiator, ClassLoader classLoader, TestFilter testFilter,
-		RegistryEntry registryEntry, MethodParameterRegistry methodParameterRegistry) {
+	public void mock(ClassFinder classFinder, TestInstantiator testInstantiator,
+		ClassLoader classLoader, TestFilter testFilter, RegistryEntry registryEntry,
+		MethodParameterRegistry methodParameterRegistry) {
 		
 		this.testFinder =
-			new DirectoryScanningTestFinder(classFinder, contextFinder, testInstantiator, classLoader);
+			new DirectoryScanningTestFinder(classFinder, testInstantiator, classLoader);
 		
 		this.classFinder = classFinder;
 		this.classLoader = classLoader;

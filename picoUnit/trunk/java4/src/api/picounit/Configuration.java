@@ -8,6 +8,12 @@
 package picounit;
 
 public interface Configuration {
+	/**
+	 * @deprecated Mocker errors always thrown before verify errors 
+	 */
 	void throwVerifyErrorsBeforeMockerErrors();
+	/**
+	 * @deprecated Mocker errors always thrown before verify errors 
+	 */
 	void throwMockerErrorsBeforeVerifyErrors();
 }

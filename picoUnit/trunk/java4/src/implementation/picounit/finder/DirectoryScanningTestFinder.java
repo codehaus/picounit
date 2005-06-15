@@ -20,21 +20,19 @@ import junit.framework.TestSuite;
 
 public class DirectoryScanningTestFinder implements TestFinder {
 	private final ClassFinder classFinder;
-	private final ContextFinder contextFinder;
 	private final ClassLoader classLoader;
 	private final PackageUtil packageUtil = new PackageUtil();
 	private final TestInstantiator testInstantiator;
 
 	public DirectoryScanningTestFinder(ClassLoader classLoader) {
-		this(new ClassFinder(), new ContextFinder(classLoader),
-			new TestInstantiator(new RegistryFactory().create(), classLoader), classLoader);
+		this(new ClassFinder(), TestInstantiator.create(new RegistryFactory().create(), classLoader),
+			classLoader);
 	}
 
-	public DirectoryScanningTestFinder(ClassFinder classFinder, ContextFinder contextFinder,
-		TestInstantiator testInstantiator, ClassLoader classLoader) {
+	public DirectoryScanningTestFinder(ClassFinder classFinder, TestInstantiator testInstantiator,
+		ClassLoader classLoader) {
 
 		this.classFinder = classFinder;
-		this.contextFinder = contextFinder;
 		this.testInstantiator = testInstantiator;
 		this.classLoader = classLoader;
 	}
@@ -50,7 +48,7 @@ public class DirectoryScanningTestFinder implements TestFinder {
 		Class ignoreClass = new ClassReloader().reloadClass(classLoader, Ignore.class);
 
 		classFinder.findClasses(startingClass, new AddTestFindAction(testFilter, classLoader, testSuite,
-			ignoredTestSuite, markerClass, registryEntry, contextFinder, testInstantiator, ignoreClass, methodParameterRegistry));
+			ignoredTestSuite, markerClass, registryEntry, testInstantiator, ignoreClass, methodParameterRegistry));
 
 		if (testSuite.testCount() == 0) {
 			testSuite.addTest(new NoTestsFoundTestCase(startingClass));
@@ -74,20 +72,17 @@ public class DirectoryScanningTestFinder implements TestFinder {
 		private final ImplementsCondition isTestCondition;
 		private final IgnoreCondition isIgnored;
 		private final RegistryEntry registryEntry;
-		private final ContextFinder contextFinder;
 		private final TestFilter testFilter;
 		private final MethodParameterRegistry methodParameterRegistry;
 
 		public AddTestFindAction(TestFilter testFilter, ClassLoader classLoader, TestSuite testSuite,
 			TestSuite ignoredTestSuite, Class markerClass, RegistryEntry registryEntry,
-			ContextFinder contextFinder, TestInstantiator testInstantiator, Class ignoreClass,
-			MethodParameterRegistry methodParameterRegistry) {
+			TestInstantiator testInstantiator, Class ignoreClass, MethodParameterRegistry methodParameterRegistry) {
 
 			this.testFilter = testFilter;
 			this.classLoader = classLoader;
 			this.testSuite = testSuite;
 			this.registryEntry = registryEntry;
-			this.contextFinder = contextFinder;
 			this.ignoredTestSuite = ignoredTestSuite;
 			this.methodParameterRegistry = methodParameterRegistry;
 			this.isTestCondition = new ImplementsCondition(markerClass);
@@ -106,7 +101,7 @@ public class DirectoryScanningTestFinder implements TestFinder {
 					}
 					else {
 						testSuite.addTest(new SinglePicoUnitTestSuite(aClass.getName(), aClass, testFilter,
-							registryEntry, contextFinder, methodParameterRegistry));
+							registryEntry, methodParameterRegistry, classLoader));
 					}
 				}
 			}

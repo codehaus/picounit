@@ -14,7 +14,7 @@ package picounit;
  * 
  * For each test method in the Test implementation
  * 
- * - Apply all the relevant Context classes
+ * - Apply all the relevant LifeCycle classes
  * - Instantiate the test, passing in dependancies declared as parameters.
  * - invoke the setUp method, passing in dependancies declared as parameters
  * - invoke the mock method, passing in mocked dependancies declared as parameters
