@@ -249,9 +249,6 @@
 				<fileset dir="${unitTestSource}">
 					<include name="**/**TestSuite.java"/>
 					<exclude name="**/Abstract*.java"/>
-					
-					<!-- As long as I have a mixture of JUnit and pPicoUnit tests with the same file
-					       names I need to exclude the pPicoUnit ones here -->
 				</fileset>
 				<fileset dir="${functionalTestSource}">
 					<include name="**/**TestSuite.java"/>

@@ -18,26 +18,22 @@ import org.jmock.core.LIFOInvocationDispatcher;
 import java.lang.reflect.Method;
 
 public class BetterCGLIBCoreMock extends AbstractDynamicMock implements MethodInterceptor {
-    private Object proxy;
-
-    public BetterCGLIBCoreMock( Class mockedType ) {
-        this(mockedType, mockNameFromClass(mockedType), new LIFOInvocationDispatcher());
-    }
+    private final Object proxy;
 
     public BetterCGLIBCoreMock( Class mockedType, String name ) {
-        this(mockedType, name, new LIFOInvocationDispatcher());
+        this(mockedType, name, new LIFOInvocationDispatcher(), new ProxyFactory());
     }
 
     public BetterCGLIBCoreMock(Class mockedType, String name,
-		InvocationDispatcher invocationDispatcher ) {
+    	InvocationDispatcher invocationDispatcher, ProxyFactory proxyFactory) {
 
-		super(mockedType, name, invocationDispatcher);
+    	super(mockedType, name, invocationDispatcher);
 
-        this.proxy = new ProxyFactory().create(mockedType, this);
-    }
+    	this.proxy = proxyFactory.create(mockedType, this);
+	}
 
     public Object proxy() {
-        return this.proxy;
+        return proxy;
     }
 
     public Object intercept( Object thisProxy, Method method, Object[] args, MethodProxy superProxy )
