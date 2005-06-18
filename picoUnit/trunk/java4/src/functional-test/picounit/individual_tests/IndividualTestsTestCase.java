@@ -9,25 +9,17 @@ package picounit.individual_tests;
 
 import picounit.FunctionalTest;
 import picounit.Marker;
-import picounit.PicoUnit;
+import picounit.TestRunner;
 import picounit.individual_test_with_different_marker.TestWithDifferentMarker;
 import previous.picounit.Verify;
 import junit.framework.TestFailure;
 import junit.framework.TestResult;
 
 public class IndividualTestsTestCase implements FunctionalTest {
-	private final TestResult testResult = new TestResult();
-
-	private void runSingle(Class testClass) {
-		new PicoUnit().generateSingleJUnitTest(testClass).run(testResult);
-	}
-	
-	private void runSingle(Class testClass, Class markerClass) {
-		new PicoUnit().setType(markerClass).generateSingleJUnitTest(testClass).run(testResult); 
-	}
+	private final TestRunner testRunner = new TestRunner();
 
 	public void testEmptyTest(Verify verify) {
-		runSingle(EmptyTest.class);
+		TestResult testResult = testRunner.runSingle(EmptyTest.class);
 
 		verify.equal(1, testResult.runCount());
 		verify.equal(1, testResult.errorCount());
@@ -38,7 +30,7 @@ public class IndividualTestsTestCase implements FunctionalTest {
 	public void testTestRequiringNoFixtures(Verify verify) {
 		TestRequiringNoFixtures.operations.clear();
 
-		runSingle(TestRequiringNoFixtures.class);
+		TestResult testResult = testRunner.runSingle(TestRequiringNoFixtures.class);
 
 		verify.equal(1, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());
@@ -51,7 +43,7 @@ public class IndividualTestsTestCase implements FunctionalTest {
 	
 	public void testTestRequiringFixtureInTestMethod(Verify verify) {
 		TestRequiringFixtureInTestMethod.operations.clear();
-		runSingle(TestRequiringFixtureInTestMethod.class);
+		TestResult testResult = testRunner.runSingle(TestRequiringFixtureInTestMethod.class);
 		
 		verify.equal(1, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());
@@ -71,7 +63,7 @@ public class IndividualTestsTestCase implements FunctionalTest {
 	public void testTestWithDifferentMarker(Verify verify) {
 		TestWithDifferentMarker.operations.clear();
 
-		runSingle(TestWithDifferentMarker.class, Marker.class);
+		TestResult testResult = testRunner.runSingle(TestWithDifferentMarker.class, Marker.class);
 
 		verify.equal(1, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());

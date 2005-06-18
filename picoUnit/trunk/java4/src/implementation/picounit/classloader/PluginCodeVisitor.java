@@ -13,7 +13,6 @@ import picounit.reflection.Instantiator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 public class PluginCodeVisitor implements CodeVisitor {
@@ -52,17 +51,7 @@ public class PluginCodeVisitor implements CodeVisitor {
 
 			plugin.insert(pluginProperties);
 		}
-		catch (IllegalArgumentException illegalArgumentException) {
-		}
-		catch (InstantiationException instantiationException) {
-		}
-		catch (IllegalAccessException illegalAccessException) {
-		}
-		catch (InvocationTargetException invocationTargetException) {
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-		}
-		catch (ClassCastException classCastException) {
+		catch (Exception exception) {
 		}
 	}
 

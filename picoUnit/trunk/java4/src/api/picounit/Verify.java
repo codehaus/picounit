@@ -13,7 +13,7 @@ public interface Verify {
 
 	void that(boolean expression);
 	void that(String message, boolean expression);
-
+	
 	void not(boolean expression);
 	void not(String message, boolean expression);
 

@@ -135,7 +135,12 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 			return defaultValue(invocation.invokedMethod.getReturnType());	
 		}
 		else {
-			return playbackCoreMock.intercept(thisProxy, method, args, superProxy);
+			try {
+				return playbackCoreMock.intercept(thisProxy, method, args, superProxy);
+			}
+			catch (AssertionFailedError assertionFailedError) {
+				throw assertionFailedError;
+			}
 		}
 	}
 

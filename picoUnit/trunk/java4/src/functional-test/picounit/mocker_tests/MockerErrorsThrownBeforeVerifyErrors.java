@@ -5,10 +5,25 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.mocker;
+package picounit.mocker_tests;
 
-public interface ConsequenceMatcher<Type> extends ThrowsConsequenceMatcher {
-	OccurencesMatcher andReturn(Type ... result);
+import picounit.Interface;
+import picounit.Mocker;
+import picounit.Test;
+import picounit.Verify;
 
-	OccurencesMatcher andPerform(Action<Type> charAction);
+public class MockerErrorsThrownBeforeVerifyErrors implements Test {
+	private Interface mockInterface;
+
+	public void mock(Interface mockInterface) {
+		this.mockInterface = mockInterface;
+	}
+
+	public void testFailsDueToMissingCollaboration(Mocker should, Verify verify) {
+		should.call(mockInterface.booleanMethod()).andReturn(true);
+		
+		should.doAboveWhen();
+		
+		verify.that("verify error", false);
+	} 
 }

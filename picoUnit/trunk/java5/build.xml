@@ -4,44 +4,27 @@
 	  The Java5 version of PicoUnit is expressed as a delta against the Java1.4 version.
 	  This build file heavily depends on the build file for the java1.4 version.
 	-->
+	
+	<property file="../build.properties"/>
+	<property name="javaVersion" value="1.5"/>
+	<import file="../build-common.xml"/>
 
 	<property name="java4-base" value="../java4"/>
+	
+	<property file="${java4-base}/build.properties"/>
+	
 	<property name="java4-build" value="${java4-base}/build.xml"/>
 	
-	<property name="version" value="1.0"/>
-	<property name="javaVersion" value="1.5"/>
 
-	<property name="libDir" value="${java4-base}/lib"/>
-	<property name="buildDir" value="build"/>
-	<property name="buildLibDir" value="${java4-base}/${buildDir}/lib"/>
-	<property name="distDir" value="dist"/>
-	<property name="apiJar" value="${distDir}/picounit-api-${version}.jar"/>
-	<property name="coreJar" value="${distDir}/picounit-core-${version}.jar"/>
-	<property name="jmockerJar" value="${distDir}/picounit-jmocker-${version}.jar"/>
-
-	<property name="coreClasses" value="${buildDir}/core-classes"/>
-	<property name="jmockerClasses" value="${buildDir}/jmocker-classes"/>
-	<property name="unitTestClasses" value="${buildDir}/unit-test-classes"/>
-	<property name="unitTestModelClasses" value="${buildDir}/unit-test-model-classes"/>
-	<property name="functionalTestClasses" value="${buildDir}/functional-test-classes"/>
-	<property name="exampleClasses" value="${buildDir}/example-classes"/>
+	<property name="java4-libDir" value="${java4-base}/${libDir}"/>
 
 	<property name="java4-coreClasses" value="${java4-base}/${buildDir}/core-classes"/>
 	<property name="java4-jmockerClasses" value="${java4-base}/${buildDir}/jmocker-classes"/>
 	<property name="java4-unitTestClasses" value="${java4-base}/${buildDir}/unit-test-classes"/>
 	<property name="java4-unitTestModelClasses" value="${java4-base}/${buildDir}/unit-test-model-classes"/>
 	<property name="java4-functionalTestClasses" value="${java4-base}/${buildDir}/functional-test-classes"/>
-	<property name="java4-exampleClasses" value="${java4-base}/${buildDir}/example-classes"/>
+	<property name="java4-exampleTestClasses" value="${java4-base}/${buildDir}/example-test-classes"/>
 
-	<property name="source" value="src"/>
-	<property name="apiSource" value="${source}/api"/>
-	<property name="implementationSource" value="${source}/implementation"/>
-	<property name="jmockerSource" value="${source}/extension/jmocker"/>
-	<property name="unitTestSource" value="${source}/unit-test"/>
-	<property name="unitTestModelSource" value="${source}/unit-test-model"/>
-	<property name="functionalTestSource" value="${source}/functional-test"/>
-	<property name="exampleSource" value="${source}/examples"/>
-	
 	<property name="java4-source" value="${java4-base}/src"/>
 	<property name="java4-apiSource" value="${java4-source}/api"/>
 	<property name="java4-implementationSource" value="${java4-source}/implementation"/>
@@ -49,30 +32,15 @@
 	<property name="java4-unitTestSource" value="${java4-source}/unit-test"/>
 	<property name="java4-unitTestModelSource" value="${java4-source}/unit-test-model"/>
 	<property name="java4-functionalTestSource" value="${java4-source}/functional-test"/>
-	<property name="java4-exampleSource" value="${java4-source}/examples"/>
+	<property name="java4-exampleTestSource" value="${java4-source}/examples/test"/>
 
-	<property name="pluginFileName" value="picounit-plugin.properties"/>
-	<property name="corePluginProperties" value="${coreClasses}/${pluginFileName}"/>
-	<property name="jmockerPluginProperties" value="${jmockerClasses}/${pluginFileName}"/>
-	
-	<property name="jarjar-jar" value="${buildLibDir}/jarjar-0.6.jar"/>
-
-	<property name="testReports" value="${buildDir}/test-reports"/>
-
-	<target name="init" description="o Initializes some properties">
-		<mkdir dir="${functionalTestClasses}"/>
-		<mkdir dir="${unitTestClasses}"/>
-		<mkdir dir="${unitTestModelClasses}"/>
-		<mkdir dir="${coreClasses}"/>
-		<mkdir dir="${jmockerClasses}"/>
-		<mkdir dir="${exampleClasses}"/>
-		<mkdir dir="${testReports}"/>
-	</target>
-	
+	<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
+		classpath="${java4-base}/${jarjar-jar}"/>
+		
 	<target name="dist">
 		<zip destfile="${distDir}/picounit-${version}.zip">
 			<zipfileset dir="${distDir}" includes="picounit-*.jar"/>
-			<zipfileset dir="${libDir}" includes="*.jar"/>
+			<zipfileset dir="${java4-libDir}" includes="*.jar"/>
 		</zip>
 	</target>
 
@@ -87,7 +55,7 @@
 				<pathelement location="${implementationSource}"/>
 			</src>
 			<classpath>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<pathelement location="${java4-base}/${coreClasses}"/>
@@ -112,7 +80,7 @@
 				<pathelement location="${jmockerSource}"/>
 			</src>
 			<classpath>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<path location="${coreClasses}"/>
@@ -136,7 +104,7 @@
 				<pathelement location="${unitTestModelSource}"/>
 			</src>
 			<classpath>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<path location="${coreClasses}"/>
@@ -163,7 +131,7 @@
 				<pathelement location="${unitTestSource}"/>
 			</src>
 			<classpath>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<path location="${coreClasses}"/>
@@ -192,7 +160,7 @@
 				<pathelement location="${functionalTestSource}"/>
 			</src>
 			<classpath>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<fileset dir="${buildLibDir}">
@@ -204,6 +172,7 @@
 				<path location="${java4-base}/${coreClasses}"/>
 				<path location="${java4-base}/${jmockerClasses}"/>
 				<path location="${java4-base}/${unitTestModelClasses}"/>
+				<path location="${java4-base}/${java4-functionalTestClasses}"/>
 			</classpath>
 		</javac>
 		<copy todir="${functionalTestClasses}">
@@ -214,8 +183,9 @@
 	</target>
 	
 	<target name="jar" description="o Create the jars" depends="compile, test, jarApi, jarCore, jarJMocker"/>
+		<!-- depends="compile, test, jarApi, jarCore, jarJMocker"/> -->
 
-	<target name="jarApi" depends="compileCore, test">
+	<target name="jarApi" depends="compileCore">
 		<jar jarfile="${apiJar}">
 			<fileset dir="${coreClasses}">
 				<include name="picounit/*"/>
@@ -223,20 +193,34 @@
 			</fileset>
 			<fileset dir="${java4-coreClasses}">
 				<include name="picounit/*"/>
+				<exclude name="picounit/*Constraints*"/>
+				<exclude name="picounit/DelegateVerify*"/>
 				<include name="picounit/mocker/*"/>
+				<exclude name="picounit/mocker/Boolean*"/>
+				<exclude name="picounit/mocker/Byte*"/>
+				<exclude name="picounit/mocker/Char*"/>
+				<exclude name="picounit/mocker/Double*"/>
+				<exclude name="picounit/mocker/Float*"/>
+				<exclude name="picounit/mocker/Int*"/>
+				<exclude name="picounit/mocker/Long*"/>
+				<exclude name="picounit/mocker/Object*"/>
+				<exclude name="picounit/mocker/Short*"/>
+				<exclude name="picounit/mocker/String*"/>
+				<exclude name="picounit/mocker/VoidMethodMatcher*"/>
+				<exclude name="picounit/mocker/MockerInterfaces*"/>
+				<exclude name="picounit/mocker/ExpectationMatcher*"/>
 			</fileset>
 		</jar>
 	</target>
 
-	<target name="jarCore" depends="compileCore, test">
+	<target name="jarCore" depends="compileCore">
 		<jar jarfile="${coreJar}">
 			<fileset dir="${coreClasses}">
-				<include name="**"/>
-				<exclude name="picounit/*"/>
-				<exclude name="picounit/mocker/*"/>
+				<!-- No differing implementation -->
 			</fileset>
 			<fileset dir="${java4-coreClasses}">
 				<include name="**"/>
+				<exclude name="${pluginFileName}"/>
 				<exclude name="picounit/*"/>
 				<exclude name="picounit/mocker/*"/>
 				<exclude name="picounit/Constraints*"/>
@@ -250,33 +234,28 @@
 				<exclude name="picounit/mocker/Object*"/>
 				<exclude name="picounit/mocker/Short*"/>
 				<exclude name="picounit/mocker/Void*"/>
+				<exclude name="picounit/verify/DefaultDelegateVerify*"/>
 			</fileset>
 		</jar>
 	</target>
 	
-	<target name="jarJMocker" depends="compileJMocker, test">
+	<target name="repackageCore" depends="jarCore">
+		<repackageJarAndAppendPlugin repackagedJar="${buildLibDir}/previous-picounit-core.jar"
+			originalJar="${coreJar}" pluginClass="picounit.impl.Java5DefaultPlugin"/>
+	</target>
+	
+	<target name="jarJMocker" depends="compileJMocker">
 		<jar jarfile="${jmockerJar}">
 			<fileset dir="${jmockerClasses}">
 				<include name="**"/>
 			</fileset>
 			<fileset dir="${java4-jmockerClasses}">
 				<include name="**"/>
+				<exclude name="picounit/mocker/jmock/JMocker.*"/>
+				<exclude name="picounit/mocker/jmock/JMocker$*"/>
 			</fileset>
 		</jar>
-	</target>
-
-	<target name="clean" description="o Clean up the generated directories">
-		<delete dir="${functionalTestClasses}"/>
-		<delete dir="${unitTestClasses}"/>
-		<delete dir="${unitTestModelClasses}"/>
-		<delete dir="${coreClasses}"/>
-		<delete dir="${jmockerClasses}"/>
-		<delete dir="${exampleClasses}"/>
-		<delete dir="${testReports}"/>
-		<delete file="${apiJar}"/>
-		<delete file="${coreJar}"/>
-		<delete file="${jmockerJar}"/>
-	</target>
+	</target>	
 
 	<target name="test" description="o Run the test cases">
 		<junit dir="./" printSummary="yes" fork="true" haltonerror="true" haltonfailure="true">
@@ -286,7 +265,7 @@
 				<fileset dir="${distDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<fileset dir="${libDir}">
+				<fileset dir="${java4-libDir}">
 					<include name="*.jar"/>
 				</fileset>
 				<fileset dir="${buildLibDir}">
@@ -299,9 +278,7 @@
 				<path location="${functionalTestClasses}"/>
 				<path location="${java4-base}/${coreClasses}"/>
 				<path location="${java4-base}/${jmockerClasses}"/>
-				<path location="${java4-base}/${unitTestClasses}"/>
 				<path location="${java4-base}/${unitTestModelClasses}"/>
-				<path location="${java4-base}/${functionalTestClasses}"/>
 			</classpath>
 			<batchtest todir="${testReports}">
 <!--
@@ -317,68 +294,4 @@
 			</batchtest>
 		</junit>
 	</target>
-	
-	<target name="repackage" depends="jar, repackageApi, repackageCore, repackageJMocker">
-		<!-- I want to move the classes to previous.picounit* so they can be used to test the next version of picounit-->
-	</target>
-	
-	<target name="repackageApi" depends="jarApi">
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
-		<jarjar jarfile="${buildLibDir}/previous-picounit-api.jar">
-			<zipfileset src="${apiJar}"/>
-
-			<rule pattern="picounit.**" result="previous.picounit.@1"/>
-		</jarjar>
-	</target>
-	
-	<target name="repackageCore" depends="jarCore">
-		<echo file="${coreClasses}/${pluginFileName}">plugin-class=previous.picounit.registry.DefaultPlugin</echo>
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
-		<jarjar jarfile="${buildLibDir}/previous-picounit-core.jar">
-			<fileset dir="${coreClasses}">
-				<include name="picounit-plugin.properties"/>
-			</fileset>
-			<zipfileset src="${coreJar}">
-				<exclude name="${pluginFileName}"/>
-			</zipfileset>
-
-			<rule pattern="picounit.**" result="previous.picounit.@1"/>
-		</jarjar>
-	</target>
-
-	<target name="repackageJMocker" depends="jarJMocker">
-		<echo file="${jmockerClasses}/${pluginFileName}">plugin-class=previous.picounit.mocker.jmock.JMockerPlugin</echo>
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
-		<jarjar jarfile="${buildLibDir}/previous-picounit-jmocker.jar">
-			<fileset dir="${jmockerClasses}">
-				<include name="picounit-plugin.properties"/>
-			</fileset>
-			<zipfileset src="${jmockerJar}">
-				<exclude name="${pluginFileName}"/>
-			</zipfileset>			
-
-			<rule pattern="picounit.**" result="previous.picounit.@1"/>
-		</jarjar>
-	</target>
-
-	<target name="jarjar" description="o Create the jarjar" depends="compile, test">
-		<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
-		<jarjar jarfile="target/${final.name}-complete.jar">
-			<fileset dir="${classesdir}"/>
-			<zipfileset src="lib/cglib-full-2.0.2.jar"/>
-			<zipfileset src="lib/jmock-20050507-203802.jar"/>
-			<zipfileset src="lib/jmock-cglib-20050507-203802.jar"/>
-			<zipfileset src="lib/picocontainer-1.1.jar"/>
-
-			<!-- I want to hide the version of libraries that are completely internal to picounit -->
-			<!-- cglib -->
-			<rule pattern="net.sf.cglib.**" result="net.sf.cglib_2_0_2.@1"/>
-			<rule pattern="org.objectweb.asm.**" result="org.objectweb.asm.cglib_2_0_2.@1"/>
-			<!-- jMock -->
-			<rule pattern="org.jmock.**" result="org.jmock_20050507_203802.@1"/>
-			<!-- picocontainer -->
-			<rule pattern="org.picocontainer.**" result="org.picocontainer_1_1.@1"/>
-		</jarjar>
-	</target>
-
 </project>

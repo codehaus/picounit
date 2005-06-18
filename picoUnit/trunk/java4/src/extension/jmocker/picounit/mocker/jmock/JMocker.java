@@ -287,6 +287,38 @@ public class JMocker implements MockerInterfaces, Verifiable {
 		return throwExceptionIfInvoked();
 	}
 	
+	public PostConsequenceMatcher notCall(boolean ignore) {
+		return throwExceptionIfInvoked();
+	}
+
+	public PostConsequenceMatcher notCall(byte ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(char ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(float ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(int ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(long ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(Object ignore) {
+		return throwExceptionIfInvoked();
+	}
+	
+	public PostConsequenceMatcher notCall(short ignore) {
+		return throwExceptionIfInvoked();
+	}
+
 	public OccurencesMatcher raise(Throwable throwable) {
 		return will(new ThrowStub(throwable));
 	}

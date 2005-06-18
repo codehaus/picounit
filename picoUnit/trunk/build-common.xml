@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="zcommon" name="common" basedir=".">
+	<target name="init" description="o Initializes some properties">
+		<mkdir dir="${functionalTestClasses}"/>
+		<mkdir dir="${unitTestClasses}"/>
+		<mkdir dir="${unitTestModelClasses}"/>
+		<mkdir dir="${coreClasses}"/>
+		<mkdir dir="${jmockerClasses}"/>
+		<mkdir dir="${exampleTestClasses}"/>
+		<mkdir dir="${testReports}"/>
+		<mkdir dir="${buildTmpDir}"/>
+	</target>
+	
+	<target name="clean" description="o Clean up the generated directories">
+		<delete dir="${functionalTestClasses}"/>
+		<delete dir="${unitTestClasses}"/>
+		<delete dir="${unitTestModelClasses}"/>
+		<delete dir="${coreClasses}"/>
+		<delete dir="${jmockerClasses}"/>
+		<delete dir="${exampleTestClasses}"/>
+		<delete dir="${testReports}"/>
+		<delete dir="${buildTmpDir}"/>
+		<delete file="${apiJar}"/>
+		<delete file="${coreJar}"/>
+		<delete file="${jmockerJar}"/>
+	</target>
+
+	<target name="repackage" depends="jar, repackageApi, repackageCore, repackageJMocker">
+		<!-- I want to move the classes to previous.picounit* so they can be used to test the next version of picounit-->
+	</target>
+	
+	<macrodef name="repackageJar">
+		<attribute name="repackagedjar"/>
+		<attribute name="originaljar"/>
+		<sequential>
+			<jarjar jarfile="@{repackagedjar}">
+				<zipfileset src="@{originaljar}"/>
+				<rule pattern="picounit.**" result="previous.picounit.@1"/>
+			</jarjar>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="appendPlugin">
+		<attribute name="jar"/>
+		<attribute name="pluginClass"/>
+		<sequential>
+			<echo file="${buildTmpDir}/${pluginFileName}">plugin-class=@{pluginClass}</echo>
+			<jar destfile="@{jar}" update="true">
+				<fileset dir="${buildTmpDir}">
+					<include name="${pluginFileName}"/>
+				</fileset>
+			</jar>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="repackageJarAndAppendPlugin">
+		<attribute name="repackagedJar"/>
+		<attribute name="originalJar"/>
+		<attribute name="pluginClass"/>
+		<sequential>
+			<repackageJar repackagedJar="@{repackagedjar}" originalJar="@{originaljar}"/>
+			<appendPlugin jar="@{repackagedJar}" pluginClass="previous.@{pluginclass}"/>
+		</sequential>
+	</macrodef>
+
+	<target name="repackageApi" depends="jarApi">
+		<repackageJar repackagedjar="${buildLibDir}/previous-picounit-api.jar" originaljar="${apiJar}"/>
+	</target>
+	
+	<target name="repackageJMocker" depends="jarJMocker">
+		<repackageJarAndAppendPlugin repackagedJar="${buildLibDir}/previous-picounit-jmocker.jar"
+			originalJar="${jmockerJar}" pluginClass="picounit.mocker.jmock.JMockerPlugin"/>
+	</target>
+
+	<target name="zcommon">
+		<echo>
+			This build file should not be invoked directly
+		</echo>
+	</target>
+</project>

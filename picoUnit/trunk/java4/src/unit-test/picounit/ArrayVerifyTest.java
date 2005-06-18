@@ -14,7 +14,7 @@ import previous.picounit.Mocker;
 import previous.picounit.Test;
 
 public class ArrayVerifyTest implements Test {
-	private final Mocker mocker;
+	private final Mocker should;
 	
 	private Verify verify;
 	private ArrayUtil arrayUtil;
@@ -23,7 +23,7 @@ public class ArrayVerifyTest implements Test {
 	private ArrayVerify arrayVerify;
 	
 	public ArrayVerifyTest(Mocker mocker) {
-		this.mocker = mocker;
+		this.should = mocker;
 	}
 	
 	public void mock(Verify verify, ArrayUtil arrayUtil, StringUtil stringUtil) {
@@ -38,11 +38,11 @@ public class ArrayVerifyTest implements Test {
 		boolean[] searchIn = new boolean[] {};
 		boolean searchFor = true;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -51,11 +51,11 @@ public class ArrayVerifyTest implements Test {
 		byte[] searchIn = new byte[] {};
 		byte searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -64,11 +64,11 @@ public class ArrayVerifyTest implements Test {
 		char[] searchIn = new char[] {};
 		char searchFor = 'a';
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -77,11 +77,11 @@ public class ArrayVerifyTest implements Test {
 		double[] searchIn = new double[] {};
 		double searchFor = 0.0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -91,11 +91,11 @@ public class ArrayVerifyTest implements Test {
 		double searchFor = 0.0;
 		double delta = 0.0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor, delta);
 	}
@@ -104,11 +104,11 @@ public class ArrayVerifyTest implements Test {
 		float[] searchIn = new float[] {};
 		float searchFor = 0.0f;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -118,11 +118,11 @@ public class ArrayVerifyTest implements Test {
 		float searchFor = 0.0f;
 		float delta = 0.0f;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor, delta);
 	}
@@ -131,11 +131,11 @@ public class ArrayVerifyTest implements Test {
 		int[] searchIn = new int[] {};
 		int searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -144,11 +144,11 @@ public class ArrayVerifyTest implements Test {
 		long[] searchIn = new long[] {};
 		long searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -157,11 +157,11 @@ public class ArrayVerifyTest implements Test {
 		short[] searchIn = new short[] {};
 		short searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.that("[searchIn] should contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.contains(searchIn, searchFor);
 	}
@@ -172,11 +172,11 @@ public class ArrayVerifyTest implements Test {
 		boolean[] searchIn = new boolean[] {};
 		boolean searchFor = true;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -185,11 +185,11 @@ public class ArrayVerifyTest implements Test {
 		byte[] searchIn = new byte[] {};
 		byte searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -198,11 +198,11 @@ public class ArrayVerifyTest implements Test {
 		char[] searchIn = new char[] {};
 		char searchFor = 'a';
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -211,11 +211,11 @@ public class ArrayVerifyTest implements Test {
 		double[] searchIn = new double[] {};
 		double searchFor = 0.0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -225,11 +225,11 @@ public class ArrayVerifyTest implements Test {
 		double searchFor = 0.0;
 		double delta = 0.0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor, delta);
 	}
@@ -238,11 +238,11 @@ public class ArrayVerifyTest implements Test {
 		float[] searchIn = new float[] {};
 		float searchFor = 0.0f;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -252,11 +252,11 @@ public class ArrayVerifyTest implements Test {
 		float searchFor = 0.0f;
 		float delta = 0.0f;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor, delta)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor, delta);
 	}
@@ -265,11 +265,11 @@ public class ArrayVerifyTest implements Test {
 		int[] searchIn = new int[] {};
 		int searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -278,11 +278,11 @@ public class ArrayVerifyTest implements Test {
 		long[] searchIn = new long[] {};
 		long searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 		
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}
@@ -291,11 +291,11 @@ public class ArrayVerifyTest implements Test {
 		short[] searchIn = new short[] {};
 		short searchFor = 0;
 
-		mocker.expect(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
-		mocker.expect(stringUtil.toString(searchIn)).andReturn("[searchIn]");
+		should.call(arrayUtil.contains(searchIn, searchFor)).andReturn(true);
+		should.call(stringUtil.toString(searchIn)).andReturn("[searchIn]");
 		verify.not("[searchIn] should not contain '" + searchFor + "'", true);
 
-		mocker.replay();
+		should.doAboveWhen();
 
 		arrayVerify.doesNotContain(searchIn, searchFor);
 	}

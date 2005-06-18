@@ -12,6 +12,7 @@ import org.jmock.core.InvocationMatcher;
 import org.jmock.core.Stub;
 import org.jmock.core.matcher.InvokeCountMatcher;
 import org.jmock.core.stub.ReturnStub;
+import org.jmock.core.stub.StubSequence;
 import org.jmock.core.stub.ThrowStub;
 
 import picounit.Occurences;
@@ -41,10 +42,6 @@ public class JMocker implements MockerInterfaces, Verifiable {
 
 	private RecordingPlaybackMock recordingPlaybackMock;
 
-	public JMocker() {
-		this(new HashMapConstraintStore());
-	}
-
 	public JMocker(ConstraintStore constraintStore) {
 		this.constraintStore = constraintStore;
 	}
@@ -70,8 +67,14 @@ public class JMocker implements MockerInterfaces, Verifiable {
 		return this;
 	}
 
-	public OccurencesMatcher andReturn(Object result) {
-		return will(new ReturnStub(result));
+	public OccurencesMatcher andReturn(Object[] results) {
+		Stub[] returnStubs = new Stub[results.length];
+
+		for (int index = 0; index < returnStubs.length; index++ ) {
+			returnStubs[index] = returnStub(results[index]);
+		}
+
+		return will(new StubSequence(returnStubs));
 	}
 
 	public OccurencesMatcher andRaise(Throwable toThrow) {
@@ -80,6 +83,10 @@ public class JMocker implements MockerInterfaces, Verifiable {
 
 	public OccurencesMatcher andPerform(Action action) {
 		return perform(action);
+	}
+	
+	public <Type> PostConsequenceMatcher notCall(Type ignore) {
+		return throwExceptionIfInvoked();
 	}
 	
 	public <Type> PostConsequenceMatcher doNotExpect(Type ignore) {
@@ -160,5 +167,9 @@ public class JMocker implements MockerInterfaces, Verifiable {
 
 	private PostConsequenceMatcher throwExceptionIfInvoked() {
 		return raise(new PicoUnitException("should not occur")).occurs(0);
+	}
+
+	private ReturnStub returnStub(Object result) {
+		return new ReturnStub(result);
 	}
 }

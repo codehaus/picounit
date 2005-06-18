@@ -8,15 +8,14 @@
 package picounit.invokable;
 
 import picounit.FunctionalTest;
-import picounit.PicoUnit;
+import picounit.TestRunner;
 import previous.picounit.Verify;
-import junit.framework.TestResult;
 
 public class IndividualTestsTestCase implements FunctionalTest {
 	public void testInvokablesInvoked(Verify verify) {
 		UseInvokableTest.operations.clear();
 		
-		new PicoUnit().generateSingleJUnitTest(UseInvokableTest.class).run(new TestResult());
+		new TestRunner().runSingle(UseInvokableTest.class);
 
 		UseInvokableTest.operations.matches("invokable.invoked");
 		verify.equal("invokable.invoked", UseInvokableTest.operations.operations());

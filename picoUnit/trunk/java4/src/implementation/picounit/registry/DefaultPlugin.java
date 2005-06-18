@@ -9,6 +9,7 @@ package picounit.registry;
 
 import picounit.ArrayVerify;
 import picounit.Configuration;
+import picounit.DelegateVerify;
 import picounit.Environment;
 import picounit.FileVerify;
 import picounit.NumericVerify;
@@ -20,6 +21,7 @@ import picounit.impl.EnvironmentImpl;
 import picounit.util.FileReader;
 import picounit.verify.ArrayUtil;
 import picounit.verify.DefaultArrayVerify;
+import picounit.verify.DefaultDelegateVerify;
 import picounit.verify.DefaultFileVerify;
 import picounit.verify.DefaultNumericVerify;
 import picounit.verify.DefaultStringVerify;
@@ -43,6 +45,7 @@ public class DefaultPlugin implements Plugin {
 		registry.register(FileVerify.class, DefaultFileVerify.class);
 		registry.register(NumericVerify.class, DefaultNumericVerify.class);
 		registry.register(StringVerify.class, DefaultStringVerify.class);
+		registry.register(DelegateVerify.class, DefaultDelegateVerify.class);
 		registry.register(Verify.class, DefaultVerify.class);
 		registry.register(Thrower.class, ImmediateThrower.class);
 		registry.register(Environment.class, EnvironmentImpl.class);

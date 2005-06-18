@@ -9,7 +9,8 @@ package picounit.mocker;
 
 public interface ExpectationMatcher {
 	<Type> ConsequenceMatcher<Type> call(Type ignore);
-	<Type> ConsequenceMatcher<Type> expect (Type ignore);
-	
+	<Type> PostConsequenceMatcher notCall(Type ignore);
+
+	<Type> ConsequenceMatcher<Type> expect(Type ignore);	
 	<Type> PostConsequenceMatcher doNotExpect(Type ignore);
 }

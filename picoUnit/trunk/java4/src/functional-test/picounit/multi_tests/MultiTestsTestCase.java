@@ -8,20 +8,20 @@
 package picounit.multi_tests;
 
 import picounit.FunctionalTest;
-import picounit.PicoUnit;
+import picounit.TestRunner;
 import picounit.multi_tests.sub.ThirdTest;
 import previous.picounit.Verify;
 import junit.framework.TestResult;
 
 public class MultiTestsTestCase implements FunctionalTest {
-	private TestResult testResult = new TestResult();
+	private final TestRunner testRunner = new TestRunner();
 
 	public void testRunsAllTestInDirectoryAndBelow(Verify verify) {
 		FirstTest.testInvoked = false;
 		SecondTest.testInvoked = false;
 		ThirdTest.testInvoked = false;
-
-		new PicoUnit().generateJUnitTest(FirstTest.class).run(testResult);
+		
+		TestResult testResult = testRunner.run(FirstTest.class);
 
 		verify.equal(3, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());

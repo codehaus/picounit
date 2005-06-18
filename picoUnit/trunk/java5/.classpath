@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="build/lib/previous-picounit-core.jar"/>
 	<classpathentry kind="lib" path="build/lib/previous-picounit-jmocker.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/picoUnit"/>
+	<classpathentry kind="src" path="src/examples/test"/>
 	<classpathentry kind="output" path="build/core-classes"/>
 </classpath>

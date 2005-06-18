@@ -5,10 +5,29 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.mocker;
+package picounit.mocker_tests;
 
-public interface ConsequenceMatcher<Type> extends ThrowsConsequenceMatcher {
-	OccurencesMatcher andReturn(Type ... result);
+import picounit.Interface;
+import picounit.Mocker;
+import picounit.Test;
 
-	OccurencesMatcher andPerform(Action<Type> charAction);
+public class OverzealousCatchTest implements Test {
+	private Interface mockInterface;
+
+	public void mock(Interface mockInterface) {
+		this.mockInterface = mockInterface;
+	}
+	
+	public void testOverzealousCatch(Mocker should) {
+		should.doNotExpect(mockInterface.booleanMethod());
+
+		should.doAboveWhen();
+
+		try {
+			mockInterface.booleanMethod();
+		}
+		catch (Throwable throwable) {
+			// squish!
+		}
+	}
 }

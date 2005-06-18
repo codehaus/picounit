@@ -8,18 +8,18 @@
 package picounit.register_fixture;
 
 import picounit.FunctionalTest;
-import picounit.PicoUnit;
+import picounit.TestRunner;
 import previous.picounit.Verify;
 import junit.framework.TestResult;
 
 public class TestUsingLifeCycleTestCase implements FunctionalTest {
-	private TestResult testResult = new TestResult();
+	private final TestRunner testRunner = new TestRunner();
 	
 	public void testUsingFixtureInConstructor(Verify verify) {
 		MyLifeCycle.myFixture = null;
 		TestUsingFixtureInConstructor.myFixture = null;
 
-		new PicoUnit().generateSingleJUnitTest(TestUsingFixtureInConstructor.class).run(testResult);
+		TestResult testResult = testRunner.runSingle(TestUsingFixtureInConstructor.class);
 
 		verify.notNull(MyLifeCycle.myFixture);
 		verify.equal(1, testResult.runCount());
@@ -32,7 +32,7 @@ public class TestUsingLifeCycleTestCase implements FunctionalTest {
 		MyLifeCycle.myFixture = null;
 		TestUsingFixtureInTestMethod.myFixture = null;
 
-		new PicoUnit().generateSingleJUnitTest(TestUsingFixtureInTestMethod.class).run(testResult);
+		TestResult testResult = testRunner.runSingle(TestUsingFixtureInTestMethod.class);
 
 		verify.notNull(MyLifeCycle.myFixture);
 		verify.equal(1, testResult.runCount());

@@ -8,13 +8,26 @@
 package picounit.verify;
 
 public class ImmediateThrower implements Thrower {
+	private Error previousError;
+
 	public void errorEvent(Error error) {
+		throwPreviousErrorIfDifferentTo(error);
+
+		previousError = error;
+
 		throw error;
+	}
+
+	private void throwPreviousErrorIfDifferentTo(Error error) {
+		if (previousError != null && !previousError.equals(error)) {
+			throw previousError;
+		}
 	}
 
 	public void dispatchError() {
 	}
 
 	public void clearError() {
+		previousError = null;
 	}
 }

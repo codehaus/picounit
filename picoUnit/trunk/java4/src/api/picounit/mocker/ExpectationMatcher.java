@@ -19,6 +19,15 @@ public interface ExpectationMatcher {
 	StringConsequenceMatcher call(String ignore);
 	ObjectConsequenceMatcher call(Object ignore);
 	
+	PostConsequenceMatcher notCall(boolean ignore);
+	PostConsequenceMatcher notCall(byte ignore);
+	PostConsequenceMatcher notCall(char ignore);
+	PostConsequenceMatcher notCall(float ignore);
+	PostConsequenceMatcher notCall(int ignore);
+	PostConsequenceMatcher notCall(long ignore);
+	PostConsequenceMatcher notCall(short ignore);
+	PostConsequenceMatcher notCall(Object ignore);
+
 	BooleanConsequenceMatcher expect(boolean ignore);
 	ByteConsequenceMatcher expect(byte ignore);
 	CharConsequenceMatcher expect(char ignore);

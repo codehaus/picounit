@@ -9,20 +9,20 @@ package picounit.multi_tests_with_different_marker;
 
 import picounit.FunctionalTest;
 import picounit.Marker;
-import picounit.PicoUnit;
+import picounit.TestRunner;
 import picounit.multi_tests_with_different_marker.sub.ThirdTest;
 import previous.picounit.Verify;
 import junit.framework.TestResult;
 
 public class MultiTestsTestCase implements FunctionalTest {
-	private TestResult testResult = new TestResult();
-
+	private final TestRunner testRunner = new TestRunner();
+	
 	public void testRunsAllTestInDirectoryAndBelow(Verify verify) {
 		FirstTest.testInvoked = false;
 		SecondTest.testInvoked = false;
 		ThirdTest.testInvoked = false;
 
-		new PicoUnit().setType(Marker.class).generateJUnitTest(FirstTest.class).run(testResult);
+		TestResult testResult = testRunner.run(FirstTest.class, Marker.class);
 
 		verify.equal(3, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());
