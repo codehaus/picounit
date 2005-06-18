@@ -5,26 +5,28 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.registry;
+package picounit.impl;
 
-import picounit.Configuration;
+import picounit.DelegateVerify;
+import picounit.Plugin;
 import picounit.Registry;
-import picounit.verify.DelayedThrower;
-import picounit.verify.ImmediateThrower;
-import picounit.verify.Thrower;
+import picounit.registry.DefaultPlugin;
+import picounit.verify.DefaultDelegateVerify;
 
-public class DefaultConfiguration implements Configuration {
+import java.util.Properties;
+
+public class Java5DefaultPlugin implements Plugin {
 	private final Registry registry;
+	private final DefaultPlugin defaultPlugin;
 
-	public DefaultConfiguration(Registry registry) {
+	public Java5DefaultPlugin(Registry registry) {
 		this.registry = registry;
+		this.defaultPlugin = new DefaultPlugin(registry);
 	}
 
-	public void throwVerifyErrorsBeforeMockerErrors() {
-		registry.register(Thrower.class, ImmediateThrower.class);
-	}
+	public void insert(Properties pluginProperties) {
+		defaultPlugin.insert(pluginProperties);
 
-	public void throwMockerErrorsBeforeVerifyErrors() {
-		registry.register(Thrower.class, DelayedThrower.class);
+		registry.register(DelegateVerify.class, DefaultDelegateVerify.class);
 	}
 }
