@@ -7,6 +7,8 @@
  *****************************************************************************/
 package picounit.classloader;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,15 @@ public class MethodParameterRegistry {
 		methodParameters.put(className + "." + methodName, parameterNames);
 	}
 
-	public String[] get(String className, String methodName) {
+	public String[] get(Constructor constructor) {
+		return get(constructor.getDeclaringClass().getName(), "<init>");
+	}
+
+	public String[] get(Method method) {
+		return get(method.getDeclaringClass().getName(), method.getName());
+	}
+
+	private String[] get(String className, String methodName) {
 		return (String[]) methodParameters.get(className + "." + methodName);
 	}
 }
