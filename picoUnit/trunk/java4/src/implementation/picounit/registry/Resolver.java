@@ -7,12 +7,13 @@
  *****************************************************************************/
 package picounit.registry;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public interface Resolver {
 	Object get(Class type);
-	
-	Object[] get(Class[] types);
 
 	Object[] get(Method method);
+
+	Object[] get(Constructor constructor);
 }

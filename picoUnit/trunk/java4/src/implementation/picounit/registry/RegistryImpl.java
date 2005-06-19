@@ -13,6 +13,7 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
 
 import picounit.Registry;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class RegistryImpl implements Registry, Resolver {
@@ -75,5 +76,9 @@ public class RegistryImpl implements Registry, Resolver {
 
 	public Object[] get(Method method) {
 		return get(method.getParameterTypes());
+	}
+	
+	public Object[] get(Constructor constructor) {
+		return get(constructor.getParameterTypes());
 	}
 }
