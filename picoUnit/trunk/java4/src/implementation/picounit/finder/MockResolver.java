@@ -11,6 +11,7 @@ import picounit.Mocker;
 import picounit.classloader.MethodParameterRegistry;
 import picounit.registry.Resolver;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class MockResolver implements Resolver {
@@ -37,8 +38,7 @@ public class MockResolver implements Resolver {
 	}
 
 	public Object[] get(Method method) {
-		String[] parameterNames =
-			methodParameterRegistry.get(method.getDeclaringClass().getName(), method.getName());
+		String[] parameterNames = methodParameterRegistry.get(method);
 		
 		Class[] parameterTypes = method.getParameterTypes();
 
@@ -48,6 +48,10 @@ public class MockResolver implements Resolver {
 		else {
 			return get(parameterTypes);
 		}
+	}
+	
+	public Object[] get(Constructor constructor) {
+		return get(constructor.getParameterTypes());
 	}
 
 	private Object[] get(Class[] parameterTypes, String[] parameterNames) {

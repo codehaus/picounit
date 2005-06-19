@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.finder;
 
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.Mocker;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
@@ -56,7 +56,7 @@ public class PicoUnitTestCase extends TestCase {
 		result.startTest(this);
 
 		try {
-			LifeCycle[] lifeCycles = getLifeCycles();
+			Lifecycle[] lifeCycles = getLifeCycles();
 
 			setUp(lifeCycles);
 
@@ -118,13 +118,13 @@ public class PicoUnitTestCase extends TestCase {
 		mockInvoker.invoke("mock", testInstance);
 	}
 
-	private LifeCycle[] getLifeCycles() throws IllegalArgumentException, InstantiationException,
+	private Lifecycle[] getLifeCycles() throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
 		return lifeCycleInstantiator.instantiate(testClass);
 	}
 
-	private void setUp(LifeCycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
+	private void setUp(Lifecycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
 		for (int index = 0; index < lifeCycles.length; index++) {
 			setUp(lifeCycles[index]);
 		}
@@ -142,7 +142,7 @@ public class PicoUnitTestCase extends TestCase {
 		invoker.invoke("tearDown", target);
 	}
 
-	private void tearDown(LifeCycle[] contexts) throws IllegalAccessException, InvocationTargetException {
+	private void tearDown(Lifecycle[] contexts) throws IllegalAccessException, InvocationTargetException {
 		for (int index = 0; index < contexts.length; index++) {
 			tearDown(contexts[index]);
 		}
