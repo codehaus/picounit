@@ -35,6 +35,6 @@ public class OrdinaryInstantiator implements Instantiator {
 
 		Constructor constructor = constructors[0];
 
-		return constructor.newInstance(resolver.get(constructor.getParameterTypes()));
+		return constructor.newInstance(resolver.get(constructor));
 	}
 }
