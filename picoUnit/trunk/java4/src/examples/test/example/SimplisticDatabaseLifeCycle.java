@@ -8,10 +8,10 @@
 package example;
 
 import example.model.Database;
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.Registry;
 
-public class SimplisticDatabaseLifeCycle implements LifeCycle {
+public class SimplisticDatabaseLifeCycle implements Lifecycle {
 	public void setUp(Registry registry) {
 		registry.register(Database.class, new SimplisticDatabase());
 	}
@@ -23,7 +23,7 @@ public class SimplisticDatabaseLifeCycle implements LifeCycle {
 			return true;
 		}
 
-		public boolean insert(String insertQuery) {
+		public boolean insert(String insertSql) {
 			count++;
 			
 			return true;
