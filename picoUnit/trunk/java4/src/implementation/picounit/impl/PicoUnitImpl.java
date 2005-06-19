@@ -15,11 +15,15 @@ import picounit.classloader.MethodParameterRegistry;
 import picounit.classloader.PicoClassLoader;
 import picounit.classloader.observer.MethodNameClassObserver;
 import picounit.finder.AlwaysPassingTestFilter;
+import picounit.finder.ClassFinder;
 import picounit.finder.DirectoryScanningTestFinder;
 import picounit.finder.SingleTestTestFilter;
 import picounit.finder.TestFilter;
 import picounit.finder.TestFinder;
+import picounit.finder.TestInstantiator;
 import picounit.registry.RegistryEntries;
+import picounit.registry.RegistryFactory;
+import picounit.registry.RegistryImpl;
 import junit.framework.Test;
 
 public class PicoUnitImpl {
@@ -35,7 +39,11 @@ public class PicoUnitImpl {
 	private String name;
 	private Class type = picounit.Test.class;
 
-	private TestFinder testFinder = new DirectoryScanningTestFinder(classLoader);
+	private final ClassFinder classFinder = new ClassFinder();
+	private final RegistryImpl registry = new RegistryFactory().create();
+	private final TestInstantiator testInstantiator = TestInstantiator.create(registry, classLoader);
+	private TestFinder testFinder = new DirectoryScanningTestFinder(classFinder, testInstantiator,
+		classLoader, registry);
 	private TestFilter testFilter = new AlwaysPassingTestFilter();
 	private ClassReloader classRealoder = new ClassReloader();
 
