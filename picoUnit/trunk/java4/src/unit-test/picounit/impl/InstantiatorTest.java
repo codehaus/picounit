@@ -7,6 +7,7 @@
  *****************************************************************************/
 package picounit.impl;
 
+import picounit.mocker.jmock.ClassUtil;
 import picounit.reflection.Instantiator;
 import picounit.reflection.OrdinaryInstantiator;
 import picounit.registry.Resolver;
@@ -14,6 +15,7 @@ import previous.picounit.Mocker;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class InstantiatorTest implements Test {
@@ -22,6 +24,8 @@ public class InstantiatorTest implements Test {
 	private Resolver resolver;
 
 	public static class ClassWithZeroArgConstructor {
+		public static final Constructor zeroArgConstructor =
+			new ClassUtil().getConstructor(ClassWithZeroArgConstructor.class);
 	}
 	
 	public void mock(Resolver resolver) {
@@ -33,7 +37,8 @@ public class InstantiatorTest implements Test {
 	public void testInstantiateZeroArgConstructor(Mocker mocker, Verify verify) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 		
-		mocker.expect(resolver.get(new Class[0])).andReturn((new Object[0]));
+		mocker.expect(resolver.get(ClassWithZeroArgConstructor.zeroArgConstructor))
+			.andReturn((new Object[0]));
 		
 		mocker.replay();
 
@@ -47,6 +52,9 @@ public class InstantiatorTest implements Test {
 	}
 
 	public static class ClassWithNonZeroArgConstructor {
+		public static final Constructor nonZeroArgConstructor =
+			new ClassUtil().getConstructor(ClassWithNonZeroArgConstructor.class, Fixture.class);
+		
 		public final Fixture fixture;
 
 		public ClassWithNonZeroArgConstructor(Fixture fixture) {
@@ -58,7 +66,8 @@ public class InstantiatorTest implements Test {
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 
 		Fixture fixture = new Fixture();
-		mocker.expect(resolver.get(new Class[] {Fixture.class})).andReturn((new Object[] {fixture}));
+		mocker.expect(resolver.get(ClassWithNonZeroArgConstructor.nonZeroArgConstructor))
+			.andReturn((new Object[] {fixture}));
 
 		mocker.replay();
 
