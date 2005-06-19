@@ -7,10 +7,10 @@
  *****************************************************************************/
 package picounit.ignoredTests;
 
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.Registry;
 
-public class LifeCycleForIgnoredTests implements LifeCycle {
+public class LifeCycleForIgnoredTests implements Lifecycle {
 	public void setUp(Registry registry) {
 		registry.register(WebServer.class, new WebServer() {
 			public boolean isRunning() {
