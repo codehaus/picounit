@@ -9,10 +9,10 @@ package example.ignored;
 
 import example.model.Database;
 import example.model.DatabaseImpl;
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.Registry;
 
-public class DisconnectedDatabaseLifeCycle implements LifeCycle {
+public class DisconnectedDatabaseLifeCycle implements Lifecycle {
 	public void setUp(Registry registry) {
 		registry.register(Database.class, new DatabaseImpl(false));
 	}
