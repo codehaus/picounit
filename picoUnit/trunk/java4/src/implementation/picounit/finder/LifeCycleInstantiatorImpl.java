@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.finder;
 
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.reflection.Instantiator;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
 		this.classFinder = new ClassFinder();
 	}
 
-	public LifeCycle[] instantiate(Class testClass) {		
+	public Lifecycle[] instantiate(Class testClass) {		
 		File sourceRoot = fileSystem.getSourceRoot(testClass);
 
 		List lifeCycleList = new LinkedList();
@@ -36,7 +36,7 @@ public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
 			new AboveClassDirectoryCondition(fileSystem.getClassFile(testClass), sourceRoot),
 			new AddLifeCycle(lifeCycleList, classLoader, instantiator)); 
 
-		return (LifeCycle[]) lifeCycleList.toArray(new LifeCycle[0]);
+		return (Lifecycle[]) lifeCycleList.toArray(new Lifecycle[0]);
 	}
 	
 	public static class AddLifeCycle implements FindAction {
@@ -46,7 +46,7 @@ public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
 		private final Condition isLifeCycle;
 
 		private AddLifeCycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator) {
-			this(lifeCycleList, classLoader, instantiator, new ImplementsCondition(LifeCycle.class));
+			this(lifeCycleList, classLoader, instantiator, new ImplementsCondition(Lifecycle.class));
 		}
 		
 		private AddLifeCycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator,
