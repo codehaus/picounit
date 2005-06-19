@@ -19,6 +19,26 @@ import java.util.List;
 import java.util.Set;
 
 public class ClassUtil {
+	public Constructor getConstructor(Class aClass) {
+		return getConstructor(aClass, new Class[0]);
+	}
+
+	public Constructor getConstructor(Class aClass, Class parameterType) {
+		return getConstructor(aClass, new Class[] {parameterType});
+	}
+
+	public Constructor getConstructor(Class aClass, Class[] parameterTypes) {
+		try {
+			return aClass.getConstructor(parameterTypes);
+		}
+		catch (SecurityException securityException) {
+			throw new RuntimeException(securityException);
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new RuntimeException(noSuchMethodException);
+		}
+	}
+	
 	public Constructor getBestConstructor(Class aClass) {
 		List constructors = Arrays.asList(aClass.getDeclaredConstructors());
 		final ConstructorComparator constructorComparator = new ConstructorComparator();
