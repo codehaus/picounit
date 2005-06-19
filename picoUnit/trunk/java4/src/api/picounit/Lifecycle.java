@@ -15,5 +15,5 @@ package picounit;
  * 
  * @author Stacy Curl
  */
-public interface LifeCycle extends Context {
+public interface Lifecycle extends Context {
 }

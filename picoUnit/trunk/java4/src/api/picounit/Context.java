@@ -15,7 +15,7 @@ package picounit;
  * 
  * @author Stacy Curl
  * 
- * @deprecated Use LifeCycle instead
+ * @deprecated Use Lifecycle instead
  */
 public interface Context {
 	/*
