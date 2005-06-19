@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.finder;
 
-import picounit.LifeCycle;
+import picounit.Lifecycle;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
 import picounit.reflection.OrdinaryInstantiator;
@@ -43,14 +43,14 @@ public class TestInstantiator {
 		return instantiator.instantiate(testClass);
 	}
 
-	private LifeCycle[] getLifeCycles(Class testClass) throws IllegalArgumentException,
+	private Lifecycle[] getLifeCycles(Class testClass) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, ClassNotFoundException,
 		InvocationTargetException {
 		
 		return lifeCycleInstantiator.instantiate(testClass);
 	}
 	
-	private void setUp(LifeCycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
+	private void setUp(Lifecycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
 		for (int index = 0; index < lifeCycles.length; index++) {
 			setUp(lifeCycles[index]);
 		}

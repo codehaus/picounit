@@ -43,7 +43,7 @@ public class PicoUnitImpl {
 	private final RegistryImpl registry = new RegistryFactory().create();
 	private final TestInstantiator testInstantiator = TestInstantiator.create(registry, classLoader);
 	private TestFinder testFinder = new DirectoryScanningTestFinder(classFinder, testInstantiator,
-		classLoader, registry);
+		classLoader);
 	private TestFilter testFilter = new AlwaysPassingTestFilter();
 	private ClassReloader classRealoder = new ClassReloader();
 
