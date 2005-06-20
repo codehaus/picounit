@@ -14,13 +14,13 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
+public class LifeCycleInstantiatorImplTmp implements LifeCycleInstantiatorTmp {
 	private final Instantiator instantiator;
 	private final ClassLoader classLoader;
 	private final FileSystem fileSystem;
 	private final ClassFinder classFinder;
 
-	public LifeCycleInstantiatorImpl(ClassLoader classLoader, Instantiator instantiator) {
+	public LifeCycleInstantiatorImplTmp(ClassLoader classLoader, Instantiator instantiator) {
 		this.instantiator = instantiator;
 		this.classLoader = classLoader;
 		this.fileSystem = new FileSystem();
@@ -34,22 +34,22 @@ public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
 
 		classFinder.findClasses(sourceRoot, sourceRoot,
 			new AboveClassDirectoryCondition(fileSystem.getClassFile(testClass), sourceRoot),
-			new AddLifeCycle(lifeCycleList, classLoader, instantiator)); 
+			new AddLifecycle(lifeCycleList, classLoader, instantiator)); 
 
 		return (Lifecycle[]) lifeCycleList.toArray(new Lifecycle[0]);
 	}
 	
-	public static class AddLifeCycle implements FindAction {
+	public static class AddLifecycle implements FindAction {
 		private final List lifeCycleList;
 		private final ClassLoader classLoader;
 		private final Instantiator instantiator;
 		private final Condition isLifeCycle;
 
-		private AddLifeCycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator) {
+		private AddLifecycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator) {
 			this(lifeCycleList, classLoader, instantiator, new ImplementsCondition(Lifecycle.class));
 		}
 		
-		private AddLifeCycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator,
+		private AddLifecycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator,
 			Condition isLifeCycle) {
 
 			this.lifeCycleList = lifeCycleList;
@@ -67,13 +67,13 @@ public class LifeCycleInstantiatorImpl implements LifeCycleInstantiator {
 				}
 			}
 			catch (Exception exception) {
-				throw new LifeCycleInstantiationException(exception);
+				throw new LifecycleInstantiationException(exception);
 			}
 		}
 	}
 
-	public static class LifeCycleInstantiationException extends RuntimeException {
-		public LifeCycleInstantiationException(Exception exception) {
+	public static class LifecycleInstantiationException extends RuntimeException {
+		public LifecycleInstantiationException(Exception exception) {
 			super(exception);
 		}
 	}

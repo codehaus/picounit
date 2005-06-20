@@ -47,8 +47,8 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 		Invoker mockInvoker = new Invoker(mockResolver, invoker);
 
 		Instantiator instantiator = new OrdinaryInstantiator(registry);
-		LifeCycleInstantiator lifeCycleInstantiator =
-			new LifeCycleInstantiatorImpl(classLoader, instantiator);
+		LifeCycleInstantiatorTmp lifeCycleInstantiator =
+			new LifeCycleInstantiatorImplTmp(classLoader, instantiator);
 
 		Thrower thrower = (Thrower) registry.get(Thrower.class);
 

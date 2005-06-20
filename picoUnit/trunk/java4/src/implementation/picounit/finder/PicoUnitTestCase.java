@@ -29,10 +29,10 @@ public class PicoUnitTestCase extends TestCase {
 	private final Invoker mockInvoker;
 	private final Mocker mocker;
 	private final Thrower thrower;
-	private final LifeCycleInstantiator lifeCycleInstantiator;
+	private final LifeCycleInstantiatorTmp lifeCycleInstantiator;
 
 	public PicoUnitTestCase(Method testMethod, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifeCycleInstantiator lifeCycleInstantiator) {
+		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifeCycleInstantiatorTmp lifeCycleInstantiator) {
 
 		this.testMethod = testMethod;
 		this.testClass = testMethod.getDeclaringClass();

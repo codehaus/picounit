@@ -5,7 +5,7 @@ import picounit.DelegatingTestResult;
 import picounit.Lifecycle;
 import picounit.Mocker;
 import picounit.Test;
-import picounit.finder.LifeCycleInstantiator;
+import picounit.finder.LifeCycleInstantiatorTmp;
 import picounit.finder.PicoUnitTestCase;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
@@ -29,7 +29,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	private Lifecycle lifeCycle;
 	private Thrower thrower;
 
-	private LifeCycleInstantiator lifeCycleInstantiator;
+	private LifeCycleInstantiatorTmp lifeCycleInstantiator;
 
 	private PicoUnitTestCase picoUnitTestCase(Method testMethod) {
 		return new PicoUnitTestCase(testMethod, instantiator, invoker, mockInvoker, mockedMocker,
@@ -38,7 +38,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	
 	public void mock(DelegateTestResult delegateTestResult, Instantiator instantiator, Invoker invoker,
 		Invoker mockInvoker, Mocker mockedMocker, Lifecycle lifeCycle, Thrower thrower,
-		LifeCycleInstantiator lifeCycleInstantiator) {
+		LifeCycleInstantiatorTmp lifeCycleInstantiator) {
 		
 		this.lifeCycleInstantiator = lifeCycleInstantiator;
 		this.testResult = new DelegatingTestResult(delegateTestResult);

@@ -18,17 +18,17 @@ import java.lang.reflect.InvocationTargetException;
 public class TestInstantiator {
 	private final Instantiator instantiator;
 	private final Invoker invoker;
-	private final LifeCycleInstantiator lifeCycleInstantiator;
+	private final LifeCycleInstantiatorTmp lifeCycleInstantiator;
 
 	public static TestInstantiator create(Resolver resolver, ClassLoader classLoader) {
 		Instantiator instantiator = new OrdinaryInstantiator(resolver);
 
 		return new TestInstantiator(instantiator, new Invoker(resolver),
-			new LifeCycleInstantiatorImpl(classLoader, instantiator));
+			new LifeCycleInstantiatorImplTmp(classLoader, instantiator));
 	}
 
 	public TestInstantiator(Instantiator instantiator, Invoker invoker,
-		LifeCycleInstantiator lifeCycleInstantiator) {
+		LifeCycleInstantiatorTmp lifeCycleInstantiator) {
 
 		this.instantiator = instantiator;
 		this.invoker = invoker;

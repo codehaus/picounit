@@ -10,7 +10,7 @@ package picounit.register_fixture;
 import picounit.Lifecycle;
 import picounit.Registry;
 
-public class MyLifeCycle implements Lifecycle {
+public class MyLifeCycleTmp implements Lifecycle {
 	public static MyFixture myFixture;
 
 	public void setUp(Registry registry) {

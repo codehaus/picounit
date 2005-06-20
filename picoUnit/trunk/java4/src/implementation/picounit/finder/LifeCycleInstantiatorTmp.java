@@ -4,7 +4,7 @@ import picounit.Lifecycle;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface LifeCycleInstantiator {
+public interface LifeCycleInstantiatorTmp {
 	Lifecycle[] instantiate(Class testClass) throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException;
 }

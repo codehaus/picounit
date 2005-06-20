@@ -12,7 +12,7 @@ import example.model.DatabaseImpl;
 import picounit.Lifecycle;
 import picounit.Registry;
 
-public class DisconnectedDatabaseLifeCycle implements Lifecycle {
+public class DisconnectedDatabaseLifeCycleTmp implements Lifecycle {
 	public void setUp(Registry registry) {
 		registry.register(Database.class, new DatabaseImpl(false));
 	}
