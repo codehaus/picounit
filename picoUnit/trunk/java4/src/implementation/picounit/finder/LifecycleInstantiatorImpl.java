@@ -14,13 +14,13 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LifeCycleInstantiatorImplTmp implements LifeCycleInstantiatorTmp {
+public class LifecycleInstantiatorImpl implements LifecycleInstantiator {
 	private final Instantiator instantiator;
 	private final ClassLoader classLoader;
 	private final FileSystem fileSystem;
 	private final ClassFinder classFinder;
 
-	public LifeCycleInstantiatorImplTmp(ClassLoader classLoader, Instantiator instantiator) {
+	public LifecycleInstantiatorImpl(ClassLoader classLoader, Instantiator instantiator) {
 		this.instantiator = instantiator;
 		this.classLoader = classLoader;
 		this.fileSystem = new FileSystem();
@@ -30,40 +30,40 @@ public class LifeCycleInstantiatorImplTmp implements LifeCycleInstantiatorTmp {
 	public Lifecycle[] instantiate(Class testClass) {		
 		File sourceRoot = fileSystem.getSourceRoot(testClass);
 
-		List lifeCycleList = new LinkedList();
+		List lifecycleList = new LinkedList();
 
 		classFinder.findClasses(sourceRoot, sourceRoot,
 			new AboveClassDirectoryCondition(fileSystem.getClassFile(testClass), sourceRoot),
-			new AddLifecycle(lifeCycleList, classLoader, instantiator)); 
+			new AddLifecycle(lifecycleList, classLoader, instantiator)); 
 
-		return (Lifecycle[]) lifeCycleList.toArray(new Lifecycle[0]);
+		return (Lifecycle[]) lifecycleList.toArray(new Lifecycle[0]);
 	}
 	
 	public static class AddLifecycle implements FindAction {
-		private final List lifeCycleList;
+		private final List lifecycleList;
 		private final ClassLoader classLoader;
 		private final Instantiator instantiator;
-		private final Condition isLifeCycle;
+		private final Condition isLifecycle;
 
-		private AddLifecycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator) {
-			this(lifeCycleList, classLoader, instantiator, new ImplementsCondition(Lifecycle.class));
+		private AddLifecycle(List lifecycleList, ClassLoader classLoader, Instantiator instantiator) {
+			this(lifecycleList, classLoader, instantiator, new ImplementsCondition(Lifecycle.class));
 		}
 		
-		private AddLifecycle(List lifeCycleList, ClassLoader classLoader, Instantiator instantiator,
-			Condition isLifeCycle) {
+		private AddLifecycle(List lifecycleList, ClassLoader classLoader, Instantiator instantiator,
+			Condition isLifecycle) {
 
-			this.lifeCycleList = lifeCycleList;
+			this.lifecycleList = lifecycleList;
 			this.classLoader = classLoader;
 			this.instantiator = instantiator;
-			this.isLifeCycle = isLifeCycle;
+			this.isLifecycle = isLifecycle;
 		}
 
 		public void perform(String className) {
 			try {
 				Class aClass = classLoader.loadClass(className);
 
-				if (isLifeCycle.matches(aClass)) {
-					lifeCycleList.add( instantiator.instantiate(aClass));
+				if (isLifecycle.matches(aClass)) {
+					lifecycleList.add(instantiator.instantiate(aClass));
 				}
 			}
 			catch (Exception exception) {

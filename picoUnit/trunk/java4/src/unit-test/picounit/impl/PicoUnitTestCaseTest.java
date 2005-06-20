@@ -5,7 +5,7 @@ import picounit.DelegatingTestResult;
 import picounit.Lifecycle;
 import picounit.Mocker;
 import picounit.Test;
-import picounit.finder.LifeCycleInstantiatorTmp;
+import picounit.finder.LifecycleInstantiator;
 import picounit.finder.PicoUnitTestCase;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
@@ -26,21 +26,21 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	private Invoker invoker;
 	private Invoker mockInvoker;
 	private Mocker mockedMocker;
-	private Lifecycle lifeCycle;
+	private Lifecycle lifecycle;
 	private Thrower thrower;
 
-	private LifeCycleInstantiatorTmp lifeCycleInstantiator;
+	private LifecycleInstantiator lifecycleInstantiator;
 
 	private PicoUnitTestCase picoUnitTestCase(Method testMethod) {
 		return new PicoUnitTestCase(testMethod, instantiator, invoker, mockInvoker, mockedMocker,
-			thrower, lifeCycleInstantiator);
+			thrower, lifecycleInstantiator);
 	}
 	
 	public void mock(DelegateTestResult delegateTestResult, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mockedMocker, Lifecycle lifeCycle, Thrower thrower,
-		LifeCycleInstantiatorTmp lifeCycleInstantiator) {
+		Invoker mockInvoker, Mocker mockedMocker, Lifecycle lifecycle, Thrower thrower,
+		LifecycleInstantiator lifecycleInstantiator) {
 		
-		this.lifeCycleInstantiator = lifeCycleInstantiator;
+		this.lifecycleInstantiator = lifecycleInstantiator;
 		this.testResult = new DelegatingTestResult(delegateTestResult);
 
 		this.delegateTestResult = delegateTestResult;
@@ -48,7 +48,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		this.invoker = invoker;
 		this.mockInvoker = mockInvoker;
 		this.mockedMocker = mockedMocker;
-		this.lifeCycle = lifeCycle;
+		this.lifecycle = lifecycle;
 		this.thrower = thrower;
 	}
 
@@ -64,12 +64,12 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 
 		delegateTestResult.startTest(picoUnitTestCase);
 
-		should.call(lifeCycleInstantiator.instantiate(TestExample.class))
-			.andReturn(new Lifecycle[] {lifeCycle});
+		should.call(lifecycleInstantiator.instantiate(TestExample.class))
+			.andReturn(new Lifecycle[] {lifecycle});
 
 		mockedMocker.reset();
 
-		invoker.invoke("setUp", lifeCycle);
+		invoker.invoke("setUp", lifecycle);
 
 		should.call(instantiator.instantiate(TestExample.class)).andReturn(testExample);
 		invoker.invoke("setUp", testExample);
@@ -81,7 +81,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		invoker.invoke(TestExample.testExample, testExample);
 		
 		invoker.invoke("tearDown", testExample);
-		invoker.invoke("tearDown", lifeCycle);
+		invoker.invoke("tearDown", lifecycle);
 
 		mockedMocker.verify();
 
@@ -94,7 +94,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		picoUnitTestCase.run(testResult);
 	}
 
-	public void testExceptionsThrownDuringLifeCycleSetupBecomeErrors(previous.picounit.Mocker should)
+	public void testExceptionsThrownDuringLifecycleSetupBecomeErrors(previous.picounit.Mocker should)
 		throws IllegalArgumentException, InstantiationException, IllegalAccessException,
 		ClassNotFoundException, InvocationTargetException {
 
@@ -103,7 +103,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		delegateTestResult.startTest(picoUnitTestCase);
 		
 		IllegalArgumentException exception = new IllegalArgumentException();
-		should.call(lifeCycleInstantiator.instantiate(TestExample.class)).andRaise(exception);
+		should.call(lifecycleInstantiator.instantiate(TestExample.class)).andRaise(exception);
 
 		delegateTestResult.addError(picoUnitTestCase, exception); 
 		delegateTestResult.endTest(picoUnitTestCase);

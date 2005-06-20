@@ -12,32 +12,32 @@ import picounit.TestRunner;
 import previous.picounit.Verify;
 import junit.framework.TestResult;
 
-public class TestUsingLifeCycleTestCase implements FunctionalTest {
+public class TestUsingLifecycleTestCaseTmp implements FunctionalTest {
 	private final TestRunner testRunner = new TestRunner();
 	
 	public void testUsingFixtureInConstructor(Verify verify) {
-		MyLifeCycleTmp.myFixture = null;
+		MyLifecycle.myFixture = null;
 		TestUsingFixtureInConstructor.myFixture = null;
 
 		TestResult testResult = testRunner.runSingle(TestUsingFixtureInConstructor.class);
 
-		verify.notNull(MyLifeCycleTmp.myFixture);
+		verify.notNull(MyLifecycle.myFixture);
 		verify.equal(1, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());
 
-		verify.same(MyLifeCycleTmp.myFixture, TestUsingFixtureInConstructor.myFixture);
+		verify.same(MyLifecycle.myFixture, TestUsingFixtureInConstructor.myFixture);
 	}
 
 	public void testUsingFixtureInTestMethod(Verify verify) {
-		MyLifeCycleTmp.myFixture = null;
+		MyLifecycle.myFixture = null;
 		TestUsingFixtureInTestMethod.myFixture = null;
 
 		TestResult testResult = testRunner.runSingle(TestUsingFixtureInTestMethod.class);
 
-		verify.notNull(MyLifeCycleTmp.myFixture);
+		verify.notNull(MyLifecycle.myFixture);
 		verify.equal(1, testResult.runCount());
 		verify.equal(0, testResult.failureCount() + testResult.errorCount());
 
-		verify.same(MyLifeCycleTmp.myFixture, TestUsingFixtureInTestMethod.myFixture);
+		verify.same(MyLifecycle.myFixture, TestUsingFixtureInTestMethod.myFixture);
 	}
 }

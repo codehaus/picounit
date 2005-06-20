@@ -5,17 +5,15 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package picounit.register_fixture;
+package example.ignored;
 
+import example.model.Database;
+import example.model.DatabaseImpl;
 import picounit.Lifecycle;
 import picounit.Registry;
 
-public class MyLifeCycleTmp implements Lifecycle {
-	public static MyFixture myFixture;
-
+public class DisconnectedDatabaseLifecycle implements Lifecycle {
 	public void setUp(Registry registry) {
-		myFixture = new MyFixture();
-
-		registry.register(MyFixture.class, myFixture);
+		registry.register(Database.class, new DatabaseImpl(false));
 	}
 }

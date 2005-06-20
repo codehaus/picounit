@@ -29,10 +29,10 @@ public class PicoUnitTestCase extends TestCase {
 	private final Invoker mockInvoker;
 	private final Mocker mocker;
 	private final Thrower thrower;
-	private final LifeCycleInstantiatorTmp lifeCycleInstantiator;
+	private final LifecycleInstantiator lifecycleInstantiator;
 
 	public PicoUnitTestCase(Method testMethod, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifeCycleInstantiatorTmp lifeCycleInstantiator) {
+		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifecycleInstantiator lifecycleInstantiator) {
 
 		this.testMethod = testMethod;
 		this.testClass = testMethod.getDeclaringClass();
@@ -41,7 +41,7 @@ public class PicoUnitTestCase extends TestCase {
 		this.mockInvoker = mockInvoker;
 		this.mocker = mocker;
 		this.thrower = thrower;
-		this.lifeCycleInstantiator = lifeCycleInstantiator;
+		this.lifecycleInstantiator = lifecycleInstantiator;
 	}
 
 	public int countTestCases() {
@@ -56,9 +56,9 @@ public class PicoUnitTestCase extends TestCase {
 		result.startTest(this);
 
 		try {
-			Lifecycle[] lifeCycles = getLifeCycles();
+			Lifecycle[] lifecycles = getLifecycles();
 
-			setUp(lifeCycles);
+			setUp(lifecycles);
 
 			Object testInstance = instantiator.instantiate(testClass);
 
@@ -72,7 +72,7 @@ public class PicoUnitTestCase extends TestCase {
 
 			tearDown(testInstance);
 
-			tearDown(lifeCycles);
+			tearDown(lifecycles);
 
 			mocker.verify();
 
@@ -118,15 +118,15 @@ public class PicoUnitTestCase extends TestCase {
 		mockInvoker.invoke("mock", testInstance);
 	}
 
-	private Lifecycle[] getLifeCycles() throws IllegalArgumentException, InstantiationException,
+	private Lifecycle[] getLifecycles() throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
-		return lifeCycleInstantiator.instantiate(testClass);
+		return lifecycleInstantiator.instantiate(testClass);
 	}
 
-	private void setUp(Lifecycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
-		for (int index = 0; index < lifeCycles.length; index++) {
-			setUp(lifeCycles[index]);
+	private void setUp(Lifecycle[] lifecycles) throws IllegalAccessException, InvocationTargetException {
+		for (int index = 0; index < lifecycles.length; index++) {
+			setUp(lifecycles[index]);
 		}
 	}
 

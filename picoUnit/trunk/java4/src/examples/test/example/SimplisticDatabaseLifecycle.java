@@ -5,15 +5,32 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.ignored;
+package example;
 
 import example.model.Database;
-import example.model.DatabaseImpl;
 import picounit.Lifecycle;
 import picounit.Registry;
 
-public class DisconnectedDatabaseLifeCycleTmp implements Lifecycle {
+public class SimplisticDatabaseLifecycle implements Lifecycle {
 	public void setUp(Registry registry) {
-		registry.register(Database.class, new DatabaseImpl(false));
+		registry.register(Database.class, new SimplisticDatabase());
+	}
+	
+	public static class SimplisticDatabase implements Database {
+		private int count = 0;
+
+		public boolean isConnected() {
+			return true;
+		}
+
+		public boolean insert(String insertSql) {
+			count++;
+			
+			return true;
+		}
+
+		public int queryCount(String queryCountSql) {
+			return count;
+		}
 	}
 }

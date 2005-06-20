@@ -18,41 +18,41 @@ import java.lang.reflect.InvocationTargetException;
 public class TestInstantiator {
 	private final Instantiator instantiator;
 	private final Invoker invoker;
-	private final LifeCycleInstantiatorTmp lifeCycleInstantiator;
+	private final LifecycleInstantiator lifecycleInstantiator;
 
 	public static TestInstantiator create(Resolver resolver, ClassLoader classLoader) {
 		Instantiator instantiator = new OrdinaryInstantiator(resolver);
 
 		return new TestInstantiator(instantiator, new Invoker(resolver),
-			new LifeCycleInstantiatorImplTmp(classLoader, instantiator));
+			new LifecycleInstantiatorImpl(classLoader, instantiator));
 	}
 
 	public TestInstantiator(Instantiator instantiator, Invoker invoker,
-		LifeCycleInstantiatorTmp lifeCycleInstantiator) {
+		LifecycleInstantiator lifecycleInstantiator) {
 
 		this.instantiator = instantiator;
 		this.invoker = invoker;
-		this.lifeCycleInstantiator = lifeCycleInstantiator;
+		this.lifecycleInstantiator = lifecycleInstantiator;
 	}
 
 	public Object instantiate(Class testClass) throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
-		setUp(getLifeCycles(testClass));
+		setUp(getLifecycles(testClass));
 
 		return instantiator.instantiate(testClass);
 	}
 
-	private Lifecycle[] getLifeCycles(Class testClass) throws IllegalArgumentException,
+	private Lifecycle[] getLifecycles(Class testClass) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, ClassNotFoundException,
 		InvocationTargetException {
 		
-		return lifeCycleInstantiator.instantiate(testClass);
+		return lifecycleInstantiator.instantiate(testClass);
 	}
 	
-	private void setUp(Lifecycle[] lifeCycles) throws IllegalAccessException, InvocationTargetException {
-		for (int index = 0; index < lifeCycles.length; index++) {
-			setUp(lifeCycles[index]);
+	private void setUp(Lifecycle[] lifecycles) throws IllegalAccessException, InvocationTargetException {
+		for (int index = 0; index < lifecycles.length; index++) {
+			setUp(lifecycles[index]);
 		}
 	}
 

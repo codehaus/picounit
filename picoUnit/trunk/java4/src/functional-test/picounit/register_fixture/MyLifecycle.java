@@ -5,32 +5,17 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example;
+package picounit.register_fixture;
 
-import example.model.Database;
 import picounit.Lifecycle;
 import picounit.Registry;
 
-public class SimplisticDatabaseLifeCycleTmp implements Lifecycle {
+public class MyLifecycle implements Lifecycle {
+	public static MyFixture myFixture;
+
 	public void setUp(Registry registry) {
-		registry.register(Database.class, new SimplisticDatabase());
-	}
-	
-	public static class SimplisticDatabase implements Database {
-		private int count = 0;
+		myFixture = new MyFixture();
 
-		public boolean isConnected() {
-			return true;
-		}
-
-		public boolean insert(String insertSql) {
-			count++;
-			
-			return true;
-		}
-
-		public int queryCount(String queryCountSql) {
-			return count;
-		}
+		registry.register(MyFixture.class, myFixture);
 	}
 }
