@@ -12,7 +12,7 @@ import picounit.TestRunner;
 import previous.picounit.Verify;
 import junit.framework.TestResult;
 
-public class TestUsingLifecycleTestCaseTmp implements FunctionalTest {
+public class TestUsingLifecycleTestCase implements FunctionalTest {
 	private final TestRunner testRunner = new TestRunner();
 	
 	public void testUsingFixtureInConstructor(Verify verify) {
