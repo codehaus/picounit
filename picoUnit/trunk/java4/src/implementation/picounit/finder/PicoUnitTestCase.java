@@ -20,9 +20,9 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
-public class PicoUnitTestCase extends TestCase {
+public class PicoUnitTestCase<T> extends TestCase {
 	private final Method testMethod;
-	private final Class testClass;
+	private final Class<T> testClass;
 
 	private final Instantiator instantiator;
 	private final Invoker invoker;
@@ -30,18 +30,31 @@ public class PicoUnitTestCase extends TestCase {
 	private final Mocker mocker;
 	private final Thrower thrower;
 	private final LifecycleInstantiator lifecycleInstantiator;
+	private final TestListener testListener;
 
-	public PicoUnitTestCase(Method testMethod, Instantiator instantiator, Invoker invoker,
-		Invoker mockInvoker, Mocker mocker, Thrower thrower, LifecycleInstantiator lifecycleInstantiator) {
+	public PicoUnitTestCase(Class<T> testClass, Method testMethod, Instantiator instantiator,
+		Invoker invoker, Invoker mockInvoker, Mocker mocker, Thrower thrower,
+		LifecycleInstantiator lifecycleInstantiator, TestListener testListener) {
+		
+		assert testMethod != null;
+		assert testClass != null;
+		assert instantiator != null;
+		assert invoker != null;
+		assert mockInvoker != null;
+		assert mocker != null;
+		assert thrower != null;
+		assert lifecycleInstantiator != null;
+		assert testListener != null;
 
 		this.testMethod = testMethod;
-		this.testClass = testMethod.getDeclaringClass();
+		this.testClass = testClass;
 		this.instantiator = instantiator;
 		this.invoker = invoker;
 		this.mockInvoker = mockInvoker;
 		this.mocker = mocker;
 		this.thrower = thrower;
 		this.lifecycleInstantiator = lifecycleInstantiator;
+		this.testListener = testListener;
 	}
 
 	public int countTestCases() {
@@ -49,18 +62,20 @@ public class PicoUnitTestCase extends TestCase {
 	}
 
 	public String getName() {
-		return testMethod.getName() + "(" + testMethod.getDeclaringClass().getName() + ")";
+		return testMethod.getName() + "(" + testMethod.getDeclaringClass().getName() + ")"; 
 	}
 
 	public void run(TestResult result) {
 		result.startTest(this);
+
+		testListener.testStarted();
 
 		try {
 			Lifecycle[] lifecycles = getLifecycles();
 
 			setUp(lifecycles);
 
-			Object testInstance = instantiator.instantiate(testClass);
+			T testInstance = instantiator.instantiate(testClass);
 
 			mock(testInstance);
 
@@ -71,10 +86,10 @@ public class PicoUnitTestCase extends TestCase {
 			test(testInstance);
 
 			tearDown(testInstance);
+			
+			mocker.verify();
 
 			tearDown(lifecycles);
-
-			mocker.verify();
 
 			thrower.dispatchError();
 		}
@@ -101,7 +116,6 @@ public class PicoUnitTestCase extends TestCase {
 			result.addError(this, classNotFoundException);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			// I need a test for this!
 			result.addFailure(this, assertionFailedError);
 		}
 		catch (Throwable throwable) {
@@ -142,9 +156,9 @@ public class PicoUnitTestCase extends TestCase {
 		invoker.invoke("tearDown", target);
 	}
 
-	private void tearDown(Lifecycle[] contexts) throws IllegalAccessException, InvocationTargetException {
-		for (int index = 0; index < contexts.length; index++) {
-			tearDown(contexts[index]);
+	private void tearDown(Lifecycle[] lifecycles) throws IllegalAccessException, InvocationTargetException {
+		for (int index = 0; index < lifecycles.length; index++) {
+			tearDown(lifecycles[index]);
 		}
 	}
 }

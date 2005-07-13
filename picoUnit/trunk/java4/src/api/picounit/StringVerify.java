@@ -7,7 +7,21 @@
  *****************************************************************************/
 package picounit;
 
+/** @deprecated use conversational api instead
+ * 
+ * In the next release (1.3) these methods will be deleted 
+ */
+@Deprecated
 public interface StringVerify {
+	void equalsIgnoringCase(String message, String expected, String actual);
+	void doesNotEqualIgnoringCase(String message, String expected, String actual);
+
 	void contains(String searchIn, String searchFor);
+	void contains(String message, String searchIn, String searchFor);
+
 	void doesNotContain(String searchIn, String searchFor);
+	void doesNotContain(String message, String searchIn, String searchFor);
+
+	void matches(String message, String searchIn, String pattern);
+	void doesNotMatch(String message, String searchIn, String pattern);
 }

@@ -12,22 +12,21 @@ import picounit.Mocker;
 import picounit.Plugin;
 import picounit.Registry;
 import picounit.impl.Verifiable;
+import picounit.mocker.MockFactory;
+import picounit.mocker.MockInvocationInspector;
 
 import java.util.Properties;
 
 public class JMockerPlugin implements Plugin {
-	private final Registry registry;
-
-	public JMockerPlugin(Registry registry) {
-		this.registry = registry;
-	}
-
-	public void insert(Properties pluginProperties) {
+	public void insert(Registry registry, Properties pluginProperties) {
 		ConstraintStore constraintStore = new HashMapConstraintStore();
 
-		JMocker mocker = new JMocker(constraintStore);
+		Mocker mocker = JMocker.create(constraintStore);
+
 		registry.register(Mocker.class, mocker);
+		registry.register(MockFactory.class, mocker);
 		registry.register(Verifiable.class, mocker);
+		registry.register(MockInvocationInspector.class, mocker);
 
 		registry.register(Constraints.class, new JMockConstraints(constraintStore));
 	}

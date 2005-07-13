@@ -17,11 +17,11 @@ public class OverzealousCatchTest implements Test {
 	public void mock(Interface mockInterface) {
 		this.mockInterface = mockInterface;
 	}
-	
-	public void testOverzealousCatch(Mocker should) {
-		should.doNotExpect(mockInterface.booleanMethod());
 
-		should.doAboveWhen();
+	public void testOverzealousCatch(Mocker should) {
+		should.notCall(mockInterface.booleanMethod());
+
+		should.expectAboveWhenTheFollowingOccurs();
 
 		try {
 			mockInterface.booleanMethod();

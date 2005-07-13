@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public interface Resolver {
-	Object get(Class type);
+	<T> T get(Class<T> type);
 
 	Object[] get(Method method);
 

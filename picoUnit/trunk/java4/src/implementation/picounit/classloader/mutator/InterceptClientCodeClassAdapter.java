@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.classloader.mutator;
 
-
+@SuppressWarnings("unused")
 public class InterceptClientCodeClassAdapter extends ClassAdapter {
 	private final InterceptClientCodeCodeAdapter interceptClientCodeCodeVisitor;
 

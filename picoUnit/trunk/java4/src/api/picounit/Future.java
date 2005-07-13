@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit;
 
-public interface Future {
-	void setValue(Object value);
-	Object getValue();
+public interface Future<T> {
+	void setValue(T value);
+	T getValue();
 }

@@ -18,6 +18,6 @@ public class IndividualTestsTestCase implements FunctionalTest {
 		new TestRunner().runSingle(UseInvokableTest.class);
 
 		UseInvokableTest.operations.matches("invokable.invoked");
-		verify.equal("invokable.invoked", UseInvokableTest.operations.operations());
+		verify.that(UseInvokableTest.operations.operations()).isEqualTo("invokable.invoked");
 	}
 }

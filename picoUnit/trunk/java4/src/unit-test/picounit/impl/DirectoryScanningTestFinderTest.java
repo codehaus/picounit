@@ -8,7 +8,7 @@
 package picounit.impl;
 
 import picounit.Ignore;
-import picounit.Registry;
+import picounit.Instrumentation;
 import picounit.Test;
 import picounit.classloader.MethodParameterRegistry;
 import picounit.finder.ClassFinder;
@@ -16,37 +16,36 @@ import picounit.finder.DirectoryScanningTestFinder;
 import picounit.finder.FindAction;
 import picounit.finder.TestFilter;
 import picounit.finder.TestInstantiator;
-import picounit.registry.RegistryEntry;
+import picounit.registry.RegistryEntries;
 import previous.picounit.Constraints;
 import previous.picounit.Mocker;
 import previous.picounit.Verify;
 import junit.framework.TestSuite;
 
-public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
+public class DirectoryScanningTestFinderTest implements previous.picounit.Test{
 	private DirectoryScanningTestFinder testFinder;
 	
 	private ClassFinder classFinder;
 	private ClassLoader classLoader;
 	private TestFilter testFilter;
-	private RegistryEntry registryEntry;
+	private RegistryEntries registryEntries;
 	private MethodParameterRegistry methodParameterRegistry;
 	
 	private final FindAction findAction;
 
-	private final Mocker mocker;
+	private final Mocker should;
 	private final Verify verify;
 	private final Constraints is;
-
+	
 	public DirectoryScanningTestFinderTest(Mocker mocker, Constraints is, Verify verify) {
-		this.mocker = mocker;
-		this.verify = verify;
+		this.should = mocker;
 		this.is = is;
-
+		this.verify = verify;
 		this.findAction = (FindAction) is.instanceOf(FindAction.class);
 	}
 	
 	public void mock(ClassFinder classFinder, TestInstantiator testInstantiator,
-		ClassLoader classLoader, TestFilter testFilter, RegistryEntry registryEntry,
+		ClassLoader classLoader, TestFilter testFilter, RegistryEntries registryEntries,
 		MethodParameterRegistry methodParameterRegistry) {
 		
 		this.testFinder =
@@ -55,23 +54,24 @@ public class DirectoryScanningTestFinderTest implements previous.picounit.Test {
 		this.classFinder = classFinder;
 		this.classLoader = classLoader;
 		this.testFilter = testFilter;
-		this.registryEntry = registryEntry;
+		this.registryEntries = registryEntries;
 		this.methodParameterRegistry = methodParameterRegistry;
 	}
 
+	class StartingClass {}
+	class TestExample implements Test {}
+	class NonTestClass {}
+
 	public void testFindClassesBelowAClass() throws ClassNotFoundException {
-		class StartingClass {}
-		class TestExample implements Test {}
-		class NonTestClass {}
-
 		classFinder.findClasses(StartingClass.class, findAction);
-		registryEntry.registerWith((Registry) is.instanceOf(Registry.class));
-		mocker.expect(classLoader.loadClass(Ignore.class.getName())).andReturn(Ignore.class);
+		should.call((Class) classLoader.loadClass(Ignore.class.getName())).andReturn(Ignore.class);
+		registryEntries.register(Instrumentation.class, is.instanceOf(InstrumentationImpl.class));
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
-		TestSuite testSuite = testFinder.findTests(testFilter, registryEntry, "name", StartingClass.class,
+		TestSuite testSuite = testFinder.findTests(testFilter, registryEntries, "name", StartingClass.class,
 			Test.class, methodParameterRegistry);
-		verify.equal("name", testSuite.getName());
+
+		verify.that(testSuite.getName()).isEqualTo("name");
 	}
 }

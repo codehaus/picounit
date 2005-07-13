@@ -24,11 +24,12 @@ public class InterfaceToImplementationRegistryEntryTest implements Test {
 		this.registry = registry;
 	}
 	
-	public void testRegistersInterfaceToImplementationWithRegistry(Mocker mocker) {
-		registry.register(Interface.class, Implementation.class);
-		
-		mocker.replay();
-		
+	public void testRegistersInterfaceToImplementationWithRegistry(Mocker should) {
+		shouldCall:
+			registry.register(Interface.class, Implementation.class);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
 		interfaceToImplementationRegistryEntry.registerWith(registry);
 	}
 }

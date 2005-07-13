@@ -7,8 +7,8 @@
  *****************************************************************************/
 package picounit.reflection;
 
-import picounit.Context;
 import picounit.Invokable;
+import picounit.Lifecycle;
 import picounit.registry.Resolver;
 
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +49,7 @@ public class Invoker {
 	private void postInvocation(Object result) throws IllegalAccessException,
 		InvocationTargetException {
 		
-		if (result instanceof Context) {
+		if (result instanceof Lifecycle) {
 			parameterInvoker.invoke("setUp", result);
 		}
 
@@ -59,21 +59,23 @@ public class Invoker {
 			invokable.invoke();
 		}
 
-		if (result instanceof Context) {
+		if (result instanceof Lifecycle) {
 			parameterInvoker.invoke("tearDown", result);
 		}
 	}
 
-	public void invoke(String pattern, Object target) throws IllegalArgumentException,
+	public void invoke(String name, Object target) throws IllegalArgumentException,
 		IllegalAccessException, InvocationTargetException {
 
-		invoke(pattern, target, target.getClass());
+		invoke(name, target, target.getClass());
 	}
 
-	private void invoke(String pattern, Object target, Class targetClass) throws IllegalAccessException, InvocationTargetException {
+	private void invoke(String name, Object target, Class targetClass)
+		throws IllegalAccessException, InvocationTargetException {
+
 		Class superClass = targetClass.getSuperclass();
 		if (!superClass.equals(Object.class)) {
-			invoke(pattern, target, superClass);
+			invoke(name, target, superClass);
 		}
 		
 		Method[] methods = targetClass.getDeclaredMethods();
@@ -81,7 +83,7 @@ public class Invoker {
 		for (int index = 0; index < methods.length; index++) {
 			Method method = methods[index];
 
-			if (method.getName().equals(pattern)) {
+			if (method.getName().equals(name)) {
 				invoke(method, target);
 			}									   
 		}

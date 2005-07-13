@@ -21,5 +21,5 @@ public interface Plugin {
 	String FILE_NAME = "picounit-plugin.properties";
 	String CLASS_NAME_KEY = "plugin-class";
 
-	void insert(Properties pluginProperties);
+	void insert(Registry registry, Properties pluginProperties);
 }

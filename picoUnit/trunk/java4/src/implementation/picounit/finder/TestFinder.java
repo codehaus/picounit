@@ -8,10 +8,10 @@
 package picounit.finder;
 
 import picounit.classloader.MethodParameterRegistry;
-import picounit.registry.RegistryEntry;
+import picounit.registry.RegistryEntries;
 import junit.framework.TestSuite;
 
 public interface TestFinder {
-	TestSuite findTests(TestFilter testFilter, RegistryEntry registryEntry, String name, Class startingClass,
+	TestSuite findTests(TestFilter testFilter, RegistryEntries registryEntries, String name, Class startingClass,
 		Class markerClass, MethodParameterRegistry methodParameterRegistry);
 }

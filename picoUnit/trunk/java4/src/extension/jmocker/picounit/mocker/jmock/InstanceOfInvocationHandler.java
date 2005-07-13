@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.mocker.jmock;
 
-
 public class InstanceOfInvocationHandler extends EqualsInvocationHandler {
 	private final Class instanceOfWhat;
 
@@ -15,6 +14,7 @@ public class InstanceOfInvocationHandler extends EqualsInvocationHandler {
 		this.instanceOfWhat = instanceOfWhat;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object object) {
 		return instanceOfWhat.isAssignableFrom(object.getClass());
 	}

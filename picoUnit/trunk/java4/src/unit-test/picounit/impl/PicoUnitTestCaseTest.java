@@ -7,6 +7,7 @@ import picounit.Mocker;
 import picounit.Test;
 import picounit.finder.LifecycleInstantiator;
 import picounit.finder.PicoUnitTestCase;
+import picounit.finder.TestListener;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
 import picounit.util.MethodUtil;
@@ -28,17 +29,19 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	private Mocker mockedMocker;
 	private Lifecycle lifecycle;
 	private Thrower thrower;
+	private TestListener testListener;
 
 	private LifecycleInstantiator lifecycleInstantiator;
 
+	@SuppressWarnings("unchecked")
 	private PicoUnitTestCase picoUnitTestCase(Method testMethod) {
-		return new PicoUnitTestCase(testMethod, instantiator, invoker, mockInvoker, mockedMocker,
-			thrower, lifecycleInstantiator);
+		return new PicoUnitTestCase(testMethod.getDeclaringClass(), testMethod, instantiator, invoker, mockInvoker,
+			mockedMocker, thrower, lifecycleInstantiator, testListener);
 	}
 	
 	public void mock(DelegateTestResult delegateTestResult, Instantiator instantiator, Invoker invoker,
 		Invoker mockInvoker, Mocker mockedMocker, Lifecycle lifecycle, Thrower thrower,
-		LifecycleInstantiator lifecycleInstantiator) {
+		LifecycleInstantiator lifecycleInstantiator, TestListener testListener) {
 		
 		this.lifecycleInstantiator = lifecycleInstantiator;
 		this.testResult = new DelegatingTestResult(delegateTestResult);
@@ -50,10 +53,12 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		this.mockedMocker = mockedMocker;
 		this.lifecycle = lifecycle;
 		this.thrower = thrower;
+		this.testListener = testListener;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testHasSingleTestCaseCount(Verify verify) {
-		verify.equal(1, picoUnitTestCase(TestExample.testExample).countTestCases());
+		verify.that(picoUnitTestCase(TestExample.testExample).countTestCases()).isEqualTo(1);
 	}
 
 	public void testRun(previous.picounit.Mocker should) throws IllegalArgumentException, InvocationTargetException,
@@ -63,6 +68,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		PicoUnitTestCase picoUnitTestCase = picoUnitTestCase(TestExample.testExample);
 
 		delegateTestResult.startTest(picoUnitTestCase);
+		testListener.testStarted();
 
 		should.call(lifecycleInstantiator.instantiate(TestExample.class))
 			.andReturn(new Lifecycle[] {lifecycle});
@@ -71,7 +77,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 
 		invoker.invoke("setUp", lifecycle);
 
-		should.call(instantiator.instantiate(TestExample.class)).andReturn(testExample);
+		should.call((Object) instantiator.instantiate(TestExample.class)).andReturn(testExample);
 		invoker.invoke("setUp", testExample);
 
 		mockInvoker.invoke("mock", testExample);
@@ -89,7 +95,7 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 
 		delegateTestResult.endTest(picoUnitTestCase);
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		picoUnitTestCase.run(testResult);
 	}
@@ -101,14 +107,16 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		PicoUnitTestCase picoUnitTestCase = picoUnitTestCase(TestExample.testExample);
 
 		delegateTestResult.startTest(picoUnitTestCase);
-		
+		testListener.testStarted();
+
 		IllegalArgumentException exception = new IllegalArgumentException();
-		should.call(lifecycleInstantiator.instantiate(TestExample.class)).andRaise(exception);
+		should.call(lifecycleInstantiator.instantiate(TestExample.class))
+			.andRaise(exception);
 
 		delegateTestResult.addError(picoUnitTestCase, exception); 
 		delegateTestResult.endTest(picoUnitTestCase);
 
-		should.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		picoUnitTestCase.run(testResult);
 	}
@@ -116,9 +124,10 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	public void testIfTestAndTearDownThrowIncludeBothExceptionsInTestResult() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testHasSameNameAsTestMethodWithClassName(Verify verify) {
-		verify.equal(TestExample.testExample.getName() + "(" + TestExample.class.getName() + ")",
-			picoUnitTestCase(TestExample.testExample).getName());
+		verify.that(picoUnitTestCase(TestExample.testExample).getName())
+			.isEqualTo(TestExample.testExample.getName() + "(" + TestExample.class.getName() + ")");
 	}
 
 	public static class TestExample implements Test {

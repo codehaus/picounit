@@ -11,34 +11,52 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.jmock.core.AbstractDynamicMock;
+import org.jmock.core.DynamicMockError;
 import org.jmock.core.Invocation;
 import org.jmock.core.InvocationDispatcher;
 import org.jmock.core.LIFOInvocationDispatcher;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class BetterCGLIBCoreMock extends AbstractDynamicMock implements MethodInterceptor {
-    private final Object proxy;
+public class BetterCGLIBCoreMock<T> extends AbstractDynamicMock
+	implements InvocationHandler, MethodInterceptor {
 
-    public BetterCGLIBCoreMock( Class mockedType, String name ) {
+    private final T proxy;
+
+    public BetterCGLIBCoreMock(Class<T> mockedType, String name) {
         this(mockedType, name, new LIFOInvocationDispatcher(), new ProxyFactory());
     }
 
-    public BetterCGLIBCoreMock(Class mockedType, String name,
+    public BetterCGLIBCoreMock(Class<T> mockedType, String name,
     	InvocationDispatcher invocationDispatcher, ProxyFactory proxyFactory) {
 
     	super(mockedType, name, invocationDispatcher);
 
-    	this.proxy = proxyFactory.create(mockedType, this);
+    	if (mockedType.isInterface()) {
+    		this.proxy = proxyFactory.create(mockedType, (InvocationHandler) this);
+    	}
+    	else {
+    		this.proxy = proxyFactory.create(mockedType, (MethodInterceptor) this);
+    	}
 	}
-
-    public Object proxy() {
+    
+    public T proxy() {
         return proxy;
     }
 
     public Object intercept( Object thisProxy, Method method, Object[] args, MethodProxy superProxy )
 		throws Throwable {
 
-        return mockInvocation(new Invocation(proxy, method, args));
+    	try {
+    		return mockInvocation(new Invocation(proxy, method, args));
+    	}
+    	catch (DynamicMockError dynamicMockError) {
+    		throw dynamicMockError;
+    	}
     }
+
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		return mockInvocation(new Invocation(proxy, method, args));
+	}
 }

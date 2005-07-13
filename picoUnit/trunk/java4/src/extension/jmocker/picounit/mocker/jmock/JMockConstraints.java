@@ -40,15 +40,16 @@ public class JMockConstraints implements Constraints {
 		this.objectConstraints = objectConstraints;
 	}
 
-	public Object instanceOf(Class instanceOf) {
+	public <T> T instanceOf(Class<T> instanceOf) {
 		return proxyFactory.create(instanceOf, new InstanceOfInvocationHandler(instanceOf));
 	}
 
-	public Future future(Class futureType) {
-		return (Future) proxyFactory.create(Future.class,
-			new FutureInvocationHandler(new FutureImpl(futureType)));
+	@SuppressWarnings("unchecked")
+	public <T> Future<T> future(Class<T> futureType) {
+		return proxyFactory.create(Future.class,
+			new FutureInvocationHandler(new FutureImpl<T>(futureType)));
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// IntegerConstraints
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +57,7 @@ public class JMockConstraints implements Constraints {
 		return integerConstraints.anInteger();
 	}
 
-	public int oneOf(int[] oneOf) {
+	public int oneOf(int ... oneOf) {
 		return integerConstraints.oneOf(oneOf);
 	}
 
@@ -64,7 +65,7 @@ public class JMockConstraints implements Constraints {
 		return integerConstraints.notEqualTo(notEqual);
 	}
 	
-	public int neitherOf(int[] neitherOf) {
+	public int neitherOf(int ... neitherOf) {
 		return integerConstraints.neitherOf(neitherOf);
 	}
 
@@ -97,17 +98,17 @@ public class JMockConstraints implements Constraints {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// LongConstraints
+	// ExtensibleLongConstraints
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public long aLong() {
 		return longConstraints.aLong();
 	}
 	
-	public long oneOf(long[] oneOf) {
+	public long oneOf(long ... oneOf) {
 		return longConstraints.oneOf(oneOf);
 	}
 	
-	public long neitherOf(long[] neitherOf) {
+	public long neitherOf(long ... neitherOf) {
 		return longConstraints.neitherOf(neitherOf);
 	}
 	
@@ -144,17 +145,17 @@ public class JMockConstraints implements Constraints {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// DoubleConstraints
+	// DefaultDoubleConstraints
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public double aDouble() {
 		return doubleConstraints.aDouble();
 	}
 	
-	public double oneOf(double[] oneOf) {
+	public double oneOf(double ... oneOf) {
 		return doubleConstraints.oneOf(oneOf);
 	}
 	
-	public double neitherOf(double[] neitherOf) {
+	public double neitherOf(double ... neitherOf) {
 		return doubleConstraints.neitherOf(neitherOf);
 	}
 	
@@ -191,17 +192,17 @@ public class JMockConstraints implements Constraints {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// StringConstraints
+	// DefaultStringConstraints
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public String aString() {
 		return stringConstraints.aString();
 	}
 	
-	public String oneOf(String[] oneOf) {
+	public String oneOf(String ... oneOf) {
 		return stringConstraints.oneOf(oneOf);
 	}
 
-	public String neitherOf(String[] neitherOf) {
+	public String neitherOf(String ... neitherOf) {
 		return stringConstraints.neitherOf(neitherOf);
 	}
 
@@ -238,7 +239,7 @@ public class JMockConstraints implements Constraints {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// ObjectConstraints
+	// TypedConstraintsImpl
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public Object notEqual(Object notEqual) {
 		return objectConstraints.notEqual(notEqual);
@@ -256,11 +257,11 @@ public class JMockConstraints implements Constraints {
 		return objectConstraints.notANullObject();
 	}
 	
-	public Object oneOf(Object[] oneOf) {
+	public Object oneOf(Object ... oneOf) {
 		return objectConstraints.oneOf(oneOf);
 	}
 	
-	public Object neitherOf(Object[] neitherOf) {
+	public Object neitherOf(Object ... neitherOf) {
 		return objectConstraints.neitherOf(neitherOf);
 	}
 }

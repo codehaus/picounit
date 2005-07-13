@@ -10,6 +10,7 @@ package picounit;
 import picounit.classloader.MethodParameterRegistry;
 import picounit.finder.SinglePicoUnitTestSuite;
 import picounit.finder.TestFilter;
+import picounit.finder.TestListener;
 import picounit.registry.RegistryEntry;
 import previous.picounit.Verify;
 import junit.framework.TestSuite;
@@ -20,6 +21,7 @@ public class PicoUnitTest implements previous.picounit.Test {
 	private final TestFilter testFilter = null;
 	private final MethodParameterRegistry methodParameterRegistry = null;
 	private final ClassLoader classLoader = null;
+	private TestListener testListener;
 	private final PicoUnit picoUnit = new PicoUnit();
 
 	private RegistryEntry registryEntry;
@@ -35,9 +37,11 @@ public class PicoUnitTest implements previous.picounit.Test {
 	}
 	
 	public void xtestGenerateSingleCreatesSinglePicoUnitTestSuite() {
-		verify.equal(singleTest(StartingClass.class.getName(), 
-		new SinglePicoUnitTestSuite(StartingClass.class.getName(), StartingClass.class, testFilter,
-			registryEntry, methodParameterRegistry, classLoader)), picoUnit.generateSingleJUnitTest(StartingClass.class));
+		verify.that(picoUnit.generateSingleJUnitTest(StartingClass.class))
+			.isEqualTo(singleTest(StartingClass.class.getName(), 
+				new SinglePicoUnitTestSuite<StartingClass>(StartingClass.class.getName(),
+					StartingClass.class, testFilter, registryEntry, methodParameterRegistry, classLoader,
+					testListener)));
 	}
 
 	private TestSuite singleTest(String name, SinglePicoUnitTestSuite test) {
@@ -49,11 +53,13 @@ public class PicoUnitTest implements previous.picounit.Test {
 	private class TestClass implements Test {}
 
 	public void xtestGenerateSingle() {
-		verify.equal(singlePicoUnitTestSuite(TestClass.class.getName(), TestClass.class), picoUnit.generateSingleJUnitTest(TestClass.class));
+		verify.that(picoUnit.generateSingleJUnitTest(TestClass.class))
+			.isEqualTo(singlePicoUnitTestSuite(TestClass.class.getName(), TestClass.class));
 	}
 
 	public void xtestGenerateSingleWithName() {
-		verify.equal(singlePicoUnitTestSuite("Some Name", TestClass.class), picoUnit("Some Name").generateSingleJUnitTest(TestClass.class));
+		verify.that(picoUnit("Some Name").generateSingleJUnitTest(TestClass.class))
+			.isEqualTo(singlePicoUnitTestSuite("Some Name", TestClass.class));
 	}
 	
 	private PicoUnit picoUnit(String name) {
@@ -64,8 +70,8 @@ public class PicoUnitTest implements previous.picounit.Test {
 		new PicoUnit().generateJUnitTest();
 	}
 	
-	private SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
-		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
-			classLoader);
+	private <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(String name, Class<T> startingClass) {
+		return new SinglePicoUnitTestSuite<T>(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+			classLoader, testListener);
 	}
 }

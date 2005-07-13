@@ -7,10 +7,10 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.NumericVerify;
 import picounit.Verify;
 
-public class DefaultNumericVerify implements NumericVerify {
+@SuppressWarnings("deprecation")
+public class DefaultNumericVerify implements picounit.NumericVerify {
 	private final Verify verify;
 
 	public DefaultNumericVerify(Verify verify) {
@@ -22,7 +22,20 @@ public class DefaultNumericVerify implements NumericVerify {
 			verify.fail(greaterThan + " is not greater than " + actual);
 		}
 	}
-	
+
+	public void isGreaterThan(String message, double greaterThan, double actual) {
+		if (toLong(greaterThan) <= toLong(actual)) {
+			verify.fail(failureMessage(message, greaterThan + " is not greater than " + actual));
+		}
+	}
+
+	public void isGreaterThan(String message, double greaterThan, double actual, double delta) {
+		if (toLong(greaterThan + delta) <= toLong(actual)) {
+			verify.fail(failureMessage(message, greaterThan + " is not greater than " + actual
+				+ " with delta: " + delta));
+		}
+	}
+
 	public void isGreaterThan(float greaterThan, float actual) {
 		if (toInt(greaterThan) <= toInt(actual)) {
 			verify.fail(greaterThan + " is not greater than " + actual);
@@ -34,13 +47,29 @@ public class DefaultNumericVerify implements NumericVerify {
 			verify.fail(greaterThan + " is not greater than " + actual);
 		}
 	}
-	
+
 	public void isGreaterThanOrEqualTo(double greaterThanOrEqual, double actual) {
 		if (toLong(greaterThanOrEqual) < toLong(actual)) {
 			verify.fail(greaterThanOrEqual + " is not greater than or equal to " + actual);
 		}
 	}
-	
+
+	public void isGreaterThanOrEqualTo(String message, double greaterThanOrEqual, double actual) {
+		if (toLong(greaterThanOrEqual) < toLong(actual)) {
+			verify.fail(failureMessage(message, greaterThanOrEqual
+				+ " is not greater than or equal to " + actual));
+		}
+	}
+
+	public void isGreaterThanOrEqualTo(String message, double greaterThanOrEqual, double actual,
+		double delta) {
+
+		if (toLong(greaterThanOrEqual + delta) < toLong(actual)) {
+			verify.fail(failureMessage(message, greaterThanOrEqual
+				+ " is not greater than or equal to " + actual + " with delta: " + delta));
+		}
+	}
+
 	public void isGreaterThanOrEqualTo(float greaterThanOrEqual, float actual) {
 		if (toInt(greaterThanOrEqual) < toInt(actual)) {
 			verify.fail(greaterThanOrEqual + " is not greater than or equal to " + actual);
@@ -58,7 +87,20 @@ public class DefaultNumericVerify implements NumericVerify {
 			verify.fail(lessThan + " is not less than " + actual);
 		}
 	}
-	
+
+	public void isLessThan(String message, double lessThan, double actual) {
+		if (toLong(lessThan) >= toLong(actual)) {
+			verify.fail(failureMessage(message, lessThan + " is not less than " + actual));
+		}
+	}
+
+	public void isLessThan(String message, double lessThan, double actual, double delta) {
+		if (toLong(lessThan - delta) >= toLong(actual)) {
+			verify.fail(failureMessage(message, lessThan + " is not less than " + actual
+				+ " with delta: " + delta));
+		}
+	}
+
 	public void isLessThan(float lessThan, float actual) {
 		if (toInt(lessThan) >= toInt(actual)) {
 			verify.fail(lessThan + " is not less than " + actual);
@@ -76,7 +118,23 @@ public class DefaultNumericVerify implements NumericVerify {
 			verify.fail(lessThanOrEqualTo + " is not less than or equal to " + actual);
 		}
 	}
-	
+
+	public void isLessThanOrEqualTo(String message, double lessThanOrEqualTo, double actual) {
+		if (toLong(lessThanOrEqualTo) > toLong(actual)) {
+			verify.fail(failureMessage(message, lessThanOrEqualTo
+				+ " is not less than or equal to " + actual));
+		}
+	}
+
+	public void isLessThanOrEqualTo(String message, double lessThanOrEqualTo, double actual,
+		double delta) {
+
+		if (toLong(lessThanOrEqualTo - delta) > toLong(actual)) {
+			verify.fail(failureMessage(message, lessThanOrEqualTo
+				+ " is not less than or equal to " + actual + " with delta: " + delta));
+		}
+	}
+
 	public void isLessThanOrEqualTo(float lessThanOrEqualTo, float actual) {
 		if (toInt(lessThanOrEqualTo) > toInt(actual)) {
 			verify.fail(lessThanOrEqualTo + " is not less than or equal to " + actual);
@@ -95,5 +153,9 @@ public class DefaultNumericVerify implements NumericVerify {
 
 	private long toInt(float actual) {
 		return Float.floatToIntBits(actual);
+	}
+
+	private String failureMessage(String prefix, String error) {
+		return prefix == null ? error : prefix + ", " + error;
 	}
 }

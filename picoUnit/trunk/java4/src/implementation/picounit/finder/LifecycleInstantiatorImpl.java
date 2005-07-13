@@ -30,26 +30,26 @@ public class LifecycleInstantiatorImpl implements LifecycleInstantiator {
 	public Lifecycle[] instantiate(Class testClass) {		
 		File sourceRoot = fileSystem.getSourceRoot(testClass);
 
-		List lifecycleList = new LinkedList();
+		List<Lifecycle> lifecycleList = new LinkedList<Lifecycle>();
 
 		classFinder.findClasses(sourceRoot, sourceRoot,
 			new AboveClassDirectoryCondition(fileSystem.getClassFile(testClass), sourceRoot),
 			new AddLifecycle(lifecycleList, classLoader, instantiator)); 
 
-		return (Lifecycle[]) lifecycleList.toArray(new Lifecycle[0]);
+		return lifecycleList.toArray(new Lifecycle[0]);
 	}
 	
 	public static class AddLifecycle implements FindAction {
-		private final List lifecycleList;
+		private final List<Lifecycle> lifecycleList;
 		private final ClassLoader classLoader;
 		private final Instantiator instantiator;
 		private final Condition isLifecycle;
 
-		private AddLifecycle(List lifecycleList, ClassLoader classLoader, Instantiator instantiator) {
+		private AddLifecycle(List<Lifecycle> lifecycleList, ClassLoader classLoader, Instantiator instantiator) {
 			this(lifecycleList, classLoader, instantiator, new ImplementsCondition(Lifecycle.class));
 		}
 		
-		private AddLifecycle(List lifecycleList, ClassLoader classLoader, Instantiator instantiator,
+		private AddLifecycle(List<Lifecycle> lifecycleList, ClassLoader classLoader, Instantiator instantiator,
 			Condition isLifecycle) {
 
 			this.lifecycleList = lifecycleList;
@@ -60,10 +60,10 @@ public class LifecycleInstantiatorImpl implements LifecycleInstantiator {
 
 		public void perform(String className) {
 			try {
-				Class aClass = classLoader.loadClass(className);
+				Class<?> aClass = classLoader.loadClass(className);
 
 				if (isLifecycle.matches(aClass)) {
-					lifecycleList.add(instantiator.instantiate(aClass));
+					lifecycleList.add((Lifecycle) instantiator.instantiate(aClass));
 				}
 			}
 			catch (Exception exception) {

@@ -13,6 +13,7 @@ import picounit.verify.StringUtil;
 import previous.picounit.Mocker;
 import previous.picounit.Test;
 
+@SuppressWarnings("deprecation")
 public class ArrayVerifyTest implements Test {
 	private final Mocker should;
 	

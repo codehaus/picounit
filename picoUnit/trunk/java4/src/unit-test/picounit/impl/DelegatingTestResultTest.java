@@ -15,7 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 
 public class DelegatingTestResultTest implements previous.picounit.Test {
-	private final Mocker mocker;
+	private final Mocker should;
 	private DelegateTestResult delegateTestResult;
 	
 	private DelegatingTestResult delegatingTestResult;
@@ -24,8 +24,8 @@ public class DelegatingTestResultTest implements previous.picounit.Test {
 	private final Throwable throwable = new Throwable();
 	private final AssertionFailedError assertionFailedError = new AssertionFailedError();
 	
-	public DelegatingTestResultTest(Mocker mocker) {
-		this.mocker = mocker;	
+	public DelegatingTestResultTest(Mocker should) {
+		this.should = should;	
 	}
 	
 	public void mock(DelegateTestResult delegateTestResult) {
@@ -37,7 +37,7 @@ public class DelegatingTestResultTest implements previous.picounit.Test {
 	public void testDelegatesStartTest() {
 		delegateTestResult.startTest(test);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		delegatingTestResult.startTest(test);
 	}
@@ -45,7 +45,7 @@ public class DelegatingTestResultTest implements previous.picounit.Test {
 	public void testDelegatesEndTest() {
 		delegateTestResult.endTest(test);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		delegatingTestResult.endTest(test);
 	}
@@ -53,7 +53,7 @@ public class DelegatingTestResultTest implements previous.picounit.Test {
 	public void testDelegatesAddError() {
 		delegateTestResult.addError(test, throwable);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		delegatingTestResult.addError(test, throwable);
 	}
@@ -61,7 +61,7 @@ public class DelegatingTestResultTest implements previous.picounit.Test {
 	public void testDelegatesAddFailure() {
 		delegateTestResult.addFailure(test, assertionFailedError);
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		delegatingTestResult.addFailure(test, assertionFailedError);
 	}

@@ -7,13 +7,13 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.FileVerify;
 import picounit.Verify;
 import picounit.util.FileReader;
 
 import java.io.File;
 
-public class DefaultFileVerify implements FileVerify {
+@SuppressWarnings("deprecation")
+public class DefaultFileVerify implements picounit.FileVerify {
 	private final FileReader fileReader;
 	private final Verify verify;
 	private final ArrayUtil arrayUtil;
@@ -42,7 +42,7 @@ public class DefaultFileVerify implements FileVerify {
 			equalDirectoryContents(expected, actual);
 		}
 	}
-
+	
 	private void equalFileContents(File expected, File actual) {
 		byte[] expectedContents = fileReader.readContents(expected);
 		byte[] actualContents = fileReader.readContents(actual);

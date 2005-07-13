@@ -13,10 +13,22 @@ import java.util.Arrays;
 public class StringUtil {
 	private final ArrayUtil arrayUtil = new ArrayUtil();
 
+	public boolean equalsIgnoringCase(String expected, String actual) {
+		return expected != null &&
+			actual != null &&
+			expected.equalsIgnoreCase(actual);
+	}
+
 	public boolean contains(String searchIn, String searchFor) {
 		return searchIn != null &&
 			searchFor != null &&
 			searchIn.indexOf(searchFor) != -1;
+	}
+	
+	public boolean matches(String searchIn, String pattern) {
+		return searchIn != null &&
+			pattern != null &&
+			searchIn.matches(pattern);
 	}
 
 	public String replace(String replaceIn, String toReplace, String replaceWith) {

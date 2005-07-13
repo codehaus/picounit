@@ -32,14 +32,15 @@ public class NoTestsFoundTestCaseTest implements Test {
 	}
 
 	public void testNameSameAsStartingClass(Verify verify) {
-		verify.equal(StartingClass.class.getName(), noTestsFoundTestCase(StartingClass.class).getName());
+		verify.that(noTestsFoundTestCase(StartingClass.class).getName())
+			.isEqualTo(StartingClass.class.getName());
 	}
 	
 	public void testHasOneTest(Verify verify) {
-		verify.equal(1, noTestsFoundTestCase(StartingClass.class).countTestCases());
+		verify.that(noTestsFoundTestCase(StartingClass.class).countTestCases()).isEqualTo(1);
 	}
 	
-	public void testProducesErrorWhenRun(Mocker mocker) {
+	public void testProducesErrorWhenRun(Mocker should) {
 		NoTestsFoundTestCase noTestsFoundTestCase = noTestsFoundTestCase(StartingClass.class);
 		
 		delegateTestResult.startTest(noTestsFoundTestCase);
@@ -48,7 +49,7 @@ public class NoTestsFoundTestCaseTest implements Test {
 
 		delegateTestResult.endTest(noTestsFoundTestCase);
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		noTestsFoundTestCase.run(delegatingTestResult);
 	}
@@ -56,10 +57,12 @@ public class NoTestsFoundTestCaseTest implements Test {
 	public static class AnotherStartingClass {}
 
 	public void testEquals(Verify verify) {
-		verify.equal("Instances constructed with same starting class should be equal",
-			noTestsFoundTestCase(StartingClass.class), noTestsFoundTestCase(StartingClass.class));	
+		verify.because("Instances constructed with same starting class should be equal")
+			.that(noTestsFoundTestCase(StartingClass.class))
+			.isEqualTo(noTestsFoundTestCase(StartingClass.class));
 
-		verify.notEqual("Instances constructed with different starting classes  should not be equal",
-			noTestsFoundTestCase(StartingClass.class), noTestsFoundTestCase(AnotherStartingClass.class));
+		verify.because("Instances constructed with different starting classes  should not be equal")
+			.that(noTestsFoundTestCase(AnotherStartingClass.class))
+			.isDifferentTo(noTestsFoundTestCase(StartingClass.class));
 	}
 }

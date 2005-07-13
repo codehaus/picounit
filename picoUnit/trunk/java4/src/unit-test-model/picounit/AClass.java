@@ -7,6 +7,7 @@
  *****************************************************************************/
 package picounit;
 
+@SuppressWarnings("unused") 
 public class AClass {
 	public interface Public {}
 	public interface Package {}

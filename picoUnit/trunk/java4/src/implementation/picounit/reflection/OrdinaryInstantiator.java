@@ -19,10 +19,11 @@ public class OrdinaryInstantiator implements Instantiator {
 		this.resolver = resolver;
 	}
 
-	public Object instantiate(Class toInstantiate) throws IllegalArgumentException,
+	@SuppressWarnings("unchecked")
+	public <T> T instantiate(Class<T> toInstantiate) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 
-		Constructor[] constructors = toInstantiate.getConstructors();
+		Constructor<T>[] constructors = toInstantiate.getConstructors();
 
 		if (constructors.length == 0) {
 			return toInstantiate.newInstance();
@@ -33,7 +34,7 @@ public class OrdinaryInstantiator implements Instantiator {
 				" has more than one public constructor");
 		}
 
-		Constructor constructor = constructors[0];
+		Constructor<T> constructor = constructors[0];
 
 		return constructor.newInstance(resolver.get(constructor));
 	}

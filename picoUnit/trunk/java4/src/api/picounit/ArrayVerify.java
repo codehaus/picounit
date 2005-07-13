@@ -7,6 +7,10 @@
  *****************************************************************************/
 package picounit;
 
+/** @deprecated use conversational api instead
+ * 
+ * In the next release (1.3) these methods will be deleted 
+ */
 public interface ArrayVerify {
 	void contains(boolean[] searchIn, boolean searchFor);
 	void contains(byte[] searchIn, byte searchFor);
@@ -19,7 +23,7 @@ public interface ArrayVerify {
 	void contains(long[] searchIn, long searchFor);
 	void contains(Object[] searchIn, Object searchFor);
 	void contains(short[] searchIn, short searchFor);
-
+	
 	void doesNotContain(boolean[] searchIn, boolean searchFor);
 	void doesNotContain(byte[] searchIn, byte searchFor);
 	void doesNotContain(char[] searchIn, char searchFor);

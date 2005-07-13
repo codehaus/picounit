@@ -7,20 +7,34 @@
  *****************************************************************************/
 package picounit;
 
+/** @deprecated Use Verify.that(<numeric>) instead */
+@Deprecated
 public interface NumericVerify {
 	void isGreaterThan(double greaterThan, double actual);
+	void isGreaterThan(String message, double greaterThan, double actual);
+	void isGreaterThan(String message, double greaterThan, double actual, double delta);
+
 	void isGreaterThan(float greaterThan, float actual);
 	void isGreaterThan(long greaterThan, long actual);
 
 	void isGreaterThanOrEqualTo(double greaterThanOrEqual, double actual);
+	void isGreaterThanOrEqualTo(String message, double greaterThanOrEqual, double actual);
+	void isGreaterThanOrEqualTo(String message, double greaterThanOrEqual, double actual, double delta);
+	
 	void isGreaterThanOrEqualTo(float greaterThanOrEqual, float actual);
 	void isGreaterThanOrEqualTo(long greaterThanOrEqual, long actual);
 
 	void isLessThan(double lessThan, double actual);
+	void isLessThan(String message, double lessThan, double actual);
+	void isLessThan(String message, double lessThan, double actual, double delta);
+
 	void isLessThan(float lessThan, float actual);
 	void isLessThan(long lessThan, long actual);
 
 	void isLessThanOrEqualTo(double lessThanOrEqualTo, double actual);
+	void isLessThanOrEqualTo(String message, double lessThanOrEqualTo, double actual);
+	void isLessThanOrEqualTo(String message, double lessThanOrEqualTo, double actual, double delta);
+	
 	void isLessThanOrEqualTo(float lessThanOrEqualTo, float actual);
 	void isLessThanOrEqualTo(long lessThanOrEqualTo, long actual);
 }

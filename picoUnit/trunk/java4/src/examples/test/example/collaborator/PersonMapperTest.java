@@ -10,7 +10,6 @@ package example.collaborator;
 import example.model.Database;
 import example.model.Person;
 import example.model.PersonMapper;
-
 import picounit.Mocker;
 import picounit.Test;
 
@@ -25,12 +24,12 @@ public class PersonMapperTest implements Test {
 		this.mockDatabase = mockDatabase;
 	}
 
-	public void testSavingAPersonInsertsARowIntoPeopleTable(Mocker should) {
+	public void testSavingAPersonInsertsARowIntoThePeopleTable(Mocker should) {
 		should.call(mockDatabase.insert("insert into people (name) values('Fred Dibner')"))
 			.andReturn(true)
 			.because("The PersonMapper should use a Database to save a Person");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		Person fred = new Person("Fred Dibner");
 		personMapper.save(fred);

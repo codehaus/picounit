@@ -1,0 +1,79 @@
+- Categories
+- Run failures first
+- Coverage
+- Meta Tests
+- Test Generators
+- Verify generator	
+  - How is this different to use of Constraints in mocks ? [the location of use, difficult to detect]
+- Chained mocking
+   eg in addition to being able to call:
+      should.call(verify.that("string")).andReturn(stringConstraints)
+      stringConstraints.isEqualTo("string")
+   call:
+      verify.that("string").isEqualTo("string")
+- Mock parameterized types in return types
+  - Use class observation: each call to parameterized method is followed by a CHECKCAST which occurs
+    on the same line as the invocation
+    strangely the StaceTraceElement line number is different to the runtime ASM line number, but
+    the same as the Bytecode outline line number. Because of this I can only rely on the ordering of
+    CHECKCAST's within a method and ordering of line numbers. I must also include a special
+    case of catching ClassCastException in PicoUnitTestCase and issue the error to the user
+    that mocking of Parameterized return types is a bit of a black art.
+  
+ If parameterized types are erased where does the class cast exception come from in
+ 
+ interface TypeConsumer {
+   void <Type> consume(Type type);
+}
+
+interface TypeProducer {
+  <Type> Type produce(Type toEcho);
+}
+
+TypeConsumer typeConsumer = new RealTypeConsumer();
+
+TypeProducer typeProducer = Proxy....
+
+typeConsumer.consume(typeProducer.produce("hello"));
+
+
+I think that a CHECKCAST call remains in the code
+
+Problem with:
+		class Base {}
+		class Derived extends Base {}
+		Base base = new Base();
+		Derived derived = new Derived();
+
+		verify.that(base).isEqualTo(derived);
+				verify.that(derived).isEqualTo(base);
+
+	Not so much of a problem: that(<param>) is actual and isEqualTo(<param>) is created in the test,
+	so creating a derived in the test shouldn't be too difficult.
+				
+Use decompilation of statements such as
+
+verify.that(someMethod(param)).isTrue()
+
+to produce errors such as:
+AssertionFailedError: <someMethod(param)> is false
+
+and
+
+verify.that(1 + 2).isEqualTo(2);
+
+AssertionFailedError: <(1 + 2) = 3> is not equal to <2>
+
+contains(...)
+
+Collections verify
+
+Postponed warnings
+
+Consider integrating DelegateVerify and Mocker
+Consider renaming Mocker to Should
+
+
+Add stubbing interface: When
+  when.calling(xyz).thenReturn(123);
+  (delegate to should.call(xyz).occurs(0, INT_MAX).andReturn(123))

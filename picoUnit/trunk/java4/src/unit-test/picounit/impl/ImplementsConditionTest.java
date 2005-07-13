@@ -17,23 +17,23 @@ public class ImplementsConditionTest implements previous.picounit.Test {
 	public void testMatchesWithClassThatImplements(Verify verify) {
 		class ImplementsTest implements Test {}
 
-		verify.that(implementsCondition.matches(ImplementsTest.class));
+		verify.thatBoolean(implementsCondition.matches(ImplementsTest.class)).isTrue();
 	}
 
 	public void testDoesNotMatchAbstractClassThatImplements(Verify verify) {
 		abstract class ImplementsTest implements Test {}
 
-		verify.not(implementsCondition.matches(ImplementsTest.class));
+		verify.thatBoolean(implementsCondition.matches(ImplementsTest.class)).isFalse();
 	}
 
 	interface Extends extends Test {}
 	public void testDoesNotMatchInterfacesThatExtends(Verify verify) {
-		verify.not(implementsCondition.matches(Extends.class));
+		verify.thatBoolean(implementsCondition.matches(Extends.class)).isFalse();
 	}
 
 	public void testDoesNotMatchWithClassThatDoesNotImplement(Verify verify) {
 		class DoesNotImplementTest {}
 
-		verify.not(implementsCondition.matches(DoesNotImplementTest.class));
+		verify.thatBoolean(implementsCondition.matches(DoesNotImplementTest.class)).isFalse();
 	}
 }

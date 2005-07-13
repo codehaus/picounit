@@ -60,18 +60,9 @@ public class RegistryImpl implements Registry, Resolver {
 		}
 	}
 
-	public Object get(Class type) {
-		return picoContainer.getComponentInstanceOfType(type); 
-	}
-
-	public Object[] get(Class[] types) {
-		Object[] fixtures = new Object[types.length];
-
-		for (int index = 0; index < fixtures.length; index++) {
-			fixtures[index] = get(types[index]);
-		}
-
-		return fixtures;
+	@SuppressWarnings("unchecked")
+	public <T> T get(Class<T> type) {
+		return (T) picoContainer.getComponentInstanceOfType(type); 
 	}
 
 	public Object[] get(Method method) {
@@ -80,5 +71,16 @@ public class RegistryImpl implements Registry, Resolver {
 	
 	public Object[] get(Constructor constructor) {
 		return get(constructor.getParameterTypes());
+	}
+
+	@SuppressWarnings("unchecked")
+	private Object[] get(Class[] types) {
+		Object[] fixtures = new Object[types.length];
+
+		for (int index = 0; index < types.length; index++) {
+			fixtures[index] = get(types[index]);
+		}
+
+		return fixtures;
 	}
 }

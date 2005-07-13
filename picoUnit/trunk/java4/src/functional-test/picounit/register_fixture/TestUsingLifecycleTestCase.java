@@ -21,11 +21,12 @@ public class TestUsingLifecycleTestCase implements FunctionalTest {
 
 		TestResult testResult = testRunner.runSingle(TestUsingFixtureInConstructor.class);
 
-		verify.notNull(MyLifecycle.myFixture);
-		verify.equal(1, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
+		verify.that(MyLifecycle.myFixture).isNotNull();
+		
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
 
-		verify.same(MyLifecycle.myFixture, TestUsingFixtureInConstructor.myFixture);
+		verify.that(TestUsingFixtureInConstructor.myFixture).isTheSameAs(MyLifecycle.myFixture);
 	}
 
 	public void testUsingFixtureInTestMethod(Verify verify) {
@@ -34,10 +35,10 @@ public class TestUsingLifecycleTestCase implements FunctionalTest {
 
 		TestResult testResult = testRunner.runSingle(TestUsingFixtureInTestMethod.class);
 
-		verify.notNull(MyLifecycle.myFixture);
-		verify.equal(1, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
+		verify.that(MyLifecycle.myFixture).isNotNull();
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
 
-		verify.same(MyLifecycle.myFixture, TestUsingFixtureInTestMethod.myFixture);
+		verify.that(TestUsingFixtureInTestMethod.myFixture).isTheSameAs(MyLifecycle.myFixture);
 	}
 }

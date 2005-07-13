@@ -23,15 +23,16 @@ public class MockResolver implements Resolver {
 		this.methodParameterRegistry = methodParameterRegistry;
 	}
 
-	public Object get(Class type) {
+	public <T> T get(Class<T> type) {
 		return mocker.mock(type);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object[] get(Class[] classes) {
 		Object[] objects = new Object[classes.length];
 
 		for (int index = 0; index < objects.length; index++) {
-			objects[index] = mocker.mock(classes[index]); 
+			objects[index] = mocker.mock(classes[index]);
 		}
 
 		return objects;
@@ -54,6 +55,7 @@ public class MockResolver implements Resolver {
 		return get(constructor.getParameterTypes());
 	}
 
+	@SuppressWarnings("unchecked")
 	private Object[] get(Class[] parameterTypes, String[] parameterNames) {
 		Object[] objects = new Object[parameterTypes.length];
 

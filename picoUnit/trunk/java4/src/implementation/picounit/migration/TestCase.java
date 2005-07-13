@@ -12,145 +12,157 @@ import picounit.Mocker;
 import picounit.Test;
 import picounit.Verify;
 
-public class TestCase implements Test {
+abstract public class TestCase implements Test {
 	public Constraints is;
 	public Mocker should;
 	private Verify verify;
 	interface PreventCollision {} 
 
-	public void setUp(Constraints is, Mocker should, Verify verify, PreventCollision preventCollision) {
+	@SuppressWarnings("unused") 
+	public final void setUp(Constraints is, Mocker should, Verify verify, PreventCollision preventCollision) {
 		this.is = is;
 		this.should = should;
 		this.verify = verify;
 	}
 
+	/** setUp methods should be public in PicoUnit */
+	public void setUp() throws Exception {
+	}
+
+	/** setUp methods should be public in PicoUnit */
+	public void tearDown() throws Exception {
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	// JUnit equivalent methods 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public void assertTrue(String message, boolean expression) {
-		verify.that(message, expression);
+		verify.because(message).thatBoolean(expression).isTrue();
 	}
 
 	public void assertTrue(boolean expression) {
-		verify.that(expression);
+		verify.thatBoolean(expression).isTrue();
 	}
 	
 	public void assertFalse(String message, boolean expression) {
-		verify.not(message, expression);
+		verify.because(message).thatBoolean(expression).isFalse();
 	}
 	
 	public void assertFalse(boolean expression) {
-		verify.not(expression);
+		verify.thatBoolean(expression).isFalse();
 	}
 	
 	public void assertEquals(String message, Object expected, Object actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(Object expected, Object actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, String expected, String actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String expected, String actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, double expected, double actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(double expected, double actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, float expected, float actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(float expected, float actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, long expected, long actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(long expected, long actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, boolean expected, boolean actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).thatBoolean(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(boolean expected, boolean actual) {
-		verify.equal(expected, actual);
+		verify.thatBoolean(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, byte expected, byte actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(byte expected, byte actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, char expected, char actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(char expected, char actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, int expected, int actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(int expected, int actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, short expected, short actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(short expected, short actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertNotNull(String message, Object object) {
-		verify.notNull(message, object);
+		verify.because(message).that(object).isNotNull();
 	}
 	
 	public void assertNotNull(Object object) {
-		verify.notNull(object);
+		verify.that(object).isNotNull();
 	}
 	
 	public void assertNull(String message, Object object) {
-		verify.isNull(message, object);
+		verify.because(message).that(object).isNull();
 	}
 
 	public void assertNull(Object object) {
-		verify.isNull(object);
+		verify.that(object).isNull();
 	}
 	
 	public void assertSame(String message, Object expected, Object actual) {
-		verify.same(message, expected, actual);
+		verify.because(message).that(actual).isTheSameAs(expected);
 	}
 
 	public void assertSame(Object expected, Object actual) {
-		verify.same(expected, actual);
+		verify.that(actual).isTheSameAs(expected);
 	}
 	
 	public void assertNotSame(String message, Object notExpected, Object actual) {
-		verify.notSame(message, notExpected, actual);
+		verify.because(message).that(actual).isNotTheSameAs(notExpected);
 	}
 
 	public void assertNotSame(Object notExpected, Object actual) {
-		verify.notSame(notExpected, actual);
+		verify.that(actual).isNotTheSameAs(notExpected);
 	}
 
 	public void fail(String message) {
@@ -160,221 +172,224 @@ public class TestCase implements Test {
 	public void fail() {
 		verify.fail();
 	}
-	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Additional Methods
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	public void assertEquals(String message, double[] expected, double[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(double[] expected, double[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, float[] expected, float[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(float[] expected, float[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, long[] expected, long[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(long[] expected, long[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, boolean[] expected, boolean[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(boolean[] expected, boolean[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, byte[] expected, byte[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(byte[] expected, byte[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, char[] expected, char[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(char[] expected, char[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertEquals(String message, int[] expected, int[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(int[] expected, int[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(String message, short[] expected, short[] actual) {
-		verify.equal(message, expected, actual);
+		verify.because(message).that(actual).isEqualTo(expected);
 	}
 	
 	public void assertEquals(short[] expected, short[] actual) {
-		verify.equal(expected, actual);
+		verify.that(actual).isEqualTo(expected);
 	}
 
 	public void assertNotEquals(String message, Object expected, Object actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(Object expected, Object actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, String expected, String actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String expected, String actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, double expected, double actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(double expected, double actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, float expected, float actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(float expected, float actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, long expected, long actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(long expected, long actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, boolean expected, boolean actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).thatBoolean(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(boolean expected, boolean actual) {
-		verify.notEqual(expected, actual);
+		verify.thatBoolean(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, byte expected, byte actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(byte expected, byte actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, char expected, char actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(char expected, char actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, int expected, int actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(int expected, int actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, short expected, short actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(short expected, short actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, double[] expected, double[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(double[] expected, double[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, float[] expected, float[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(float[] expected, float[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, long[] expected, long[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(long[] expected, long[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, boolean[] expected, boolean[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(boolean[] expected, boolean[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, byte[] expected, byte[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(byte[] expected, byte[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, char[] expected, char[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(char[] expected, char[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertNotEquals(String message, int[] expected, int[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(int[] expected, int[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(String message, short[] expected, short[] actual) {
-		verify.notEqual(message, expected, actual);
+		verify.because(message).that(actual).isDifferentTo(expected);
 	}
 	
 	public void assertNotEquals(short[] expected, short[] actual) {
-		verify.notEqual(expected, actual);
+		verify.that(actual).isDifferentTo(expected);
 	}
 
 	public void assertInstanceOf(String message, Class instanceOf, Object object) {
-		verify.instanceOf(message, instanceOf, object);
+		verify.because(message).that(object).isAnInstanceOf(instanceOf);
 	}
 
 	public void assertInstanceOf(Class instanceOf, Object object) {
-		verify.instanceOf(instanceOf, object);
+		verify.that(object).isAnInstanceOf(instanceOf);
 	}
 }

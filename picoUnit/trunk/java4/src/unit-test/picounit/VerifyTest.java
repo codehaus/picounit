@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
 
+@SuppressWarnings("deprecation")
 public class VerifyTest implements previous.picounit.Test {
 	private Verify verify;
 	
@@ -35,7 +36,7 @@ public class VerifyTest implements previous.picounit.Test {
 
 	public void mock(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil, Verifiable verifiable) {
 		this.verifiable = verifiable;
-		this.verify = new DefaultVerify(numericUtil, arrayUtil, stringUtil, new ImmediateThrower(), verifiable);
+		this.verify = DefaultVerify.create(numericUtil, arrayUtil, stringUtil, new ImmediateThrower(), verifiable);
 
 		this.arrayUtil = arrayUtil;
 		this.stringUtil = stringUtil;
@@ -176,10 +177,10 @@ public class VerifyTest implements previous.picounit.Test {
 	public void testLongEquals() {
 		expectVerifiable(2);
 
-		verify.equal(1, 1);
+		verify.equal(1L, 1L);
 		
 		try {
-			verify.equal(1, 2);
+			verify.equal(1L, 2L);
 		}
 		catch (AssertionFailedError assertionFailedError) {
 			expectMessage("1", "2", assertionFailedError.getMessage());
@@ -190,13 +191,13 @@ public class VerifyTest implements previous.picounit.Test {
 		fail();
 	}
 
-	public void testLongEqualsWithMessage() {
+	public void testLongEqualsWithMessage() throws Exception {
 		expectVerifiable(2);
 
-		verify.equal("message", 1, 1);
+		verify.equal("message", 1L, 1L);
 		
 		try {
-			verify.equal("message", 1, 2);
+			verify.equal("message", 1L, 2L);
 		}
 		catch (AssertionFailedError assertionFailedError) {
 			expectMessage("message", "1", "2", assertionFailedError.getMessage());
@@ -205,6 +206,8 @@ public class VerifyTest implements previous.picounit.Test {
 		}
 
 		fail();
+		
+		throw new Exception();
 	}
 
 	public void testObjectEquals() {
@@ -1157,9 +1160,8 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.isNull("something");
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("expected null, but was: <something>")) {
-				fail();
-			}
+			previousVerify.equal("expected null, but was: <something>",
+				assertionFailedError.getMessage());
 			
 			return;
 		}
@@ -1176,10 +1178,9 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.isNull("message", "something");
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("message, expected null, but was: <something>")) {
-				fail();
-			}
-			
+			previousVerify.equal("message, expected null, but was: <something>",
+				assertionFailedError.getMessage());
+
 			return;
 		}
 
@@ -1195,10 +1196,7 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.notNull(null);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("expected non-null")) {
-				assertionFailedError.printStackTrace();
-				fail();
-			}
+			previousVerify.equal("expected non-null", assertionFailedError.getMessage());
 
 			return;
 		}
@@ -1215,10 +1213,7 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.notNull("message", null);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("message, expected non-null")) {
-				assertionFailedError.printStackTrace();
-				fail();
-			}
+			previousVerify.equal("message, expected non-null", assertionFailedError.getMessage());
 			
 			return;
 		}
@@ -1235,10 +1230,9 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.instanceOf(String.class, new Integer(123));
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("expected instance of: <java.lang.String>, but was: <123>")) {
-				fail();
-			}
-			
+			previousVerify.equal("expected instance of: <java.lang.String>, but was: <123>",
+				assertionFailedError.getMessage());
+
 			return;
 		}
 		
@@ -1254,9 +1248,8 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.instanceOf("message", String.class, new Integer(123));
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("message, expected instance of: <java.lang.String>, but was: <123>")) {
-				fail();
-			}
+			previousVerify.equal("message, expected instance of: <java.lang.String>, but was: <123>",
+				assertionFailedError.getMessage());
 			
 			return;
 		}
@@ -1273,9 +1266,8 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.notInstanceOf(String.class, "a string");
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("expected not instance of: <java.lang.String>, but was: <a string>")) {
-				fail();
-			}
+			previousVerify.equal("expected not instance of: <java.lang.String>, but was: <a string>",
+				assertionFailedError.getMessage());
 			
 			return;
 		}
@@ -1292,9 +1284,8 @@ public class VerifyTest implements previous.picounit.Test {
 			verify.notInstanceOf("message", String.class, "a string");
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			if (!assertionFailedError.getMessage().equals("message, expected not instance of: <java.lang.String>, but was: <a string>")) {
-				fail();
-			}
+			previousVerify.equal("message, expected not instance of: <java.lang.String>, but was: <a string>",
+				assertionFailedError.getMessage());
 			
 			return;
 		}

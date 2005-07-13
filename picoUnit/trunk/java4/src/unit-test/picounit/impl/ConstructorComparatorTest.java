@@ -57,12 +57,12 @@ public class ConstructorComparatorTest implements Test {
 	}
 
 	private void assertBetter(Constructor left, Constructor right) {
-		verify.equal(-1, constructorComparator.compare(left, right));
-		verify.equal(1, constructorComparator.compare(right, left));
+		verify.that(constructorComparator.compare(left, right)).isEqualTo(-1);
+		verify.that(constructorComparator.compare(right, left)).isEqualTo(1);
 	}
 
 	public void assertEquivalent(Constructor left, Constructor right) {
-		verify.equal(0, constructorComparator.compare(left, right));
+		verify.that(constructorComparator.compare(left, right)).isEqualTo(0);
 	}
 
 	private Constructor constructor() {

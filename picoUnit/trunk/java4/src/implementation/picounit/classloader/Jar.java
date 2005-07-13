@@ -75,6 +75,14 @@ public class Jar implements Code {
 		return fileName.equals(other.fileName);
 	}
 
+	public int hashCode() {
+		return fileName.hashCode();
+	}
+
+	public String toString() {
+		return "Jar: " + fileName;
+	}
+
 	private JarEntry jarEntry(String className) {
 		return jarFile.getJarEntry(className.replace('.', '/') + ".class");
 	}
@@ -86,9 +94,5 @@ public class Jar implements Code {
 		catch (IOException ioException) {
 			throw new PicoUnitException(ioException);
 		}
-	}
-
-	public String toString() {
-		return "Jar: " + fileName;
 	}
 }

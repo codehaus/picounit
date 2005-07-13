@@ -12,7 +12,8 @@ import previous.picounit.Verify;
 
 public class StringMatchingTest implements Test {
 	public void testIsEqualWhenPatternIsTheSame(Verify verify) {
-		verify.equal(stringMatching("pattern"), stringMatching("pattern"));
+		verify.that(stringMatching("pattern"))
+			.isEqualTo(stringMatching("pattern"));
 	}
 
 	private StringMatching stringMatching(String pattern) {

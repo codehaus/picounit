@@ -7,6 +7,6 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface PostConsequenceMatcher extends ExpectationMatcher {
-	ExpectationMatcher because(String reason);
+public interface PostConsequenceMatcher {
+	void because(String reason);
 }

@@ -11,6 +11,7 @@ public interface StringConsequenceMatcher extends ThrowsConsequenceMatcher,
 	OccurencesMatcher {
 
 	OccurencesMatcher andReturn(String result);
+	OccurencesMatcher andReturn(String ... results);
 
 	OccurencesMatcher andPerform(StringAction stringAction);
 }

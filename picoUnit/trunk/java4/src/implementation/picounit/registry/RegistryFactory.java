@@ -9,13 +9,29 @@ package picounit.registry;
 
 import picounit.classloader.ClassPath;
 import picounit.classloader.PluginCodeVisitor;
-import picounit.reflection.OrdinaryInstantiator;
+import picounit.impl.Timer;
 
 public class RegistryFactory {
+	private static final Timer timer = new Timer("RegistryFactory");
+
+	private final ClassPath classPath;
+	
+	public RegistryFactory() {
+		this(new ClassPath());
+	}
+
+	public RegistryFactory(ClassPath classPath) {
+		this.classPath = classPath;
+	}
+
 	public RegistryImpl create() {
+		timer.start();
+
 		RegistryImpl registry = new RegistryImpl();
 
-		new ClassPath().visit(new PluginCodeVisitor(new OrdinaryInstantiator(registry)));
+		classPath.visit(new PluginCodeVisitor(registry));
+		
+		timer.end();
 
 		return registry;
 	}

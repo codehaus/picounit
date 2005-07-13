@@ -10,6 +10,7 @@ package picounit.impl;
 import picounit.JUnitTestGenerator;
 import picounit.PicoUnit;
 import picounit.PicoUnitException;
+import picounit.classloader.ClassPath;
 import picounit.classloader.ClassReloader;
 import picounit.classloader.MethodParameterRegistry;
 import picounit.classloader.PicoClassLoader;
@@ -28,19 +29,20 @@ import junit.framework.Test;
 
 public class PicoUnitImpl {
 	private static final int STACK_DISTANCE_TO_CALLER = 2;
+	public static final ClassPath classPath = new ClassPath();
 
 	private final PicoUnit picoUnit;
 
 	private final MethodParameterRegistry methodParameterRegistry = new MethodParameterRegistry();
 	private final RegistryEntries registryEntries = new RegistryEntries();
-	private final ClassLoader classLoader = new PicoClassLoader(getClass().getClassLoader())
+	private final ClassLoader classLoader = new PicoClassLoader(getClass().getClassLoader(), classPath)
 		.setClassObserver(new MethodNameClassObserver(methodParameterRegistry));
 
 	private String name;
 	private Class type = picounit.Test.class;
 
 	private final ClassFinder classFinder = new ClassFinder();
-	private final RegistryImpl registry = new RegistryFactory().create();
+	private final RegistryImpl registry = new RegistryFactory(classPath).create();
 	private final TestInstantiator testInstantiator = TestInstantiator.create(registry, classLoader);
 	private TestFinder testFinder = new DirectoryScanningTestFinder(classFinder, testInstantiator,
 		classLoader);
@@ -67,7 +69,8 @@ public class PicoUnitImpl {
 
 	public Test generateJUnitTest(Class startingClass) {
 		try {
-			return testFinder.findTests(testFilter, registryEntries, name, reloadClass(startingClass), type, methodParameterRegistry);
+			return testFinder.findTests(testFilter, registryEntries, name, reloadClass(startingClass), type,
+				methodParameterRegistry);
 		}
 		catch (RuntimeException runtimeException) {
 			throw new PicoUnitException(runtimeException);
@@ -115,9 +118,7 @@ public class PicoUnitImpl {
 	}
 
 	private String getCallerClassName(Throwable throwable) {
-		StackTraceElement caller = throwable.getStackTrace()[STACK_DISTANCE_TO_CALLER];
-
-		return caller.getClassName();
+		return throwable.getStackTrace()[STACK_DISTANCE_TO_CALLER].getClassName();
 	}
 
 	private Class getClass(String className) {

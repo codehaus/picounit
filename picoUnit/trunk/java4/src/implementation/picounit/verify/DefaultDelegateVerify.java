@@ -10,152 +10,365 @@ package picounit.verify;
 import picounit.DelegateVerify;
 import picounit.Mocker;
 import picounit.Verify;
+import picounit.mocker.MockControl;
+import picounit.mocker.MockFactory;
+import picounit.mocker.MockInvocationInspector;
 
-public class DefaultDelegateVerify implements DelegateVerify, DelegateVerify.BooleanVerifier,
-	DelegateVerify.ByteVerifier, DelegateVerify.CharVerifier, DelegateVerify.DoubleVerifier,
-	DelegateVerify.FloatVerifier, DelegateVerify.IntVerifier, DelegateVerify.LongVerifier,
-	DelegateVerify.ShortVerifier, DelegateVerify.ObjectVerifier, DelegateVerify.StringVerifier {
+import java.util.HashMap;
+import java.util.Map;
 
-	private final Mocker should;
-	private final Verify verify;
-
+public class DefaultDelegateVerify implements DelegateVerify {
 	public static final boolean BOOLEAN_DELEGATE_RETURN = true;
-	public static final byte BYTE_DELEGATE_RETURN = (byte) 0xEE;
+	public static final byte BYTE_DELEGATE_RETURN = (byte) 123;
 	public static final char CHAR_DELEGATE_RETURN = 'e';
 	public static final double DOUBLE_DELEGATE_RETURN = 123.456;
 	public static final float FLOAT_DELEGATE_RETURN = 456.123f;
-	public static final int INT_DELEGATE_RETURN = 123456;
-	public static final long LONG_DELEGATE_RETURN = 123456789123456789L;
-	public static final short SHORT_DELEGATE_RETURN = 123;
-	public static final String STRING_DELEGATE_RETURN = "expected";
-	public static final Object OBJECT_DELEGATE_RETURN = new Object() {
-		public String toString() {
-			return "expectedObject";
-		};
-	};
+	public static final int INT_DELEGATE_RETURN = 123;
+	public static final long LONG_DELEGATE_RETURN = 123456;
+	public static final short SHORT_DELEGATE_RETURN = (short) 123;
 
-	public DefaultDelegateVerify(Mocker should, Verify verify) {
-		this.should = should;
+	public static final String STRING_DELEGATE_RETURN = "expectedValue";
+	public static final String OBJECT_DELEGATE_RETURN = "expectedObject";
+	
+	private final Mocker should;
+	private final Verify verify;
+	private final Map<Class,Object> expectedMap;
+	private final MockInvocationInspector mockInvocationInspector;
+	private final MockFactory mockFactory;
+	private final MockControl mockControl;
+	
+	public DefaultDelegateVerify(Mocker mocker, MockFactory mockFactory, MockInvocationInspector mockInvocationInspector,
+		Verify verify) {
+
+		this.should = mocker;
+		this.mockControl = mocker;
+		this.mockInvocationInspector = mockInvocationInspector;
 		this.verify = verify;
+		this.mockFactory = mockFactory;
+
+		this.expectedMap = new HashMap<Class, Object>();
+		expectedMap.put(Boolean.class, BOOLEAN_DELEGATE_RETURN);
+		expectedMap.put(boolean.class, BOOLEAN_DELEGATE_RETURN);
+
+		expectedMap.put(Byte.class, BYTE_DELEGATE_RETURN);
+		expectedMap.put(byte.class, BYTE_DELEGATE_RETURN);
+
+		expectedMap.put(Character.class, CHAR_DELEGATE_RETURN);
+		expectedMap.put(char.class, CHAR_DELEGATE_RETURN);
+
+		expectedMap.put(Double.class, DOUBLE_DELEGATE_RETURN);
+		expectedMap.put(double.class, DOUBLE_DELEGATE_RETURN);
+
+		expectedMap.put(Float.class, FLOAT_DELEGATE_RETURN);
+		expectedMap.put(float.class, FLOAT_DELEGATE_RETURN);
+
+		expectedMap.put(Integer.class, INT_DELEGATE_RETURN);
+		expectedMap.put(int.class, INT_DELEGATE_RETURN);
+
+		expectedMap.put(Long.class, LONG_DELEGATE_RETURN);
+		expectedMap.put(long.class, LONG_DELEGATE_RETURN);
+
+		expectedMap.put(Short.class, SHORT_DELEGATE_RETURN);
+		expectedMap.put(short.class, SHORT_DELEGATE_RETURN);
+
+		expectedMap.put(String.class, STRING_DELEGATE_RETURN);
+		expectedMap.put(Object.class, OBJECT_DELEGATE_RETURN);
+	}
+	
+	public BooleanDelegateVerifier delegateTo(boolean ignore) {
+		boolean expectedValue = generateExpected(boolean.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new BooleanDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public ByteDelegateVerifier delegateTo(byte ignore) {
+		byte expectedValue = generateExpected(byte.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new ByteDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public CharacterDelegateVerifier delegateTo(char ignore) {
+		char expectedValue = generateExpected(char.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new CharacterDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public DoubleDelegateVerifier delegateTo(double ignore) {
+		double expectedValue = generateExpected(double.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new DoubleDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public FloatDelegateVerifier delegateTo(float ignore) {
+		float expectedValue = generateExpected(float.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new FloatDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public IntegerDelegateVerifier delegateTo(int ignore) {
+		int expectedValue = generateExpected(int.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new IntegerDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public LongDelegateVerifier delegateTo(long ignore) {
+		long expectedValue = generateExpected(long.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new LongDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public ShortDelegateVerifier delegateTo(short ignore) {
+		short expectedValue = generateExpected(short.class);
+
+		should.call(box(ignore)).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new ShortDelegateVerifierImpl(verify, expectedValue, mockControl);
+	}
+	
+	public StringDelegateVerifier delegateTo(String ignore) {
+		String expectedValue = generateExpected(String.class);
+
+		should.call(ignore).andReturn(expectedValue);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new StringDelegateVerifierImpl(verify, expectedValue, mockControl);
 	}
 
-	public BooleanVerifier delegateTo(boolean ignore) {
-		should.call(ignore).andReturn(BOOLEAN_DELEGATE_RETURN);
+	@SuppressWarnings("unchecked")
+	public <T> DelegateVerifier<T> delegateTo(T ignore) {
+		T expectedValue = (T) generateExpected(
+			mockInvocationInspector.getLastInvocationReturnType());
 
-		should.doAboveWhen();
+		should.call(ignore).andReturn(expectedValue);
 
-		return this;
+		should.expectAboveWhenTheFollowingOccurs();
+
+		return new DelegateVerifierImpl<T>(verify, expectedValue, mockControl);
 	}
 
-	public ByteVerifier delegateTo(byte ignore) {
-		should.call(ignore).andReturn(BYTE_DELEGATE_RETURN);
+	@SuppressWarnings("unchecked")
+	private <T> T generateExpected(Class<T> aClass) {
+		T expected = (T) expectedMap.get(aClass);
 
-		should.doAboveWhen();
+		if (expected == null) {
+			expected = mockFactory.mock(aClass);
+		}
 
-		return this;
+		return expected;
 	}
 
-	public CharVerifier delegateTo(char ignore) {
-		should.call(ignore).andReturn(CHAR_DELEGATE_RETURN);
+	private static class DelegateVerifierImpl<T> implements DelegateVerifier<T> {
+		private final Verify verify;
+		private final T expectedValue;
+		private final MockControl mockControl;
 
-		should.doAboveWhen();
-		
-		return this;
+		public DelegateVerifierImpl(Verify verify, T expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(T actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class BooleanDelegateVerifierImpl implements BooleanDelegateVerifier {
+		private final Verify verify;
+		private final boolean expectedValue;
+		private final MockControl mockControl;
+
+		public BooleanDelegateVerifierImpl(Verify verify, boolean expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(boolean actualValue) {
+			verify.thatBoolean(actualValue).isEqualTo(expectedValue);
+			
+			mockControl.verify();
+		}
 	}
 
-	public DoubleVerifier delegateTo(double ignore) {
-		should.call(ignore).andReturn(DOUBLE_DELEGATE_RETURN);
+	private static class ByteDelegateVerifierImpl implements ByteDelegateVerifier {
+		private final Verify verify;
+		private final byte expectedValue;
+		private final MockControl mockControl;
 
-		should.doAboveWhen();
+		public ByteDelegateVerifierImpl(Verify verify, byte expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
 
-		return this;
+		public void whenCalling(byte actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
 	}
 
-	public FloatVerifier delegateTo(float ignore) {
-		should.call(ignore).andReturn(FLOAT_DELEGATE_RETURN);
+	private static class CharacterDelegateVerifierImpl implements CharacterDelegateVerifier {
+		private final Verify verify;
+		private final char expectedValue;
+		private final MockControl mockControl;
 
-		should.doAboveWhen();
-		
-		return this;
+		public CharacterDelegateVerifierImpl(Verify verify, char expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(char actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class DoubleDelegateVerifierImpl implements DoubleDelegateVerifier {
+		private final Verify verify;
+		private final double expectedValue;
+		private final MockControl mockControl;
+
+		public DoubleDelegateVerifierImpl(Verify verify, double expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(double actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class FloatDelegateVerifierImpl implements FloatDelegateVerifier {
+		private final Verify verify;
+		private final float expectedValue;
+		private final MockControl mockControl;
+
+		public FloatDelegateVerifierImpl(Verify verify, float expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(float actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class IntegerDelegateVerifierImpl implements IntegerDelegateVerifier {
+		private final Verify verify;
+		private final int expectedValue;
+		private final MockControl mockControl;
+
+		public IntegerDelegateVerifierImpl(Verify verify, int expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(int actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class LongDelegateVerifierImpl implements LongDelegateVerifier {
+		private final Verify verify;
+		private final long expectedValue;
+		private final MockControl mockControl;
+
+		public LongDelegateVerifierImpl(Verify verify, long expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(long actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class ShortDelegateVerifierImpl implements ShortDelegateVerifier {
+		private final Verify verify;
+		private final short expectedValue;
+		private final MockControl mockControl;
+
+		public ShortDelegateVerifierImpl(Verify verify, short expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(short actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
+	}
+	
+	private static class StringDelegateVerifierImpl implements StringDelegateVerifier {
+		private final Verify verify;
+		private final String expectedValue;
+		private final MockControl mockControl;
+
+		public StringDelegateVerifierImpl(Verify verify, String expectedValue, MockControl mockControl) {
+			this.verify = verify;
+			this.expectedValue = expectedValue;
+			this.mockControl = mockControl;
+		}
+
+		public void whenCalling(String actualValue) {
+			verify.that(actualValue).isEqualTo(expectedValue);
+
+			mockControl.verify();
+		}
 	}
 
-	public IntVerifier delegateTo(int ignore) {
-		should.call(ignore).andReturn(INT_DELEGATE_RETURN);
-
-		should.doAboveWhen();
-		
-		return this;
-	}
-
-	public LongVerifier delegateTo(long ignore) {
-		should.call(ignore).andReturn(LONG_DELEGATE_RETURN);
-
-		should.doAboveWhen();
-		
-		return this;
-	}
-
-	public ShortVerifier delegateTo(short ignore) {
-		should.call(ignore).andReturn(SHORT_DELEGATE_RETURN);
-
-		should.doAboveWhen();
-		
-		return this;
-	}
-
-	public ObjectVerifier delegateTo(Object ignore) {
-		should.call(ignore).andReturn(OBJECT_DELEGATE_RETURN);
-
-		should.doAboveWhen();
-		
-		return this;
-	}
-
-	public StringVerifier delegateTo(String ignore) {
-		should.call(ignore).andReturn(STRING_DELEGATE_RETURN);
-
-		should.doAboveWhen();
-		
-		return this;
-	}
-
-	public void whenCalling(boolean actualValue) {
-		verify.equal(BOOLEAN_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(byte actualValue) {
-		verify.equal(BYTE_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(char actualValue) {
-		verify.equal(CHAR_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(double actualValue) {
-		verify.equal(DOUBLE_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(float actualValue) {
-		verify.equal(FLOAT_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(int actualValue) {
-		verify.equal(INT_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(long actualValue) {
-		verify.equal(LONG_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(short actualValue) {
-		verify.equal(SHORT_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(Object actualValue) {
-		verify.equal(OBJECT_DELEGATE_RETURN, actualValue);
-	}
-
-	public void whenCalling(String actualValue) {
-		verify.equal(STRING_DELEGATE_RETURN, actualValue);
-	}
+	private <T> T box(T value) {
+		return value;
+	}	
 }

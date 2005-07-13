@@ -9,11 +9,11 @@ package picounit.mocker;
 
 import picounit.Occurences;
 
-public interface OccurencesMatcher extends PostConsequenceMatcher, ExpectationMatcher {
+public interface OccurencesMatcher extends PostConsequenceMatcher {
+	PostConsequenceMatcher once();
+	PostConsequenceMatcher atLeastOnce();
+
 	PostConsequenceMatcher occurs(int occurences);
 	PostConsequenceMatcher occurs(int min, int max);
 	PostConsequenceMatcher occurs(Occurences occurences);
-
-	PostConsequenceMatcher once();
-	PostConsequenceMatcher atLeastOnce();
 }

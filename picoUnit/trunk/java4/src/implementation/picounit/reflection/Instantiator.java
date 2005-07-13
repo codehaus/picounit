@@ -10,6 +10,6 @@ package picounit.reflection;
 import java.lang.reflect.InvocationTargetException;
 
 public interface Instantiator {
-	Object instantiate(Class toInstantiate) throws IllegalArgumentException,
+	<T> T instantiate(Class<T> toInstantiate) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException;
 }

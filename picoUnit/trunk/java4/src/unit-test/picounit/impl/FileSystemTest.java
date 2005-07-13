@@ -9,32 +9,34 @@ package picounit.impl;
 
 import picounit.finder.FileSystem;
 import picounit.impl.fileSystem.StartingClass;
-import previous.picounit.ArrayVerify;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
 import java.io.File;
 
-public class FileSystemTest implements Test {
+public class FileSystemTest implements Test {	
 	private final FileSystem fileSystem = new FileSystem();
 	
-	public void testGetSiblingFiles(ArrayVerify arrayVerify) {
+	public void testGetSiblingFiles(Verify verify) {
 		File[] siblingFiles = fileSystem.getSiblingFiles(StartingClass.class);
 
-		arrayVerify.contains(siblingFiles, file("SiblingClass.class"));
-		arrayVerify.contains(siblingFiles, file("SiblingNonClass.txt"));
-		arrayVerify.contains(siblingFiles, file("StartingClass.class"));
+		verify.that(siblingFiles).contains(file("SiblingClass.class"));
+		verify.that(siblingFiles).contains(file("SiblingNonClass.txt"));
+		verify.that(siblingFiles).contains(file("StartingClass.class"));
 	}
 
 	public void testGetSourceRoot(Verify verify) {
-		verify.equal(sourceRoot(), fileSystem.getSourceRoot(getClass()));
+		verify.that(fileSystem.getSourceRoot(getClass()))
+			.isEqualTo(sourceRoot());
 	}
 
 	public void testRelativeFile(Verify verify) {
-		verify.equal(thisClassFile(), fileSystem.getRelativeFile(thisPackageFile(), thisRelativeFileName()));
-		verify.equal(thisClassFile(), fileSystem.getRelativeFile(sourceRoot(), getClass().getName().replace('.', File.separatorChar) + ".class"));
+		verify.that(fileSystem.getRelativeFile(thisPackageFile(), thisRelativeFileName()))
+			.isEqualTo(thisClassFile());
+		verify.that(fileSystem.getRelativeFile(sourceRoot(), getClass().getName().replace('.', File.separatorChar) + ".class"))
+			.isEqualTo(thisClassFile());
 	}
-
+	
 	private String thisRelativeFileName() {
 		String className = getClass().getName();
 

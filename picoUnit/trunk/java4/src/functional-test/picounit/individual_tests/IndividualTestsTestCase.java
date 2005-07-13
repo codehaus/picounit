@@ -21,10 +21,10 @@ public class IndividualTestsTestCase implements FunctionalTest {
 	public void testEmptyTest(Verify verify) {
 		TestResult testResult = testRunner.runSingle(EmptyTest.class);
 
-		verify.equal(1, testResult.runCount());
-		verify.equal(1, testResult.errorCount());
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.errorCount()).isEqualTo(1);
 		TestFailure error = (TestFailure) testResult.errors().nextElement();
-		verify.equal("No tests found", error.exceptionMessage());
+		verify.that(error.exceptionMessage()).isEqualTo("No tests found");
 	}
 
 	public void testTestRequiringNoFixtures(Verify verify) {
@@ -32,8 +32,8 @@ public class IndividualTestsTestCase implements FunctionalTest {
 
 		TestResult testResult = testRunner.runSingle(TestRequiringNoFixtures.class);
 
-		verify.equal(1, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
 		TestRequiringNoFixtures.operations.matches("testOne");
 	}
 	
@@ -45,11 +45,11 @@ public class IndividualTestsTestCase implements FunctionalTest {
 		TestRequiringFixtureInTestMethod.operations.clear();
 		TestResult testResult = testRunner.runSingle(TestRequiringFixtureInTestMethod.class);
 		
-		verify.equal(1, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
 
 		TestRequiringFixtureInTestMethod.operations.matches("testOne");
-		verify.notNull(TestRequiringFixtureInTestMethod.operations.get("testOne"));
+		verify.that(TestRequiringFixtureInTestMethod.operations.get("testOne")).isNotNull();
 	}
 	
 	public void testTestWithSetUpAndTearDown() {
@@ -65,8 +65,8 @@ public class IndividualTestsTestCase implements FunctionalTest {
 
 		TestResult testResult = testRunner.runSingle(TestWithDifferentMarker.class, Marker.class);
 
-		verify.equal(1, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
 		TestWithDifferentMarker.operations.matches("testOne");
 	}
 }

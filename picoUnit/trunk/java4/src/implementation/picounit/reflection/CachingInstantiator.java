@@ -13,16 +13,17 @@ import java.util.Map;
 
 public class CachingInstantiator implements Instantiator {
 	private final Instantiator delegateInstantiator;
-	private final Map instancesMap = new HashMap();
+	private final Map<Class, Object> instancesMap = new HashMap<Class, Object>();
 
 	public CachingInstantiator(Instantiator delegateInstantiator) {
 		this.delegateInstantiator = delegateInstantiator;
 	}
 
-	public Object instantiate(Class toInstantiate) throws IllegalArgumentException,
+	@SuppressWarnings("unchecked")
+	public <T> T instantiate(Class<T> toInstantiate) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 
-		Object instance = instancesMap.get(toInstantiate);
+		T instance = (T) instancesMap.get(toInstantiate);
 
 		if (instance == null) {
 			instance = delegateInstantiator.instantiate(toInstantiate);

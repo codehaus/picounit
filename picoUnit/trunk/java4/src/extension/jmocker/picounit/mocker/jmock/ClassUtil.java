@@ -9,6 +9,7 @@ package picounit.mocker.jmock;
 
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,6 +28,10 @@ public class ClassUtil {
 		return getConstructor(aClass, new Class[] {parameterType});
 	}
 
+	public Constructor getConstructor(Class aClass, Class firstParameterType, Class secondParameteType) {
+		return getConstructor(aClass, new Class[] {firstParameterType, secondParameteType});
+	}
+
 	public Constructor getConstructor(Class aClass, Class[] parameterTypes) {
 		try {
 			return aClass.getConstructor(parameterTypes);
@@ -40,11 +45,11 @@ public class ClassUtil {
 	}
 	
 	public Constructor getBestConstructor(Class aClass) {
-		List constructors = Arrays.asList(aClass.getDeclaredConstructors());
+		List<Constructor> constructors = Arrays.asList(aClass.getDeclaredConstructors());
 		final ConstructorComparator constructorComparator = new ConstructorComparator();
 
-		Collections.sort(constructors, new Comparator() {
-			public int compare(Object o1, Object o2) {
+		Collections.sort(constructors, new Comparator<Constructor>() {
+			public int compare(Constructor o1, Constructor o2) {
 				return constructorComparator.compare(o1, o2);
 			}
 		});
@@ -94,7 +99,11 @@ public class ClassUtil {
 		throw new IllegalArgumentException("No visible constructors in class " + clazz.getName());
 	}
 
-	public Object[] getArgsForTypes(Class[] methodTypes, ProxyFactory proxyFactory) {
+	@SuppressWarnings("unchecked")
+	public Object[] getArgsForTypes(Class[] methodTypes, ProxyFactory proxyFactory)
+		throws IllegalArgumentException, InstantiationException, IllegalAccessException,
+			InvocationTargetException {
+
 		Object[] methodArgs = new Object[methodTypes.length];
 
 		for (int i = 0; i < methodTypes.length; i++ ) {
@@ -106,18 +115,7 @@ public class ClassUtil {
 				methodArgs[i] = handlePrimitiveType(methodTypes[i]);
 			}
 			else if (Modifier.isFinal(methodTypes[i].getModifiers())) {
-				// Instantiate the class using the best constructor we can find (because it's not
-				// possible to mock a final class)
-				Constructor argConstructor = getConstructorToUse(methodTypes[i]);
-
-				try {
-					Object[] argsForTypes = getArgsForTypes(argConstructor.getParameterTypes(), proxyFactory);
-
-					methodArgs[i] = argConstructor.newInstance(argsForTypes);
-				}
-				catch (Exception ex) {
-					throw new Error(ex);
-				}
+				methodArgs[i] = instantiateFinalClass(methodTypes[i], proxyFactory);
 			}
 			else {
 				// Just create a mock for the class...
@@ -127,7 +125,24 @@ public class ClassUtil {
 		return methodArgs;
 	}
 
-	private Object stubClass(ProxyFactory proxyFactory, Class aClass) {
+	private Object instantiateFinalClass(Class finalClass, ProxyFactory proxyFactory)
+		throws InstantiationException, IllegalAccessException, InvocationTargetException {
+		
+		if (finalClass.equals(Class.class)) {
+			return Class.class;
+		}
+
+		// Instantiate the class using the best constructor we can find (because it's not
+		// possible to mock a final class)
+		Constructor argConstructor = getConstructorToUse(finalClass);
+
+		Object[] argsForTypes = getArgsForTypes(argConstructor.getParameterTypes(),
+			proxyFactory);
+
+		return argConstructor.newInstance(argsForTypes);
+	}
+
+	private <T> T stubClass(ProxyFactory proxyFactory, Class<T> aClass) {
 		return proxyFactory.create(aClass, stubInvocationHandler);
 	}
 
@@ -144,12 +159,12 @@ public class ClassUtil {
 		return Modifier.isPrivate(declaredConstructor.getModifiers());
 	}
 
-	private final Set primativeTypes = primativeTypes();
+	private final Set<Class> primativeTypes = primativeTypes();
 
 	private final StubInvocationHandler stubInvocationHandler = new StubInvocationHandler();
 
-	private Set primativeTypes() {
-		Set primativeTypes = new HashSet();
+	private Set<Class> primativeTypes() {
+		Set<Class> primativeTypes = new HashSet<Class>();
 
 		primativeTypes.add(boolean.class);
 		primativeTypes.add(byte.class);

@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Operations {
 	private StringBuffer operations = new StringBuffer();
-	private final Map data = new HashMap();
+	private final Map<String, Object> data = new HashMap<String, Object>();
 	private final Verify verify;
 	
 	public Operations() {
@@ -62,7 +62,6 @@ public class Operations {
 	}
 
 	public void matches(String toMatch) {
-		verify.equal(toMatch, operations());
-//		Assert.assertEquals(toMatch, operations());
+		verify.that(operations()).isEqualTo(toMatch);
 	}
 }

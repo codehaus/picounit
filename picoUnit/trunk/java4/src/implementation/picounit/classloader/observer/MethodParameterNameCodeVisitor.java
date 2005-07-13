@@ -21,7 +21,7 @@ public class MethodParameterNameCodeVisitor implements CodeVisitor {
 	public static final String OBJECT_TYPE_REGEX = "\\[*L[^;]*;";
 	
 	private int numParameters = 0;
-	private List parameters = new LinkedList();
+	private List<String> parameters = new LinkedList<String>();
 	private String methodName;
 	private String className;
 	private final MethodParameterListener methodParameterListener;
@@ -132,7 +132,7 @@ public class MethodParameterNameCodeVisitor implements CodeVisitor {
 
 	private void registerMethod() {
 		methodParameterListener.methodEvent(className, methodName,
-			(String[]) parameters.toArray(new String[0]));
+			parameters.toArray(new String[0]));
 	}
 
 	public void visitLineNumber(int line, Label start) {

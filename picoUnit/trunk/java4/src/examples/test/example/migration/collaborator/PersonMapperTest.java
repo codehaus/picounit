@@ -23,12 +23,12 @@ public class PersonMapperTest extends TestCase {
 		this.mockDatabase = mockDatabase;
 	}
 
-	public void testSavingAPersonInsertsARowIntoPeopleTable() {
+	public void testSavingAPersonInsertsARowIntoThePeopleTable() {
 		should.call(mockDatabase.insert("insert into people (name) values('Fred Dibner')"))
 			.andReturn(true)
 			.because("The PersonMapper should use a Database to save a Person");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		Person fred = new Person("Fred Dibner");
 		personMapper.save(fred);

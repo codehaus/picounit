@@ -8,8 +8,11 @@
 package picounit.mocker;
 
 public interface MockControl {
+	/** @deprecated use 'expectAboveWhenTheFollowingOccurs' instead */
 	void doAboveWhen();
-	
+	void expectAboveWhenTheFollowingOccurs();
+
+	/** @deprecated use 'expectAboveWhenTheFollowingOccurs' instead */
 	void replay();
 	void verify();
 	void reset();

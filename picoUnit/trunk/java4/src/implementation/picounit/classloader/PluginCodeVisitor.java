@@ -8,7 +8,7 @@
 package picounit.classloader;
 
 import picounit.Plugin;
-import picounit.reflection.Instantiator;
+import picounit.Registry;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,10 +16,10 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PluginCodeVisitor implements CodeVisitor {
-	private final Instantiator instantiator;
+	private final Registry registry;
 
-	public PluginCodeVisitor(Instantiator instantiator) {
-		this.instantiator = instantiator;
+	public PluginCodeVisitor(Registry registry) {
+		this.registry = registry;
 	}
 	
 	public void visit(ClassDirectory classDirectory) {
@@ -47,11 +47,12 @@ public class PluginCodeVisitor implements CodeVisitor {
 		String pluginClassName = pluginProperties.getProperty(Plugin.CLASS_NAME_KEY);
 
 		try {
-			Plugin plugin = (Plugin) instantiator.instantiate(Class.forName(pluginClassName));
+			Plugin plugin = (Plugin) Class.forName(pluginClassName).newInstance();
 
-			plugin.insert(pluginProperties);
+			plugin.insert(registry, pluginProperties);
 		}
 		catch (Exception exception) {
+//			exception.printStackTrace();
 		}
 	}
 

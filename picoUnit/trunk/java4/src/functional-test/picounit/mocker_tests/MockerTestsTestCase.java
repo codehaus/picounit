@@ -11,8 +11,8 @@ import picounit.FunctionalTest;
 import picounit.TestRunner;
 import previous.picounit.Ignore;
 import previous.picounit.IgnoreReason;
-import previous.picounit.StringVerify;
 import previous.picounit.Verify;
+
 import junit.framework.TestFailure;
 import junit.framework.TestResult;
 
@@ -26,19 +26,34 @@ public class MockerTestsTestCase implements FunctionalTest, Ignore {
 	public void testOverzealousCatchTest(Verify verify) {
 		TestResult testResult = testRunner.runSingle(OverzealousCatchTest.class);
 
-		verify.equal("Exceptions from mocks should be rethrown if suppressed by overzealous catch", 1,
-			testResult.failureCount());
+		verify.because("Exceptions from mocks should be rethrown if suppressed by overzealous catch")
+			.that(testResult.failureCount()).isEqualTo(1);
 
 		TestFailure error = (TestFailure) testResult.failures().nextElement();
 		System.out.println(error);
 	}
 
-	public void testMockerErrorsThrownBeforeVerifyErrors(Verify verify, StringVerify stringVerify) {
+	public void testMockerErrorsThrownBeforeVerifyErrors(Verify verify) {
 		TestResult testResult = testRunner.runSingle(MockerErrorsThrownBeforeVerifyErrors.class);
 
-		verify.equal(1, testResult.runCount());
-		verify.equal(1, testResult.failureCount());
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount()).isEqualTo(1);
 		TestFailure testFailure = (TestFailure) testResult.failures().nextElement();
-		stringVerify.doesNotContain(testFailure.exceptionMessage(), "verify error"); 
+		verify.that(testFailure.exceptionMessage()).doesNotContain("verify error");
+	}
+
+	public void testMockArray(Verify verify) {
+		TestResult testResult = testRunner.runSingle(MockArrayTest.class);
+
+		verify.that(testResult.runCount()).isEqualTo(2);
+		verify.that(testResult.failureCount()).isEqualTo(0);
+		verify.that(testResult.errorCount()).isEqualTo(0);
+	}
+	
+	public void testCannotMockClassWithFinalEquals(Verify verify) {
+		TestResult testResult = testRunner.runSingle(MockClassWithFinalEqualsTest.class);
+
+		verify.that(testResult.runCount()).isEqualTo(1);
+		verify.that(testResult.failureCount()).isEqualTo(1);
 	}
 }

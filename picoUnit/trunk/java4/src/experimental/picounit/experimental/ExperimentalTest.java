@@ -40,13 +40,15 @@ public class ExperimentalTest implements Test {
 		this.mockCollaborator = mockCollaborator;
 	}
 
-	should useCollaboratorToPerformService(Constraints is, Mocker should, Verify verify) {
-		should.call(mockCollaborator.collaborate(is.notANullString())).andReturn("result");
-		
-		should.doAboveWhen();
-		
-		verify.equal("result", component.service("parameter"));
-		
+	should useCollaboratorToPerformService(Constraints with, Mocker should, Verify verify) {
+		should.call(mockCollaborator.collaborate(with.notANullString()))
+			.andReturn("result");
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		verify.that(component.service("parameter"))
+			.isEqualTo("result");
+
 		return done;
 	}
 

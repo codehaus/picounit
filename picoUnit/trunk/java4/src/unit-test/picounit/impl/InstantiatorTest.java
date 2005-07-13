@@ -34,18 +34,18 @@ public class InstantiatorTest implements Test {
 		this.resolver = resolver;
 	}
 	
-	public void testInstantiateZeroArgConstructor(Mocker mocker, Verify verify) throws IllegalArgumentException,
+	public void testInstantiateZeroArgConstructor(Mocker should, Verify verify) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 		
-		mocker.expect(resolver.get(ClassWithZeroArgConstructor.zeroArgConstructor))
+		should.call(resolver.get(ClassWithZeroArgConstructor.zeroArgConstructor))
 			.andReturn((new Object[0]));
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		Object instance = instantiator.instantiate(ClassWithZeroArgConstructor.class);
 		
-		verify.notNull(instance);
-		verify.that(instance instanceof ClassWithZeroArgConstructor);
+		verify.that(instance).isNotNull();
+		verify.that(instance).isAnInstanceOf(ClassWithZeroArgConstructor.class);
 	}
 	
 	public static class Fixture {
@@ -62,23 +62,23 @@ public class InstantiatorTest implements Test {
 		}
 	}
 
-	public void testInstantiateNonZeroArgConstructor(Mocker mocker, Verify verify) throws IllegalArgumentException,
+	public void testInstantiateNonZeroArgConstructor(Mocker should, Verify verify) throws IllegalArgumentException,
 		InstantiationException, IllegalAccessException, InvocationTargetException {
 
 		Fixture fixture = new Fixture();
-		mocker.expect(resolver.get(ClassWithNonZeroArgConstructor.nonZeroArgConstructor))
+		should.call(resolver.get(ClassWithNonZeroArgConstructor.nonZeroArgConstructor))
 			.andReturn((new Object[] {fixture}));
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		Object instance = instantiator.instantiate(ClassWithNonZeroArgConstructor.class);
 
-		verify.notNull(instance);
-		verify.that(instance instanceof ClassWithNonZeroArgConstructor);
+		verify.that(instance).isNotNull();
+		verify.that(instance).isAnInstanceOf(ClassWithNonZeroArgConstructor.class);
 
 		ClassWithNonZeroArgConstructor classWithNonZeroArgConstructor =
 			(ClassWithNonZeroArgConstructor) instance;
 
-		verify.equal(fixture, classWithNonZeroArgConstructor.fixture);
+		verify.that(classWithNonZeroArgConstructor.fixture).isEqualTo(fixture);
 	}
 }

@@ -20,52 +20,52 @@ public class StringUtilTest implements Test {
 	}
 	
 	public void testFailsIfSearchInIsNull() {
-		verify.not(stringUtil.contains(null, "not null"));
+		verify.thatBoolean(stringUtil.contains(null, "not null")).isFalse();
 	}
 	
 	public void testFailsIfSearchForIsNull() {
-		verify.not(stringUtil.contains("not null", null));
+		verify.thatBoolean(stringUtil.contains("not null", null)).isFalse();
 	}
 	
 	public void testFailsIfSearchInDoesNotContainSearchFor() {
-		verify.not(stringUtil.contains("abc", "def"));
+		verify.thatBoolean(stringUtil.contains("abc", "def")).isFalse();
 	}
 	
 	public void testPassesIfSearchInDoesContainSearchFor() {
-		verify.that(stringUtil.contains("abcdef", "abc"));
+		verify.thatBoolean(stringUtil.contains("abcdef", "abc")).isTrue();
 	}
 	
 	public void testProducesOriginalStringWhenAskedToReplaceAStringThatDoesNotOccur() {
-		verify.equal("abcdef", stringUtil.replace("abcdef", "---", "+++"));
+		verify.that(stringUtil.replace("abcdef", "---", "+++")).isEqualTo("abcdef");
 	}
 	
 	public void testReplaceSingleOccurence() {
-		verify.equal("+++abcdef", stringUtil.replace("---abcdef", "---", "+++"));
-		verify.equal("abc+++def", stringUtil.replace("abc---def", "---", "+++"));
-		verify.equal("abcdef+++", stringUtil.replace("abcdef---", "---", "+++"));
+		verify.that(stringUtil.replace("---abcdef", "---", "+++")).isEqualTo("+++abcdef");
+		verify.that(stringUtil.replace("abc---def", "---", "+++")).isEqualTo("abc+++def");
+		verify.that(stringUtil.replace("abcdef---", "---", "+++")).isEqualTo("abcdef+++");
 	}
 	
 	public void testReplacesMultipleOccurences() {
-		verify.equal("+++abc+++def+++", stringUtil.replace("---abc---def---", "---", "+++"));
+		verify.that(stringUtil.replace("---abc---def---", "---", "+++")).isEqualTo("+++abc+++def+++");
 	}
 	
 	public void testToString() {
-		verify.equal("null", stringUtil.toString((boolean[]) null));
-		verify.equal("null", stringUtil.toString((byte[]) null));
-		verify.equal("null", stringUtil.toString((char[]) null));
-		verify.equal("null", stringUtil.toString((double[]) null));
-		verify.equal("null", stringUtil.toString((float[]) null));
-		verify.equal("null", stringUtil.toString((int[]) null));
-		verify.equal("null", stringUtil.toString((long[]) null));
-		verify.equal("null", stringUtil.toString((short[]) null));
+		verify.that(stringUtil.toString((boolean[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((byte[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((char[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((double[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((float[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((int[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((long[]) null)).isEqualTo("null");
+		verify.that(stringUtil.toString((short[]) null)).isEqualTo("null");
 
-		verify.equal("[]", stringUtil.toString(new boolean[] {}));
-		verify.equal("[]", stringUtil.toString(new byte[] {}));
-		verify.equal("[]", stringUtil.toString(new char[] {}));
-		verify.equal("[]", stringUtil.toString(new double[] {}));
-		verify.equal("[]", stringUtil.toString(new float[] {}));
-		verify.equal("[]", stringUtil.toString(new int[] {}));
-		verify.equal("[]", stringUtil.toString(new long[] {}));
-		verify.equal("[]", stringUtil.toString(new short[] {}));
+		verify.that(stringUtil.toString(new boolean[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new byte[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new char[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new double[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new float[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new int[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new long[] {})).isEqualTo("[]");
+		verify.that(stringUtil.toString(new short[] {})).isEqualTo("[]");
 	}
 }

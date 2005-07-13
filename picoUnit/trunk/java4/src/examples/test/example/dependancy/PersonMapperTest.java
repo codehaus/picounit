@@ -32,7 +32,7 @@ public class PersonMapperTest implements Test {
 
 		personMapper.save(fred);
 
-		verify.equal(previousPopulation + 1, countPeople());
+		verify.that(countPeople()).isEqualTo(previousPopulation + 1);
 	}
 
 	private int countPeople() {

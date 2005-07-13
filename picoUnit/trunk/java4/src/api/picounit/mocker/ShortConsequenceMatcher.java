@@ -7,10 +7,9 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface ShortConsequenceMatcher extends ThrowsConsequenceMatcher,
-	OccurencesMatcher {
-
+public interface ShortConsequenceMatcher extends ThrowsConsequenceMatcher {
 	OccurencesMatcher andReturn(short result);
+	OccurencesMatcher andReturn(short ... results);
 
 	OccurencesMatcher andPerform(ShortAction shortAction);
 }

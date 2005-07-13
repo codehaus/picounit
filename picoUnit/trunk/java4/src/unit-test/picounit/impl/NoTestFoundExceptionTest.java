@@ -25,17 +25,20 @@ public class NoTestFoundExceptionTest implements Test {
 	public void testGetMessage() {
 		class StartingClass {}
 
-		verify.equal("No tests found", noTestsFoundException(StartingClass.class).getMessage());
+		verify.that(noTestsFoundException(StartingClass.class).getMessage())
+			.isEqualTo("No tests found");
 	}
 
 	public void testEquals() {
 		class StartingClassOne {}
 		class StartingClassTwo {}
 
-		verify.equal("Instances with same starting class should be equal,",
-			noTestsFoundException(StartingClassOne.class), noTestsFoundException(StartingClassOne.class));
+		verify.because("Instances with same starting class should be equal,")
+			.that(noTestsFoundException(StartingClassOne.class))
+			.isEqualTo(noTestsFoundException(StartingClassOne.class));
 
-		verify.notEqual("Instances with different starting class should not be equal",
-			noTestsFoundException(StartingClassOne.class), noTestsFoundException(StartingClassTwo.class));
+		verify.because("Instances with different starting class should not be equal")
+			.that(noTestsFoundException(StartingClassTwo.class))
+			.isDifferentTo(noTestsFoundException(StartingClassOne.class));
 	}
 }

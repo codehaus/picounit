@@ -10,6 +10,6 @@ package picounit;
 public interface Constraints extends IntegerConstraints, LongConstraints, DoubleConstraints,
 	StringConstraints, ObjectConstraints {
 
-	Future future(Class futureType);
-	Object instanceOf(Class instanceOf);
+	<T> Future<T> future(Class<T> futureType);
+	<T> T instanceOf(Class<T> instanceOf);
 }

@@ -18,20 +18,17 @@ import previous.picounit.Constraints;
 import previous.picounit.Future;
 import previous.picounit.Mocker;
 import previous.picounit.Test;
-import previous.picounit.Verify;
-
-import java.util.Arrays;
 
 public class RegistryTest implements Test {
 	private MutablePicoContainer picoContainer;
 
 	public static class SomeClass{}
 	public static class AnotherClass{}
-	
-	private Future futureRegistry;
+
+	private Future<RegistryImpl> futureRegistry;
 
 	public RegistryTest(Constraints is) {
-		futureRegistry = is.future(RegistryImpl.class);
+		this.futureRegistry = is.future(RegistryImpl.class);
 	}
 
 	public void mock(MutablePicoContainer picoContainer) {
@@ -41,45 +38,33 @@ public class RegistryTest implements Test {
 		picoContainer.registerComponentInstance(Resolver.class, futureRegistry);
 	}
 	
-	public void testDelegatesInstanceRegistrationToPico(Mocker mocker) {
+	public void testDelegatesInstanceRegistrationToPico(Mocker should) {
 		Class key = SomeClass.class;
 		Object value = new SomeClass();
 
 		picoContainer.registerComponentInstance(key, value); 
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		registry().register(key, value);
 	}
 	
-	public void testDelegatesInterfaceToImplementationRegistrationToPico(Mocker mocker) {
+	public void testDelegatesInterfaceToImplementationRegistrationToPico(Mocker should) {
 		picoContainer.registerComponentImplementation(Interface.class, Implementation.class);
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		registry().register(Interface.class, Implementation.class);
 	}
 	
-	public void testDelegatesImplementationRegistrationToPico(Mocker mocker) {
+	public void testDelegatesImplementationRegistrationToPico(Mocker should) {
 		picoContainer.registerComponentImplementation(Implementation.class);
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		registry().register(Implementation.class);
 	}
 	
-	public void testDelegatesGetToPico(Mocker mocker, Verify verify) {
-		Class[] keys = new Class[] {SomeClass.class, AnotherClass.class};
-		Object[] values = new Object[] {new SomeClass(), new AnotherClass()};
-		
-		mocker.expect(picoContainer.getComponentInstanceOfType(keys[0])).andReturn(values[0]);
-		mocker.expect(picoContainer.getComponentInstanceOfType(keys[1])).andReturn(values[1]);
-		
-		mocker.replay();
-		
-		verify.that(Arrays.equals(values, registry().get(keys)));
-	}
-
 	private RegistryImpl registry() {
 		RegistryImpl registry = new RegistryImpl(picoContainer);
 

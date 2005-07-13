@@ -13,14 +13,14 @@ import picounit.util.MethodUtil;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class FutureInvocationHandler implements InvocationHandler {
+public class FutureInvocationHandler<T> implements InvocationHandler {
 	private final MethodUtil methodUtil = new MethodUtil();
-	private final Future future;
+	private final Future<T> future;
 
-	public FutureInvocationHandler(Future future) {
+	public FutureInvocationHandler(Future<T> future) {
 		this.future = future;
 	}
-	
+
 	public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
 		if (method.getDeclaringClass().equals(Future.class) ||
 			methodUtil.isHashCode(method) ||

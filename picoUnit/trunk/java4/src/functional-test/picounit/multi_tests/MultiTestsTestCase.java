@@ -23,10 +23,10 @@ public class MultiTestsTestCase implements FunctionalTest {
 		
 		TestResult testResult = testRunner.run(FirstTest.class);
 
-		verify.equal(3, testResult.runCount());
-		verify.equal(0, testResult.failureCount() + testResult.errorCount());
-		verify.that(FirstTest.testInvoked);
-		verify.that(SecondTest.testInvoked);
-		verify.that(ThirdTest.testInvoked);
+		verify.that(testResult.runCount()).isEqualTo(3);
+		verify.that(testResult.failureCount() + testResult.errorCount()).isEqualTo(0);
+		verify.thatBoolean(FirstTest.testInvoked).isTrue();
+		verify.thatBoolean(SecondTest.testInvoked).isTrue();
+		verify.thatBoolean(ThirdTest.testInvoked).isTrue();
 	}
 }

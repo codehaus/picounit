@@ -26,24 +26,24 @@ public class MockResolverTest implements Test {
 	
 	public void mock(Mocker mockedMocker, MethodParameterRegistry methodParameterRegistry,
 		FirstToMock firstToMock, SecondToMock secondToMock) {
+
 		this.mockResolver = new MockResolver(mockedMocker, methodParameterRegistry);
-		
 		this.mockedMocker = mockedMocker;
 		this.firstToMock = firstToMock;
 		this.secondToMock = secondToMock;
 	}
 
-	public void testObtainsAllClassViaMocker(previous.picounit.Mocker mocker, Verify verify) {	
-		mocker.expect(mockedMocker.mock(FirstToMock.class)).andReturn(firstToMock);
-		mocker.expect(mockedMocker.mock(SecondToMock.class)).andReturn(secondToMock);
+	public void testObtainsAllClassViaMocker(previous.picounit.Mocker should, Verify verify) {	
+		should.call((Object) mockedMocker.mock(FirstToMock.class)).andReturn(firstToMock);
+		should.call((Object) mockedMocker.mock(SecondToMock.class)).andReturn(secondToMock);
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		Object[] objects = mockResolver.get(new Class[] {FirstToMock.class, SecondToMock.class});
 
-		verify.notNull(objects);
-		verify.equal(2, objects.length);
-		verify.equal(firstToMock, objects[0]);
-		verify.equal(secondToMock, objects[1]);		
+		verify.that(objects).isNotNull();
+		verify.that(objects.length).isEqualTo(2);
+		verify.that(objects[0]).isEqualTo(firstToMock);
+		verify.that(objects[1]).isEqualTo(secondToMock);
 	}
 }

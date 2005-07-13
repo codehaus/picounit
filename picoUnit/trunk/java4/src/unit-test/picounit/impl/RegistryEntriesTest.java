@@ -25,28 +25,28 @@ public class RegistryEntriesTest implements Test {
 		this.registry = registry;
 	}
 	
-	public void testRegistersImplementationClassesRegistered(Mocker mocker) {
+	public void testRegistersImplementationClassesRegistered(Mocker should) {
 		registry.register(Implementation.class);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		registryEntries.register(Implementation.class);
 		registryEntries.registerWith(registry);
 	}
 	
-	public void testRegistersInterfaceToInstancesRegistered(Mocker mocker) {
+	public void testRegistersInterfaceToInstancesRegistered(Mocker should) {
 		registry.register(Interface.class, instance);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		registryEntries.register(Interface.class, instance);
 		registryEntries.registerWith(registry);
 	}
 	
-	public void testRegistersInterfaceToImplementationRegistered(Mocker mocker) {
+	public void testRegistersInterfaceToImplementationRegistered(Mocker should) {
 		registry.register(Interface.class, Implementation.class);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		registryEntries.register(Interface.class, Implementation.class);
 		registryEntries.registerWith(registry);

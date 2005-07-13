@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="test" name="picounit" basedir=".">
-	<property name="javaVersion" value="1.4"/>
+	<property name="javaVersion" value="1.5"/>
+	<property name="sourceVersion" value="${javaVersion}"/>
+	<property name="targetVersion" value="${javaVersion}"/>
 
 	<property file="../build.properties"/>
 	<import file="../build-common.xml"/>
-	
+
 	<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${jarjar-jar}"/>
 
 	<target name="dist">
@@ -13,11 +15,17 @@
 			<zipfileset dir="${libDir}" includes="*.jar"/>
 		</zip>
 	</target>
-
+	
 	<target name="compile" depends="compileCore, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests, compileExampleTests"/>
 
 	<target name="compileCore" description="o Compile the code" depends="init">
-		<javac destdir="${coreClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${coreClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+			<src>
+				<pathelement location="${externalSource}"/>
+			</src>
+		</javac>
+		
+		<javac destdir="${coreClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${apiSource}"/>
 				<pathelement location="${implementationSource}"/>
@@ -39,7 +47,7 @@
 	</target>
 	
 	<target name="compileJMocker" depends="compileCore">
-		<javac destdir="${jmockerClasses}" target="${javaVersion}" source="${javaVersion}"
+		<javac destdir="${jmockerClasses}" target="${targetVersion}" source="${sourceVersion}"
 			deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${jmockerSource}"/>
@@ -59,7 +67,7 @@
 	</target>
 		
 	<target name="compileUnitTestModel" depends="compileCore, compileJMocker">
-		<javac destdir="${unitTestModelClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${unitTestModelClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${unitTestModelSource}"/>
 			</src>
@@ -82,7 +90,7 @@
 	</target>
 
 	<target name="compileUnitTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${unitTestClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${unitTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${unitTestSource}"/>
 			</src>
@@ -106,7 +114,7 @@
 	</target>
 
 	<target name="compileFunctionalTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${functionalTestClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${functionalTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${functionalTestSource}"/>
 			</src>
@@ -130,7 +138,8 @@
 	</target>
 
 	<target name="compileExampleTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${exampleTestClasses}" target="${javaVersion}" source="${javaVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${exampleTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+<!--			<compilerarg value="-Xlint:unchecked"/> -->
 			<src>
 				<pathelement location="${exampleTestSource}"/>
 			</src>
@@ -154,14 +163,14 @@
 
 	<target name="jar" description="o Create the jars" depends="compile, test, jarApi, jarCore, jarJMocker"/>
 
-	<target name="jarApi" depends="compileCore, test">
+	<target name="jarApi" depends="compileCore">
 		<jar jarfile="${apiJar}" basedir="${coreClasses}">
 			<include name="picounit/*"/>
 			<include name="picounit/mocker/*"/>
 		</jar>
 	</target>
 
-	<target name="jarCore" depends="compileCore, test">
+	<target name="jarCore" depends="compileCore">
 		<jar jarfile="${coreJar}" basedir="${coreClasses}">
 			<include name="**"/>
 			<exclude name="picounit/*"/>
@@ -174,7 +183,7 @@
 			originalJar="${coreJar}" pluginClass="picounit.registry.DefaultPlugin"/>
 	</target>
 
-	<target name="jarJMocker" depends="compileJMocker, test">
+	<target name="jarJMocker" depends="compileJMocker">
 		<jar jarfile="${jmockerJar}" basedir="${jmockerClasses}"/>
 	</target>
 

@@ -9,6 +9,7 @@ package picounit.finder;
 
 import picounit.Mocker;
 import picounit.classloader.MethodParameterRegistry;
+import picounit.impl.PicoUnitImpl;
 import picounit.reflection.Instantiator;
 import picounit.reflection.Invoker;
 import picounit.reflection.OrdinaryInstantiator;
@@ -23,11 +24,12 @@ import java.lang.reflect.Modifier;
 
 import junit.framework.TestSuite;
 
-public class SinglePicoUnitTestSuite extends TestSuite {
+public class SinglePicoUnitTestSuite<T> extends TestSuite {
 	private final Class testClass;
 
-	public SinglePicoUnitTestSuite(String testName, Class testClass, TestFilter testFilter, RegistryEntry registryEntry,
-		MethodParameterRegistry methodParameterRegistry, ClassLoader classLoader) {
+	public SinglePicoUnitTestSuite(String testName, Class<T> testClass, TestFilter testFilter, RegistryEntry registryEntry,
+		MethodParameterRegistry methodParameterRegistry, ClassLoader classLoader,
+		TestListener testListener) {
 
 		super(testName);
 
@@ -37,7 +39,9 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 
 		Method[] methods = testClass.getMethods();
 
-		RegistryImpl registry = new RegistryFactory().create(); 
+		// TODO: This static code must not remain, the plugins should not be loaded in this manner anyhow, a registryEntries
+		// should be constructed one time only.
+		RegistryImpl registry = new RegistryFactory(PicoUnitImpl.classPath).create(); 
 		registryEntry.registerWith(registry);
 
 		Mocker mocker = (Mocker) registry.get(Mocker.class);
@@ -56,8 +60,10 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 			Method method = methods[index];
 
 			if (method.getName().startsWith("test") && testFilter.matches(method)) {
-				addTest(new PicoUnitTestCase(method, instantiator, invoker, mockInvoker, mocker,
-					thrower, lifecycleInstantiator));
+				addTest(new PicoUnitTestCase<T>(testClass, method, instantiator, invoker, mockInvoker,
+					mocker, thrower, lifecycleInstantiator, testListener));
+
+				testListener.testPrepared();
 			}
 		}
 
@@ -65,7 +71,7 @@ public class SinglePicoUnitTestSuite extends TestSuite {
 			addTest(new NoTestsFoundTestCase(testClass));
 		}
 	}
-
+	
 	private void validate(Class testClass) {
 		if (testClass.isInterface()) {
 			throw new IllegalArgumentException(testClass.getName() + " is an interface");

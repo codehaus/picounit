@@ -7,8 +7,9 @@
  *****************************************************************************/
 package picounit.mocker;
 
-public interface IntConsequenceMatcher extends ThrowsConsequenceMatcher, OccurencesMatcher {
+public interface IntConsequenceMatcher extends ThrowsConsequenceMatcher {
 	OccurencesMatcher andReturn(int result);
+	OccurencesMatcher andReturn(int ... results);
 
 	OccurencesMatcher andPerform(IntAction intAction);
 }

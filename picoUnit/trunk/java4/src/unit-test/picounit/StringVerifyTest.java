@@ -12,6 +12,7 @@ import picounit.verify.StringUtil;
 import previous.picounit.Mocker;
 import previous.picounit.Test;
 
+@SuppressWarnings("deprecation")
 public class StringVerifyTest implements Test {
 	private StringVerify stringVerify;
 	
@@ -32,7 +33,7 @@ public class StringVerifyTest implements Test {
 	}
 	
 	public void testContainsFailsIfSearchInIsNull() {
-		verify.fail("<searchIn> is null !");
+		verify.fail("<searchIn> is null");
 
 		should.doAboveWhen();
 
@@ -40,7 +41,7 @@ public class StringVerifyTest implements Test {
 	}
 
 	public void testContainsFailsIfSearchForIsNull() {
-		verify.fail("<searchFor> is null !");
+		verify.fail("<searchFor> is null");
 
 		should.doAboveWhen();
 
@@ -49,7 +50,7 @@ public class StringVerifyTest implements Test {
 
 	public void testContainsFailsIfSearchInDoesNotContainSearchFor() {
 		should.call(stringUtil.contains("abc", "def")).andReturn(false);
-		verify.fail("'abc' does not contain 'def'");
+		verify.fail("<abc> does not contain <def>");
 
 		should.doAboveWhen();
 
@@ -64,7 +65,7 @@ public class StringVerifyTest implements Test {
 	}
 	
 	public void testDoesNotContainFailsIfSearchInIsNull() {
-		verify.fail("<searchIn> is null !");
+		verify.fail("<searchIn> is null");
 
 		should.doAboveWhen();
 
@@ -72,7 +73,7 @@ public class StringVerifyTest implements Test {
 	}
 
 	public void testDoesNotContainFailsIfSearchForIsNull() {
-		verify.fail("<searchFor> is null !");
+		verify.fail("<searchFor> is null");
 
 		should.doAboveWhen();
 
@@ -81,7 +82,7 @@ public class StringVerifyTest implements Test {
 
 	public void testDoesNotContainFailsIfSearchInContainsSearchFor() {
 		should.call(stringUtil.contains("abcdef", "def")).andReturn(true);
-		verify.fail("'abcdef' contains 'def'");
+		verify.fail("<abcdef> contains <def>");
 
 		should.doAboveWhen();
 

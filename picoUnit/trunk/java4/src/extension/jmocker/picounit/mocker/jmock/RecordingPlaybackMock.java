@@ -7,9 +7,6 @@
  *****************************************************************************/
 package picounit.mocker.jmock;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import org.jmock.builder.MatchBuilder;
 import org.jmock.cglib.Mock;
 import org.jmock.core.DynamicMock;
@@ -23,36 +20,39 @@ import picounit.mocker.MockFactory;
 import picounit.util.MethodUtil;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import junit.framework.AssertionFailedError;
 
-public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
-	private static final Map defaultMap = createDefaultMap();
-	private final BetterCGLIBCoreMock playbackCoreMock;
+public class RecordingPlaybackMock<T> implements DynamicMock, InvocationHandler {
+	private static final StubFactory stubFactory = new DefaultStubFactory();
+
+	private final BetterCGLIBCoreMock<T> playbackCoreMock;
 	private final RecordingPlaybackMockListener invocationListener;
 	private final MethodUtil methodUtil = new MethodUtil();
 	private final MockFactory mockFactory;
 	private final Mock playbackMock;
-	private final Object proxy;
+	private final T proxy;
 
+	private final ConstraintStore constraintStore;
+	private final MockInvocationListener mockInvocationListener;
+	
 	private boolean recording = true;
 	private int expectationSequenceNumber = 0;
 	private boolean breakInExpectations;
-	private final ConstraintStore constraintStore;
 	private Stub stub;
 	private InvocationMatcher invocationMatcher = new InvokeOnceMatcher();
 	private Invocation invocation;
-	
-	public RecordingPlaybackMock(Class mockedType, String roleName,
+
+	public RecordingPlaybackMock(Class<T> mockedType, String roleName,
 		RecordingPlaybackMockListener invocationListener, MockFactory mockFactory,
-		ConstraintStore constraintStore) {
+		ConstraintStore constraintStore, MockInvocationListener mockInvocationListener) {
 
 		this.mockFactory = mockFactory;
 		this.constraintStore = constraintStore;
-		this.playbackCoreMock = new BetterCGLIBCoreMock(mockedType, roleName);
+		this.mockInvocationListener = mockInvocationListener;
+		this.playbackCoreMock = new BetterCGLIBCoreMock<T>(mockedType, roleName);
 		this.playbackMock = new Mock(playbackCoreMock);
 
         this.proxy = new ProxyFactory().create(mockedType, this); 
@@ -60,20 +60,18 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 		this.invocationListener = invocationListener;
 	}
 
-	public Class getMockedType() {
+	@SuppressWarnings("unchecked")
+	public Class<T> getMockedType() {
 		return playbackCoreMock.getMockedType();
 	}
 
-	public Object proxy() {
+	public T proxy() {
 		return proxy;
 	}
-	
-	public Object getMock() {
-		return new Mock(this).proxy();
-	}
 
-	public Mock playbackMock() {
-		return playbackMock;
+	@SuppressWarnings("unchecked")
+	public T getMock() {
+		return (T) new Mock(this).proxy();
 	}
 
 	public void setDefaultStub(Stub newDefaultStub) {
@@ -97,6 +95,9 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 	public void reset() {
 		recording = true;
 		playbackCoreMock.reset();
+		invocationMatcher = new InvokeOnceMatcher();
+		stub = null;
+		invocation = null;
 	}
 
 	public void verify() {
@@ -117,26 +118,26 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 		this.invocationMatcher = invocationMatcher;
 	}
 
-	public Object intercept(Object thisProxy, Method method, Object[] args, MethodProxy superProxy)
-		throws Throwable {
-
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		Invocation invocation = new Invocation(proxy, method, args);
-
+		
+		mockInvocationListener.fire(invocation);
+		
 		if (methodUtil.isEquals(method)) {
-			return new Boolean(thisProxy == args[0]);
+			return new Boolean(proxy == args[0]);
 		}
-
+		
 		if (recording && !isDefault(invocation)) {
 			completeExpectation();
 			this.invocation = invocation;
-
+		
 			invocationListener.recordingPlaybackMockEvent(this);
-
+		
 			return defaultValue(invocation.invokedMethod.getReturnType());	
 		}
 		else {
 			try {
-				return playbackCoreMock.intercept(thisProxy, method, args, superProxy);
+				return playbackCoreMock.intercept(proxy, method, args, null);
 			}
 			catch (AssertionFailedError assertionFailedError) {
 				throw assertionFailedError;
@@ -144,19 +145,19 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Object defaultValue(Class returnType) {
 		if (void.class.equals(returnType)) {
 			return null;
 		}
+
 		if (returnType.isArray()) {
 			return Array.newInstance(returnType.getComponentType(), 0);
 		}
 
-		Object defaultValue = defaultMap.get(returnType);
-
-		return defaultValue != null ? defaultValue : mockFactory.mock(returnType);
+		return stubFactory.create(returnType, mockFactory);
 	}
-
+	
 	/*
 	 * It would be better to access the default matchers registered in the AbstractDynamicMock.setupDefaultBehaviour
 	 */
@@ -166,30 +167,6 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 		return methodUtil.isEquals(invokedMethod) ||
 			methodUtil.isHashCode(invokedMethod) ||
 			methodUtil.isToString(invokedMethod);
-	}
-
-	private static Map createDefaultMap() {
-		Map defaultMap = new HashMap();
-		defaultMap.put(boolean.class, Boolean.FALSE);
-		defaultMap.put(byte.class, new Byte((byte)0));
-		defaultMap.put(short.class, new Short((short)0));
-		defaultMap.put(int.class, new Integer(0));
-		defaultMap.put(long.class, new Long(0L));
-		defaultMap.put(char.class, new Character('\0'));
-		defaultMap.put(float.class, new Float(0.0F));
-		defaultMap.put(double.class, new Double(0.0));
-		defaultMap.put(Boolean.class, Boolean.FALSE);
-		defaultMap.put(Byte.class, new Byte((byte)0));
-		defaultMap.put(Short.class, new Short((short)0));
-		defaultMap.put(Integer.class, new Integer(0));
-		defaultMap.put(Long.class, new Long(0L));
-		defaultMap.put(Character.class, new Character('\0'));
-		defaultMap.put(Float.class, new Float(0.0F));
-		defaultMap.put(Double.class, new Double(0.0));
-		defaultMap.put(String.class, "");
-		defaultMap.put(Object.class, new Object());
-		defaultMap.put(Class.class, Class.class);
-		return defaultMap;
 	}
 
 	private void completeExpectation() {
@@ -223,6 +200,6 @@ public class RecordingPlaybackMock implements DynamicMock, MethodInterceptor {
 	}
 	
 	private boolean isPrimative(Class returnType) {
-		return !returnType.equals(Void.TYPE) && returnType.isPrimitive();
+		return returnType.isPrimitive() && !returnType.equals(Void.TYPE);
 	}
 }

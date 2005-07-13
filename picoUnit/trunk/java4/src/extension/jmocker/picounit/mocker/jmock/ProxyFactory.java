@@ -7,12 +7,15 @@
  *****************************************************************************/
 package picounit.mocker.jmock;
 
-import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import picounit.PicoUnitException;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 public class ProxyFactory {
 	private final ClassUtil classUtil = new ClassUtil();
@@ -22,83 +25,66 @@ public class ProxyFactory {
 	}
 
 	public static boolean isProxy(Class clazz) {
-		return Enhancer.isEnhanced(clazz);
+		return Proxy.isProxyClass(clazz) ||  
+			Enhancer.isEnhanced(clazz);
 	}
 
-	public Object create(Class clazz, Callback callback) {
+	@SuppressWarnings("unchecked")
+	public <T> T create(Class<T> clazz, MethodInterceptor methodInterceptor) {
 		if (isProxy(clazz)) {
-			return create(clazz.getSuperclass(), callback);
+			System.err.println("proxying a proxy is deprecated; " + clazz.getName());
+			return (T) create(clazz.getSuperclass(), methodInterceptor);
 		}
 
 		if (clazz.isInterface()) {
-			return createInterfaceProxy(clazz, callback);
+			return (T) createInterfaceProxy(clazz, convertMethodInterceptor(methodInterceptor));
 		}
 		else {
-			return createClassProxy(clazz, callback);
+			return (T) createClassProxy(clazz, methodInterceptor);
 		}
-	}
-	
-	public Object create(Class clazz, InvocationHandler invocationHandler) {
-		return create(clazz, convertInvocationHandler(invocationHandler));
 	}
 
-	public Object create(Class[] classes, InvocationHandler invocationHandler) {
-		return create(classes, convertInvocationHandler(invocationHandler));
-	}
-	
-	public Object create(Class[] classes, Callback callback) {
-		if (onlyInterfaces(classes)) {
-			return createInterfaceProxy(classes, callback);
+	@SuppressWarnings("unchecked")
+	public <T> T create(Class<T> clazz, InvocationHandler invocationHandler) {
+		if (isProxy(clazz)) {
+			System.err.println("proxying a proxy is deprecated; " + clazz.getName());
+			return (T) create(clazz.getSuperclass(), invocationHandler);
 		}
-		else if (onlyOneClass(classes)) {
-			return createMixedProxy(getClass(classes), getInterfaces(classes), callback);
+
+		if (clazz.isInterface()) {
+			return (T) createInterfaceProxy(clazz, invocationHandler);
 		}
 		else {
-			throw new PicoUnitException("Cannot create a proxy with more than one class");
+			return (T) createClassProxy(clazz, convertInvocationHandler(invocationHandler));
 		}
 	}
 
-	private Object createClassProxy(Class clazz, Callback callback) {
-		Enhancer enhancer = createEnhancer(callback);
-	
-		enhancer.setSuperclass(clazz);
-
-		return enhancer.create(getConstructorTypes(clazz), getConstructorValues(clazz));
+	private Object createInterfaceProxy(Class clazz, InvocationHandler invocationHandler) {
+		return Proxy.newProxyInstance(clazz.getClassLoader(), new Class[] {clazz}, invocationHandler);
 	}
 
-	private Object createInterfaceProxy(Class clazz, Callback callback) {
-		return createInterfaceProxy(new Class[] {clazz}, callback);
-	}
-
-	private Object createInterfaceProxy(Class[] classes, Callback callback) {
-		Enhancer enhancer = createEnhancer(callback);
-
-		enhancer.setInterfaces(classes);
-
-		return enhancer.create();
-	}
-
-	private Object createMixedProxy(Class clazz, Class[] interfaceClasses, Callback callback) {
-		Enhancer enhancer = createEnhancer(callback);
-
-		enhancer.setInterfaces(interfaceClasses);
-		enhancer.setSuperclass(clazz);
-
-		return enhancer.create(getConstructorTypes(clazz), getConstructorValues(clazz));
-	}
-
-	private Enhancer createEnhancer(Callback callback) {
+	private Object createClassProxy(Class clazz, MethodInterceptor callback) {
 		Enhancer enhancer = new Enhancer();
 
 		enhancer.setCallback(callback);
+	
+		enhancer.setSuperclass(clazz);
 
-		return enhancer;
+		return enhancer.create(getConstructorTypes(clazz), getConstructorValues(clazz));
 	}
 
-	private Callback convertInvocationHandler(final InvocationHandler invocationHandler) {
-		return new net.sf.cglib.proxy.InvocationHandler() {
-			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	private MethodInterceptor convertInvocationHandler(final InvocationHandler invocationHandler) {
+		return new MethodInterceptor(){
+			public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 				return invocationHandler.invoke(proxy, method, args);
+			}
+		};
+	}
+	
+	private InvocationHandler convertMethodInterceptor(final MethodInterceptor methodInterceptor) {
+		return new InvocationHandler(){
+			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+				return methodInterceptor.intercept(methodInterceptor, method, args, null);
 			}
 		};
 	}
@@ -108,53 +94,20 @@ public class ProxyFactory {
 	}
 
 	private Object[] getConstructorValues(Class clazz) {
-		return classUtil.getArgsForTypes(getConstructorTypes(clazz), this);
-	}
-	
-
-	private boolean onlyInterfaces(Class[] classes) {
-		return classCount(classes) == classes.length;
-	}
-
-	private boolean onlyOneClass(Class[] classes) {
-		return classCount(classes) == 1;
-	}
-
-	private int classCount(Class[] classes) {
-		int count = 0;
-		
-		for (int index = 0; index < classes.length; index++ ) {
-			if (!classes[index].isInterface()) {
-				count++;
-			}
+		try {
+			return classUtil.getArgsForTypes(getConstructorTypes(clazz), this);
 		}
-		
-		return count;
-	}
-
-	private Class[] getInterfaces(Class[] classes) {
-		Class[] interfaceClasses = new Class[classes.length - 1];
-
-		int passedClassOffset = 0;
-		for (int index = 0; index < classes.length; index++ ) {
-			if (classes[index].isInterface()) {
-				interfaceClasses[index + passedClassOffset] = classes[index];
-			}
-			else {
-				passedClassOffset = 1;
-			}
+		catch (IllegalArgumentException illegalArgumentException) {
+			throw new PicoUnitException(illegalArgumentException);
 		}
-
-		return interfaceClasses;
-	}
-
-	private Class getClass(Class[] classes) {
-		for (int index = 0; index < classes.length; index++ ) {
-			if (!classes[index].isInterface()) {
-				return classes[index];
-			}
+		catch (InstantiationException instantiationException) {
+			throw new PicoUnitException(instantiationException);
 		}
-		
-		throw new PicoUnitException("No class found");
+		catch (IllegalAccessException illegalAccessException) {
+			throw new PicoUnitException(illegalAccessException);
+		}
+		catch (InvocationTargetException invocationTargetException) {
+			throw new PicoUnitException(invocationTargetException);
+		}
 	}	
 }

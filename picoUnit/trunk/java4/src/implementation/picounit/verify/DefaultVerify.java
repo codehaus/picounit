@@ -9,55 +9,311 @@ package picounit.verify;
 
 import picounit.Verify;
 import picounit.impl.Verifiable;
+import picounit.verify.constraint.Evaluator;
+import picounit.verify.constraint.Explanation;
 
+import java.io.File;
 import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
 
-public class DefaultVerify implements Verify {
+public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	// TODO Implement the object equals using array util
 	// TODO Replace toString(array) with stringUtil.toString(array)
 	// TODO Examine missing types for simple equal(type, type)
+	private final BooleanConstraints booleanConstraints;
+	private final ByteConstraints byteConstraints;
+	private final CharacterConstraints charConstraints;
+	private final DoubleConstraints doubleConstraints;
+	private final FloatConstraints floatConstraints;
+	private final IntegerConstraints intConstraints;
+	private final LongConstraints longConstraints;
+	private final ShortConstraints shortConstraints;
+	
+	private final FileConstraints fileConstraints;
+	private final StringConstraints stringConstraints;
+	private final TypedConstraints typedConstraints;
+	
 	private final ArrayUtil arrayUtil;
 	private final StringUtil stringUtil;
 	private final Thrower thrower;
 	private final NumericUtil numericUtil;
 	private final Verifiable verifiable;
+	private final EqualUtil equalUtil;
+	
+	private final BooleanArrayConstraints booleanArrayConstraints;
+	private final ByteArrayConstraints byteArrayConstraints;
+	private final CharacterArrayConstraints characterArrayConstraints;
+	private final DoubleArrayConstraints doubleArrayConstraints;
+	private final FloatArrayConstraints floatArrayConstraints;
+	private final IntegerArrayConstraints integerArrayConstraints;
+	private final LongArrayConstraints longArrayConstraints;
+	private final ShortArrayConstraints shortArrayConstraints;
+	private final StringArrayConstraints stringArrayConstraints;
+	private final TypedArrayConstraints typedArrayConstraints;
 
 	public static Verify create() {
-		return new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(),
-			new ImmediateThrower(), new NullVerifiable());
+		return create(new NumericUtil(), new ArrayUtil(), new StringUtil(), new ImmediateThrower(),
+			new NullVerifiable());
 	}
 
-	public DefaultVerify(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil,
+	public static Verify create(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil,
 		Thrower thrower, Verifiable verifiable) {
+
+		Evaluator evaluator = new Evaluator();
+
+		return new DefaultVerify(evaluator,
+			new DefaultBooleanConstraints(evaluator),
+			new DefaultByteConstraints(evaluator),
+			new DefaultCharacterConstraints(evaluator),
+			new DefaultDoubleConstraints(evaluator),
+			new DefaultFloatConstraints(evaluator),
+			new DefaultIntegerConstraints(evaluator),
+			new DefaultLongConstraints(evaluator),
+			new DefaultShortConstraints(evaluator),
+			new DefaultFileConstraints(evaluator),
+			new DefaultStringConstraints(evaluator),
+			new TypedConstraintsImpl(evaluator),
+			new TypedArrayConstraintsImpl(evaluator), numericUtil, arrayUtil, stringUtil, thrower, verifiable);
+	}	
+
+	public DefaultVerify(Evaluator evaluator, BooleanConstraints booleanConstraints,
+		ByteConstraints byteConstraints, CharacterConstraints charConstraints,
+		DoubleConstraints doubleConstraints, FloatConstraints floatConstraints, IntegerConstraints intConstraints,
+		LongConstraints longConstraints, ShortConstraints shortConstraints, FileConstraints fileConstraints,
+		StringConstraints stringConstraints, TypedConstraints typedConstraints,
+		TypedArrayConstraints typedArrayConstraints, NumericUtil numericUtil,
+		ArrayUtil arrayUtil, StringUtil stringUtil, Thrower thrower, Verifiable verifiable) {
+
+		super(evaluator);
+
+		setVerifyStage(this);
+
+		this.booleanConstraints = booleanConstraints;
+		this.byteConstraints = byteConstraints;
+		this.charConstraints = charConstraints;
+		this.doubleConstraints = doubleConstraints;
+		this.floatConstraints = floatConstraints;
+		this.intConstraints = intConstraints;
+		this.longConstraints = longConstraints;
+		this.shortConstraints = shortConstraints;
+
+		this.fileConstraints = fileConstraints;
+		this.stringConstraints = stringConstraints;
+		this.typedConstraints = typedConstraints;
+
+		this.booleanArrayConstraints = new BooleanArrayConstraintsImpl(evaluator);
+		this.byteArrayConstraints = new DefaultByteArrayConstraints(evaluator);
+		this.characterArrayConstraints = new CharacterArrayConstraintsImpl(evaluator);
+		this.doubleArrayConstraints = new DefaultDoubleArrayConstraints(evaluator);
+		this.floatArrayConstraints = new FloatArrayConstraintsImpl(evaluator);
+		this.integerArrayConstraints = new IntegerArrayConstraintsImpl(evaluator);
+		this.longArrayConstraints = new LongArrayConstraintsImpl(evaluator);
+		this.shortArrayConstraints = new ShortArrayConstraintsImpl(evaluator);
+		this.stringArrayConstraints = new StringArrayConstraintsImpl(evaluator);
+		this.typedArrayConstraints = typedArrayConstraints;
 
 		this.numericUtil = numericUtil;
 		this.arrayUtil = arrayUtil;
 		this.stringUtil = stringUtil;
 		this.thrower = thrower;
 		this.verifiable = verifiable;
+		this.equalUtil = new EqualUtil();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// VerifyStage
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public BooleanConstraints thatBoolean(boolean value) {
+		verify();
+		
+		setValue(value);
+
+		return booleanConstraints;
+	}
+	
+	public ByteConstraints that(byte value) {
+		verify();
+		
+		setValue(value);
+	
+		return byteConstraints;
+	}
+	
+	public CharacterConstraints that(char value) {
+		verify();
+		
+		setValue(value);
+		
+		return charConstraints;
+	}
+	
+	public DoubleConstraints that(double value) {
+		verify();
+		
+		setValue(value);
+		
+		return doubleConstraints;
+	}
+	
+	public FloatConstraints that(float value) {
+		verify();
+		
+		setValue(value);
+		
+		return floatConstraints;
+	}
+	
+	public IntegerConstraints that(int value) {
+		verify();
+		
+		setValue(value);
+		
+		return intConstraints;
+	}
+	
+	public LongConstraints that(long value) {
+		verify();
+		
+		setValue(value);
+		
+		return longConstraints;
+	}
+	
+	public ShortConstraints that(short value) {
+		verify();
+		
+		setValue(value);
+		
+		return shortConstraints;
+	}
+	
+	public FileConstraints that(File value) {
+		verify();
+		
+		setValue(value);
+
+		return fileConstraints;
+	}
+	
+	public StringConstraints that(String value) {
+		verify();
+		
+		setValue(value);
+		
+		return stringConstraints;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> TypedConstraints<T> that(T value) {
+		verify();
+		
+		setValue(value);
+
+		return typedConstraints;
+	}
+	
+	public BooleanArrayConstraints that(boolean ... value) {
+		verify();
+		
+		setValue(value);
+
+		return booleanArrayConstraints;
+	}
+	
+	public ByteArrayConstraints that(byte ... value) {
+		verify();
+		
+		setValue(value);
+
+		return byteArrayConstraints;
+	}
+	
+	public CharacterArrayConstraints that(char ... value) {
+		verify();
+		
+		setValue(value);
+
+		return characterArrayConstraints;
+	}
+	
+	public DoubleArrayConstraints that(double ... value) {
+		verify();
+		
+		setValue(value);
+
+		return doubleArrayConstraints;
+	}
+	
+	public FloatArrayConstraints that(float ... value) {
+		verify();
+		
+		setValue(value);
+
+		return floatArrayConstraints;
+	}
+	
+	public IntegerArrayConstraints that(int ... value) {
+		verify();
+		
+		setValue(value);
+
+		return integerArrayConstraints;
+	}
+	
+	public LongArrayConstraints that(long ... value) {
+		verify();
+		
+		setValue(value);
+
+		return longArrayConstraints;
+	}
+	
+	public ShortArrayConstraints that(short ... value) {
+		verify();
+		
+		setValue(value);
+
+		return shortArrayConstraints;
+	}
+	
+	public StringArrayConstraints that(String ... value) {
+		verify();
+		
+		setValue(value);
+
+		return stringArrayConstraints;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> TypedArrayConstraints<T> that(T ... value) {
+		verify();
+		
+		setValue(value);
+
+		return typedArrayConstraints;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// picounit.Verify
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void fail() {
-		verifiable.verify();
+		verify();
 
 		raise();
 	}
 
 
 	public void fail(String message) {
-		verifiable.verify();
+		verify();
 
 		raise(message);
 	}
 
 	public void that(boolean expression) {
-		verifiable.verify();
+		verify();
 
 		if (!expression) {
 			raise(message(true, false));
@@ -65,7 +321,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void that(String message, boolean expression) {
-		verifiable.verify();
+		verify();
 
 		if (!expression) {
 			raise(message(message, true, false));
@@ -73,7 +329,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void not(boolean expression) {
-		verifiable.verify();
+		verify();
 
 		if (expression) {
 			raise(message(false, true));
@@ -81,7 +337,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void not(String message, boolean expression) {
-		verifiable.verify();
+		verify();
 
 		if (expression) {
 			raise(message(message, false, true));
@@ -89,7 +345,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(boolean expected, boolean actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -97,7 +353,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, boolean expected, boolean actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -105,7 +361,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(byte expected, byte actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -113,7 +369,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, byte expected, byte actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -121,7 +377,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(char expected, char actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -129,7 +385,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, char expected, char actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -137,7 +393,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(double expected, double actual) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual)) {
 			raise(message(expected, actual));
@@ -145,7 +401,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, double expected, double actual) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual)) {
 			raise(message(message, expected, actual));
@@ -153,7 +409,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(double expected, double actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual, delta)) {
 			raise(message(expected, actual));
@@ -161,7 +417,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, double expected, double actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual, delta)) {
 			raise(message(message, expected, actual));
@@ -169,7 +425,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(float expected, float actual) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual)) {
 			raise(message(expected, actual));
@@ -177,7 +433,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, float expected, float actual) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual)) {
 			raise(message(message, expected, actual));
@@ -185,7 +441,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(float expected, float actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual, delta)) {
 			raise(message(expected, actual));
@@ -193,7 +449,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, float expected, float actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!numericUtil.isEqual(expected, actual, delta)) {
 			raise(message(message, expected, actual));
@@ -201,7 +457,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(int expected, int actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -209,7 +465,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, int expected, int actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -217,7 +473,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(short expected, short actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -225,7 +481,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, short expected, short actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -233,7 +489,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(long expected, long actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(expected, actual));
@@ -241,7 +497,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, long expected, long actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise(message(message, expected, actual));
@@ -249,7 +505,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(boolean[] expected, boolean[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -257,7 +513,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(byte[] expected, byte[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -265,7 +521,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(char[] expected, char[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -273,7 +529,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(double[] expected, double[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -281,7 +537,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(double[] expected, double[] actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			String message = message(stringUtil.toString(expected), stringUtil.toString(actual)) +
@@ -292,7 +548,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(float[] expected, float[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -300,7 +556,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(float[] expected, float[] actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			String message = message(stringUtil.toString(expected), stringUtil.toString(actual)) +
@@ -311,7 +567,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(int[] expected, int[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -319,7 +575,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(long[] expected, long[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -327,7 +583,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(short[] expected, short[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -335,7 +591,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(String message, boolean[] expected, boolean[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -343,7 +599,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, byte[] expected, byte[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -351,7 +607,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, char[] expected, char[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -359,7 +615,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, double[] expected, double[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -367,7 +623,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, double[] expected, double[] actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
@@ -376,7 +632,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, float[] expected, float[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -384,7 +640,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, float[] expected, float[] actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual, delta)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)) +
@@ -393,7 +649,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, int[] expected, int[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -401,7 +657,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, long[] expected, long[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -409,7 +665,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void equal(String message, short[] expected, short[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.equal(expected, actual)) {
 			raise(message(message, stringUtil.toString(expected), stringUtil.toString(actual)));
@@ -417,23 +673,23 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void equal(Object expected, Object actual) {
-		verifiable.verify();
+		verify();
 
-		if (!equalImpl(expected, actual)) {
+		if (!equalUtil.equal(expected, actual)) {
 			raise(message(expected, actual));
 		}
 	}
 
 	public void equal(String message, Object expected, Object actual) {
-		verifiable.verify();
+		verify();
 
-		if (!equalImpl(expected, actual)) {
+		if (!equalUtil.equal(expected, actual)) {
 			raise(message(message, expected, actual));
 		}
 	}
 
 	public void notEqual(boolean notExpected, boolean actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -441,7 +697,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, boolean notExpected, boolean actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -449,7 +705,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(byte notExpected, byte actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -457,7 +713,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, byte notExpected, byte actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -465,7 +721,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(char notExpected, char actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -473,7 +729,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, char notExpected, char actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -481,7 +737,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(double notExpected, double actual) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual)) {
 			raise(notEqualMessage(notExpected));
@@ -489,7 +745,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, double notExpected, double actual) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, notExpected));
@@ -497,7 +753,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(double notExpected, double actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			raise(notEqualMessage(notExpected));
@@ -505,7 +761,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, double notExpected, double actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			raise(message);
@@ -513,7 +769,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(float notExpected, float actual) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual)) {
 			raise(notEqualMessage(notExpected));
@@ -521,7 +777,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, float notExpected, float actual) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, notExpected));
@@ -529,7 +785,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(float notExpected, float actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			raise(notEqualMessage(notExpected));
@@ -537,7 +793,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, float notExpected, float actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (numericUtil.isEqual(notExpected, actual, delta)) {
 			raise(notEqualMessage(message, notExpected));
@@ -545,7 +801,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(int notExpected, int actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -553,7 +809,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, int notExpected, int actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -561,7 +817,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(long notExpected, long actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -569,7 +825,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, long notExpected, long actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -577,7 +833,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(short notExpected, short actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(notExpected));
@@ -585,7 +841,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, short notExpected, short actual) {
-		verifiable.verify();
+		verify();
 
 		if (notExpected == actual) {
 			raise(notEqualMessage(message, notExpected));
@@ -593,7 +849,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(boolean[] notExpected, boolean[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -601,7 +857,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(byte[] notExpected, byte[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -609,7 +865,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(char[] notExpected, char[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -617,7 +873,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(double[] notExpected, double[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -625,7 +881,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(double[] notExpected, double[] actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
 			raise("expected <" + stringUtil.toString(actual) + "> not equal <" +
@@ -634,7 +890,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(float[] notExpected, float[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -642,7 +898,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(float[] notExpected, float[] actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
 			raise("expected <" + stringUtil.toString(actual) + "> not equal <" +
@@ -651,7 +907,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(int[] notExpected, int[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -659,7 +915,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(long[] notExpected, long[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -667,7 +923,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(short[] notExpected, short[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(stringUtil.toString(notExpected)));
@@ -675,7 +931,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notEqual(String message, boolean[] notExpected, boolean[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -683,7 +939,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, byte[] notExpected, byte[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -691,7 +947,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, char[] notExpected, char[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -699,7 +955,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, double[] notExpected, double[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -707,7 +963,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, double[] notExpected, double[] actual, double delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
 			raise(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
@@ -716,7 +972,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, float[] notExpected, float[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -724,7 +980,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, float[] notExpected, float[] actual, float delta) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual, delta)) {
 			raise(message + ", expected <" + stringUtil.toString(actual) + "> not equal <" +
@@ -733,7 +989,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, int[] notExpected, int[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -741,7 +997,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, long[] notExpected, long[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -749,7 +1005,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(String message, short[] notExpected, short[] actual) {
-		verifiable.verify();
+		verify();
 
 		if (!arrayUtil.notEqual(notExpected, actual)) {
 			raise(notEqualMessage(message, stringUtil.toString(notExpected)));
@@ -757,23 +1013,23 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notEqual(Object notExpected, Object actual) {
-		verifiable.verify();
+		verify();
 
-		if (equalImpl(notExpected, actual)) {
+		if (equalUtil.equal(notExpected, actual)) {
 			raise(notEqualMessage(notExpected));
 		}
 	}
 
 	public void notEqual(String message, Object notExpected, Object actual) {
-		verifiable.verify();
+		verify();
 
-		if(equalImpl(notExpected, actual)) {
+		if(equalUtil.equal(notExpected, actual)) {
 			raise(notEqualMessage(message, notExpected));
 		}
 	}
 	
 	public void same(Object expected, Object actual) {
-		verifiable.verify();
+		verify();
 
 		if (expected != actual) {
 			raise("expected same: <" + expected + ">, but was: <" + actual + ">");
@@ -781,7 +1037,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void same(String message, Object expected, Object actual) {
-		verifiable.verify();
+		verify();
 
 		if (!sameReference(expected, actual)) {
 			raise(message + ", expected same: <" + expected + ">, but was: <" + actual + ">");
@@ -789,7 +1045,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notSame(Object notExpected, Object actual) {
-		verifiable.verify();
+		verify();
 
 		if (sameReference(notExpected, actual)) {
 			raise("expected not same: <" + notExpected + ">");
@@ -797,7 +1053,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notSame(String message, Object notExpected, Object actual) {
-		verifiable.verify();
+		verify();
 
 		if (sameReference(notExpected, actual)) {
 			raise(message + ", expected not same: <" + notExpected + ">");
@@ -805,7 +1061,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void isNull(Object object) {
-		verifiable.verify();
+		verify();
 
 		if (object != null) {
 			raise("expected null, but was: <" + object + ">");
@@ -813,7 +1069,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void isNull(String message, Object object) {
-		verifiable.verify();
+		verify();
 		
 		if (object != null) {
 			raise(message + ", expected null, but was: <" + object + ">");
@@ -821,7 +1077,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notNull(Object object) {
-		verifiable.verify();
+		verify();
 		
 		if (object == null) {
 			raise("expected non-null");
@@ -829,7 +1085,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notNull(String message, Object object) {
-		verifiable.verify();
+		verify();
 
 		if (object == null) {
 			raise(message + ", expected non-null");
@@ -837,7 +1093,9 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void instanceOf(Class instanceOf, Object object) {
-		verifiable.verify();
+		verify();
+
+//		that(object).isAnInstanceOf(instanceOf);
 
 		if (!isInstanceOf(instanceOf, object)) {
 			raise("expected instance of: <" + instanceOf.getName() +
@@ -846,7 +1104,9 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void instanceOf(String message, Class instanceOf, Object object) {
-		verifiable.verify();
+		verify();
+
+//		because(message).that(object).isAnInstanceOf(instanceOf);
 
 		if (!isInstanceOf(instanceOf, object)) {
 			raise(message + ", expected instance of: <" + instanceOf.getName() +
@@ -855,7 +1115,7 @@ public class DefaultVerify implements Verify {
 	}
 	
 	public void notInstanceOf(Class notInstanceOf, Object object) {
-		verifiable.verify();
+		verify();
 
 		if (isInstanceOf(notInstanceOf, object)) {
 			raise("expected not instance of: <" + notInstanceOf.getName() +
@@ -864,7 +1124,7 @@ public class DefaultVerify implements Verify {
 	}
 
 	public void notInstanceOf(String message, Class notInstanceOf, Object object) {
-		verifiable.verify();
+		verify();
 
 		if (isInstanceOf(notInstanceOf, object)) {
 			raise(message + ", expected not instance of: <" + notInstanceOf.getName() +
@@ -876,34 +1136,11 @@ public class DefaultVerify implements Verify {
 	// Utility Methods
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private boolean equalImpl(Object expected, Object actual) {
-		return bothNull(expected, actual) ||
-			neitherNull(expected, actual) && (sameReference(expected, actual) ||
-				arrayEquals(expected, actual) ||
-				ordinaryEquals(expected, actual));
-	}
-
 	private boolean sameReference(Object expected, Object actual) {
 		return expected == actual;
 	}
 
-	private boolean bothNull(Object expected, Object actual) {
-		return expected == null && actual == null;
-	}
-
-	private boolean neitherNull(Object expected, Object actual) {
-		return expected != null && actual != null;
-	}
-
-	private boolean arrayEquals(Object expected, Object actual) {
-		return expected.getClass().isArray() && actual.getClass().isArray() &&
-			Arrays.equals((Object[]) expected, (Object[]) actual);
-	}
-
-	private boolean ordinaryEquals(Object expected, Object actual) {
-		return expected.equals(actual);
-	}
-
+	@SuppressWarnings("unchecked")
 	private boolean isInstanceOf(Class instanceOf, Object object) {
 		return object != null && instanceOf.isAssignableFrom(object.getClass());
 	}
@@ -999,5 +1236,9 @@ public class DefaultVerify implements Verify {
 
 	private void raise(String message) {
 		thrower.errorEvent(new AssertionFailedError(message));
+	}
+
+	private void verify() throws AssertionFailedError {
+		verifiable.verify();
 	}
 }

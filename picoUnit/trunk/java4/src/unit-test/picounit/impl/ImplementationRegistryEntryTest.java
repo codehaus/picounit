@@ -23,10 +23,10 @@ public class ImplementationRegistryEntryTest implements Test {
 		this.registry = registry;
 	}
 	
-	public void testRegisterImplementationClassWithRegistry(Mocker mocker) {
+	public void testRegisterImplementationClassWithRegistry(Mocker should) {
 		registry.register(Implementation.class);
 		
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		implementationRegistryEntry.registerWith(registry);
 	}

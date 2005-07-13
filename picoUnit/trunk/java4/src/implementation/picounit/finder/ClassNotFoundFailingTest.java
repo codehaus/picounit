@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 import junit.framework.TestResult;
 
 public class ClassNotFoundFailingTest extends TestCase {
-	final ClassNotFoundException classNotFoundException;
+	private final ClassNotFoundException classNotFoundException;
 
 	public ClassNotFoundFailingTest(String className, ClassNotFoundException classNotFoundException) {
 		super(className);

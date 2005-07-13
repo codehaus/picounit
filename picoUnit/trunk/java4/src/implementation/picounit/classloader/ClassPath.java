@@ -8,8 +8,10 @@
 package picounit.classloader;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class ClassPath {
@@ -22,14 +24,19 @@ public class ClassPath {
 	public ClassPath(String classPath, CodeFactory codeFactory) {
 		StringTokenizer stringTokenizer = new StringTokenizer(classPath, File.pathSeparator);
 
-		List code = new LinkedList();
+		List<Code> code = new LinkedList<Code>();
+		Set<String> visitedClassPathEntries = new HashSet<String>();
 		while(stringTokenizer.hasMoreTokens()) {
 			String classPathEntry = stringTokenizer.nextToken();
 
-			code.add(codeFactory.create(classPathEntry));
+			if (!visitedClassPathEntries.contains(classPathEntry)) {
+				code.add(codeFactory.create(classPathEntry));
+
+				visitedClassPathEntries.add(classPathEntry);
+			}
 		}
 
-		this.code = (Code[]) code.toArray(new Code[0]);
+		this.code = code.toArray(new Code[0]);
 	}
 	
 	public Code findCodeContaining(String className) {

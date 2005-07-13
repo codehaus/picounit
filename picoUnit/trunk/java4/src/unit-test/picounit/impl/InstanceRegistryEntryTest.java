@@ -24,12 +24,12 @@ public class InstanceRegistryEntryTest implements Test {
 	public void mock(Registry registry) {
 		this.registry = registry;
 	}
-	
-	public void testRegistersAgainstRegistry(Mocker mocker) {
+
+	public void testRegistersAgainstRegistry(Mocker should) {
 		registry.register(Interface.class, instance);
-		
-		mocker.replay();
-		
+
+		should.expectAboveWhenTheFollowingOccurs();
+
 		instanceRegistryEntry.registerWith(registry);
 	}
 }

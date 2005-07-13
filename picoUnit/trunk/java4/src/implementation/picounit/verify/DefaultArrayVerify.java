@@ -7,10 +7,10 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.ArrayVerify;
 import picounit.Verify;
 
-public class DefaultArrayVerify implements ArrayVerify {
+@SuppressWarnings("deprecation")
+public class DefaultArrayVerify implements picounit.ArrayVerify {
 	private final Verify verify;
 	private final ArrayUtil arrayUtil;
 	private final StringUtil stringUtil;

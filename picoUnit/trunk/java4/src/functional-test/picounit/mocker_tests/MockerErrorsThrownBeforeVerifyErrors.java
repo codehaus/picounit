@@ -21,9 +21,10 @@ public class MockerErrorsThrownBeforeVerifyErrors implements Test {
 
 	public void testFailsDueToMissingCollaboration(Mocker should, Verify verify) {
 		should.call(mockInterface.booleanMethod()).andReturn(true);
-		
-		should.doAboveWhen();
-		
-		verify.that("verify error", false);
+
+		should.expectAboveWhenTheFollowingOccurs();
+
+		verify.because("verify error")
+			.thatBoolean(false).isTrue();
 	} 
 }

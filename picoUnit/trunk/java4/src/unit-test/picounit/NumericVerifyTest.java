@@ -16,16 +16,16 @@ import picounit.verify.NullVerifiable;
 import picounit.verify.NumericUtil;
 import picounit.verify.StringUtil;
 import previous.picounit.Test;
-import previous.picounit.Verify;
 
+@SuppressWarnings("deprecation")
 public class NumericVerifyTest implements Test {
 	// TODO Convert this into a collaboration test
-	private final DefaultVerify defaultVerify =
-		new DefaultVerify(new NumericUtil(), new ArrayUtil(), new StringUtil(), new ImmediateThrower(), new NullVerifiable());
+	private final Verify defaultVerify = DefaultVerify.create(new NumericUtil(), new ArrayUtil(),
+		new StringUtil(), new ImmediateThrower(), new NullVerifiable());
 	private final NumericVerify numericVerify = new DefaultNumericVerify(defaultVerify);
-	private final Verify verify;
+	private final previous.picounit.Verify verify;
 
-	public NumericVerifyTest(Verify verify) {
+	public NumericVerifyTest(previous.picounit.Verify verify) {
 		this.verify = verify;
 	}
 
@@ -44,7 +44,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThan(100.0, 100.0);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not greater than 100.0", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not greater than 100.0");
 
 			return;
 		}
@@ -63,7 +64,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThan(100.0f, 100.0f);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not greater than 100.0", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not greater than 100.0");
 
 			return;
 		}
@@ -82,7 +84,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThan(100, 100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not greater than 100", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not greater than 100");
 
 			return;
 		}
@@ -101,7 +104,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThan(100L, 100L);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not greater than 100", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not greater than 100");
 
 			return;
 		}
@@ -126,9 +130,9 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThanOrEqualTo(100.0, aLittleMoreThan100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not greater than or equal to " + aLittleMoreThan100,
-				assertionFailedError.getMessage());
-			
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not greater than or equal to " + aLittleMoreThan100);
+
 			return;
 		}
 		
@@ -148,8 +152,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThanOrEqualTo(100.0f, aLittleMoreThan100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not greater than or equal to " + aLittleMoreThan100,
-				assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not greater than or equal to " + aLittleMoreThan100);
 			
 			return;
 		}
@@ -168,7 +172,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThanOrEqualTo(100, 101);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not greater than or equal to 101", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not greater than or equal to 101");
 
 			return;
 		}
@@ -187,7 +192,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isGreaterThanOrEqualTo(100L, 101L);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not greater than or equal to 101", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not greater than or equal to 101");
 
 			return;
 		}
@@ -210,7 +216,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThan(100.0, 100.0);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not less than 100.0", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not less than 100.0");
 			
 			return;
 		}
@@ -229,7 +236,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThan(100.0f, 100.0f);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not less than 100.0", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not less than 100.0");
 			
 			return;
 		}
@@ -248,7 +256,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThan(100, 100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not less than 100", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not less than 100");
 			
 			return;
 		}
@@ -267,7 +276,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThan(100L, 100L);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100 is not less than 100", assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not less than 100");
 			
 			return;
 		}
@@ -292,8 +302,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThanOrEqualTo(100.0, aLittleLessThan100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not less than or equal to " + aLittleLessThan100,
-				assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not less than or equal to " + aLittleLessThan100);
 
 			return;
 		}
@@ -314,8 +324,8 @@ public class NumericVerifyTest implements Test {
 			numericVerify.isLessThanOrEqualTo(100.0f, aLittleLessThan100);
 		}
 		catch (AssertionFailedError assertionFailedError) {
-			verify.equal("100.0 is not less than or equal to " + aLittleLessThan100,
-				assertionFailedError.getMessage());
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100.0 is not less than or equal to " + aLittleLessThan100);
 
 			return;
 		}
@@ -334,8 +344,9 @@ public class NumericVerifyTest implements Test {
 			 numericVerify.isLessThanOrEqualTo(100, 99);
 		 }
 		 catch (AssertionFailedError assertionFailedError) {
-			 verify.equal("100 is not less than or equal to 99", assertionFailedError.getMessage());
-			 
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not less than or equal to 99");
+
 			 return;
 		 }
 		 
@@ -353,8 +364,9 @@ public class NumericVerifyTest implements Test {
 			 numericVerify.isLessThanOrEqualTo(100L, 99L);
 		 }
 		 catch (AssertionFailedError assertionFailedError) {
-			 verify.equal("100 is not less than or equal to 99", assertionFailedError.getMessage());
-			 
+			verify.that(assertionFailedError.getMessage())
+				.isEqualTo("100 is not less than or equal to 99");
+
 			 return;
 		 }
 		 

@@ -51,34 +51,36 @@ public class InvokerTest implements Test {
 		this.toInvoke = toInvoke;
 	}
 	
-	public void testInvokeMethodWithZeroArguments(Mocker mocker) throws Exception {
-		mocker.expect(resolver.get(ToInvoke.methodWithZeroArguments)).andReturn((new Object[0]));
+	public void testInvokeMethodWithZeroArguments(Mocker should) throws Exception {
+		should.call(resolver.get(ToInvoke.methodWithZeroArguments))
+			.andReturn((new Object[0]));
 
 		toInvoke.methodWithZeroArguments();
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		invoker.invoke(ToInvoke.methodWithZeroArguments, toInvoke);
 	}
 	
-	public void testInvokeMethodWithSomeArguments(Mocker mocker) throws Exception {
+	public void testInvokeMethodWithSomeArguments(Mocker should) throws Exception {
 		Fixture fixture = new Fixture();
 
 		toInvoke.methodWithSomeArguments(fixture);
-		mocker.expect(resolver.get(ToInvoke.methodWithSomeArguments)).andReturn((new Object[] {fixture}));
-		mocker.replay();
+		should.call(resolver.get(ToInvoke.methodWithSomeArguments)).andReturn((new Object[] {fixture}));
+
+		should.expectAboveWhenTheFollowingOccurs();
 
 		invoker.invoke(ToInvoke.methodWithSomeArguments, toInvoke);
 	}
 	
-	public void testInvokingMethodThatReturnsInvokableInvokesTheInvokable(Mocker mocker) throws Exception {
-		mocker.expect(resolver.get(ToInvoke.methodReturningInvokable)).andReturn((new Object[0]));
+	public void testInvokingMethodThatReturnsInvokableInvokesTheInvokable(Mocker should) throws Exception {
+		should.call(resolver.get(ToInvoke.methodReturningInvokable)).andReturn((new Object[0]));
 		
-		mocker.expect(toInvoke.methodReturningInvokable()).andReturn(invokable);
+		should.call(toInvoke.methodReturningInvokable()).andReturn(invokable);
 		
 		invokable.invoke();
 
-		mocker.replay();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		invoker.invoke(ToInvoke.methodReturningInvokable, toInvoke);
 	}
@@ -91,6 +93,7 @@ public class InvokerTest implements Test {
 		public static final Method junitSetUp = new MethodUtil().getMethod(SomeClass.class, "setUp");
 
 		// PicoUnit style setUp
+		@SuppressWarnings("unused") 
 		public void setUp(Fixture fixture) {
 			picoUnitSetUpCalled = true;	
 		}
@@ -101,19 +104,24 @@ public class InvokerTest implements Test {
 		}
 	}
 
-	public void testInvokesProtectedMethods(Mocker mocker, Verify verify) throws Exception {
+	public void testInvokesProtectedMethods(Mocker should, Verify verify) throws Exception {
 		Fixture fixture = new Fixture();
-		mocker.expect(resolver.get(SomeClass.junitSetUp)).andReturn((new Object[0]));
-		mocker.expect(resolver.get(SomeClass.picoSetUp)).andReturn((new Object[] {fixture}));
 
-		mocker.replay();
+		should.call(resolver.get(SomeClass.picoSetUp))
+			.andReturn((new Object[] {fixture}));
+		should.call(resolver.get(SomeClass.junitSetUp))
+			.andReturn((new Object[0]));
+
+		should.expectAboveWhenTheFollowingOccurs();
 
 		SomeClass someClass = new SomeClass();
 
 		invoker.invoke("setUp", someClass);
 
-		verify.that("Shoule have called PicoUnit style setUp", someClass.picoUnitSetUpCalled);
-		verify.that("Should have called JUnit style setUp", someClass.jUnitStyleSetUpCalled);
+		verify.because("Should have called PicoUnit style setUp")
+			.thatBoolean(someClass.picoUnitSetUpCalled).isTrue();
+		verify.because("Should have called JUnit style setUp")
+			.thatBoolean(someClass.jUnitStyleSetUpCalled).isTrue();
 	}
 	
 	public static class Base {
@@ -149,12 +157,13 @@ public class InvokerTest implements Test {
 		should.call(resolver.get(Base.method)).andReturn(new Object[0]);
 		should.call(resolver.get(Derived.method)).andReturn(new Object[] {"parameter"});
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		StringBuffer stringBuffer = new StringBuffer();
 
 		invoker.invoke("method", new Derived(stringBuffer));
 
-		verify.equal("Base.method Derived.method(parameter)", stringBuffer.toString().trim());
+		verify.that(stringBuffer.toString().trim())
+			.isEqualTo("Base.method Derived.method(parameter)");
 	}
 }

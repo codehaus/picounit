@@ -12,6 +12,7 @@ import picounit.classloader.MethodParameterRegistry;
 import picounit.finder.NoTestsFoundTestCase;
 import picounit.finder.SinglePicoUnitTestSuite;
 import picounit.finder.TestFilter;
+import picounit.finder.TestListener;
 import picounit.registry.RegistryEntry;
 import previous.picounit.Constraints;
 import previous.picounit.Verify;
@@ -21,6 +22,7 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 	private final MethodParameterRegistry methodParameterRegistry = null;
 	private RegistryEntry registryEntry;
 	private ClassLoader classLoader = null;
+	private TestListener testListener;
 
 	private final Verify verify;
 
@@ -47,60 +49,57 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 
 		SinglePicoUnitTestSuite singlePicoUnitTestSuite = singlePicoUnitTestSuite(ExampleTest.class);
 
-		verify.equal(1, singlePicoUnitTestSuite.countTestCases());
-		verify.equal(new NoTestsFoundTestCase(ExampleTest.class), singlePicoUnitTestSuite.tests().nextElement());
+		verify.that(singlePicoUnitTestSuite.countTestCases()).isEqualTo(1);
+		verify.that(singlePicoUnitTestSuite.tests().nextElement())
+			.isEqualTo(new NoTestsFoundTestCase(ExampleTest.class));
 	}
 
 	public void testTwoInstancesWithSameStartingClassAreEqual() {
 		class StartingClass implements Test {}
 
-		verify.equal(singlePicoUnitTestSuite(StartingClass.class), singlePicoUnitTestSuite(StartingClass.class));
+		verify.that(singlePicoUnitTestSuite(StartingClass.class))
+			.isEqualTo(singlePicoUnitTestSuite(StartingClass.class));
 	}
 
 	public void testTwoInstancesWithSameStartingClassAndNameAreEqual() {
 		class StartingClass implements Test {}
 
-		verify.equal(singlePicoUnitTestSuite("name", StartingClass.class), singlePicoUnitTestSuite("name", StartingClass.class));
+		verify.that(singlePicoUnitTestSuite("name", StartingClass.class))
+			.isEqualTo(singlePicoUnitTestSuite("name", StartingClass.class));
 	}
 
 	public void testTwoInstancesWithSameStartingClassButDifferentNameAreNotEqual() {
 		class StartingClass implements Test {}
 
-		verify.notEqual(singlePicoUnitTestSuite("name", StartingClass.class),
-			singlePicoUnitTestSuite("different name", StartingClass.class));
-	}
-
-	public void testTwoInstancesWithDifferentStartingClassAreNotEqual() {
-		class OneStartingClasss implements Test {}
-		class AnotherStartingClass implements Test {}
-
-		verify.notEqual(singlePicoUnitTestSuite(OneStartingClasss.class),
-			singlePicoUnitTestSuite(AnotherStartingClass.class));
+		verify.that(singlePicoUnitTestSuite("different name", StartingClass.class))
+			.isDifferentTo(singlePicoUnitTestSuite("name", StartingClass.class));
 	}
 
 	public void testHasSameNameAsTestClass() {
 		class StartingClass implements Test {}
 
-		verify.equal(StartingClass.class.getName(), singlePicoUnitTestSuite(StartingClass.class).getName());
+		verify.that(singlePicoUnitTestSuite(StartingClass.class).getName())
+			.isEqualTo(StartingClass.class.getName());
 	}
 
-	private void expectIllegalArgumentException(Class testClass, String expectedMessage) {
+	private <T> void expectIllegalArgumentException(Class<T> testClass, String expectedMessage) {
 		try {
 			singlePicoUnitTestSuite(testClass);
 
 			verify.fail("IllegalArgumentException expected");
 		}
 		catch (IllegalArgumentException illegalArgumentException) {
-			verify.equal(testClass.getName() + expectedMessage, illegalArgumentException.getMessage());
+			verify.that(illegalArgumentException.getMessage())
+				.isEqualTo(testClass.getName() + expectedMessage);
 		}
 	}
 	
-	public SinglePicoUnitTestSuite singlePicoUnitTestSuite(Class startingClass) {
+	public <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(Class<T> startingClass) {
 		return singlePicoUnitTestSuite(startingClass.getName(), startingClass);
 	}
 
-	public SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
-		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
-			classLoader);
+	public <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(String name, Class<T> startingClass) {
+		return new SinglePicoUnitTestSuite<T>(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+			classLoader, testListener);
 	}
 }

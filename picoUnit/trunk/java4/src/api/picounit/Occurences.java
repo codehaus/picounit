@@ -7,24 +7,6 @@
  *****************************************************************************/
 package picounit;
 
-public class Occurences {
-	private final int min;
-	private final int max;
-
-	public Occurences(int occurences) {
-		this.min = this.max = occurences;
-	}
-
-	public Occurences(int min, int max) {
-		this.min = min;
-		this.max = max;
-	}
-
-	public int getMinimum() {
-		return min;
-	}
-
-	public int getMaximum() {
-		return max;
-	}
+public interface Occurences {
+	void verify(int occurences);
 }

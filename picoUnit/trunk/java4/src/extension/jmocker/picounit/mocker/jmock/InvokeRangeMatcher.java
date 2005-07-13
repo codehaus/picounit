@@ -8,11 +8,10 @@
 package picounit.mocker.jmock;
 
 import org.jmock.core.Invocation;
-import org.jmock.core.matcher.InvokedRecorder;
 
 import junit.framework.Assert;
 
-public class InvokeRangeMatcher extends InvokedRecorder {
+public class InvokeRangeMatcher extends ExtendedInvokedRecorder {
 	private final int minimumCount;
     private final int maximumCount;
 

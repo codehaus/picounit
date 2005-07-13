@@ -9,8 +9,8 @@ package picounit;
 
 public interface IntegerConstraints {
 	int anInteger();
-	int oneOf(int[] oneOf);
-	int neitherOf(int[] neitherOf);
+	int oneOf(int ... oneOf);
+	int neitherOf(int ... neitherOf);
 	int notEqualTo(int notEqual);
 	int lessThan(int upperLimit);
 	int lessThanOrEqualTo(int upperLimit);

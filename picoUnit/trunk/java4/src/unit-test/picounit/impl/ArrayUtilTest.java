@@ -383,67 +383,83 @@ public class ArrayUtilTest implements Test {
 	}
 
 	private void assertContains(boolean[] searchIn, boolean searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(byte[] searchIn, byte searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(char[] searchIn, char searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(double[] searchIn, double searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(float[] searchIn, float searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(int[] searchIn, int searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(long[] searchIn, long searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertContains(short[] searchIn, short searchFor) {
-		verify.that(shouldContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isTrue();
 	}
 
 	private void assertDoesntContain(boolean[] searchIn, boolean searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(byte[] searchIn, byte searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(char[] searchIn, char searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(double[] searchIn, double searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(float[] searchIn, float searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(int[] searchIn, int searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(long[] searchIn, long searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private void assertDoesntContain(short[] searchIn, short searchFor) {
-		verify.not(shouldntContain(searchIn, searchFor), arrayUtil.contains(searchIn, searchFor));
+		verify.because(shouldntContain(searchIn, searchFor))
+			.thatBoolean(arrayUtil.contains(searchIn, searchFor)).isFalse();
 	}
 
 	private String shouldContain(boolean[] searchIn, boolean searchFor) {
