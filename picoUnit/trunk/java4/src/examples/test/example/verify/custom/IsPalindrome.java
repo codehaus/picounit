@@ -9,12 +9,13 @@ package example.verify.custom;
 
 import picounit.verify.constraint.Constraint;
 
-public class IsPalindrome extends Constraint<String> {
+public class IsPalindrome extends Constraint {
 	public IsPalindrome() {
 		super();
 	}
 
-	public boolean evaluate(String string) {
+	public boolean evaluate(Object object) {
+		String string = (String) object;
 		int left = 0;
 		int right = string.length() - 1;
 

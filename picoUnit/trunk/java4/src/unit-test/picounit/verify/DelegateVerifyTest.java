@@ -10,9 +10,17 @@ package picounit.verify;
 import picounit.DelegateVerify;
 import picounit.Mocker;
 import picounit.Verify;
+import picounit.mocker.BooleanConsequenceMatcher;
+import picounit.mocker.ByteConsequenceMatcher;
+import picounit.mocker.CharConsequenceMatcher;
 import picounit.mocker.ConsequenceMatcher;
+import picounit.mocker.DoubleConsequenceMatcher;
+import picounit.mocker.FloatConsequenceMatcher;
+import picounit.mocker.IntConsequenceMatcher;
+import picounit.mocker.LongConsequenceMatcher;
 import picounit.mocker.MockFactory;
 import picounit.mocker.MockInvocationInspector;
+import picounit.mocker.ShortConsequenceMatcher;
 import picounit.mocker.StringConsequenceMatcher;
 import previous.picounit.Test;
 
@@ -27,14 +35,14 @@ public class DelegateVerifyTest implements Test{
 	private MockInvocationInspector mockInvocationInspector;
 	private CustomType mockCustomType;
 
-	private ConsequenceMatcher<Boolean> mockBooleanConsequenceMatcher;
-	private ConsequenceMatcher<Byte> mockByteConsequenceMatcher;
-	private ConsequenceMatcher<Character> mockCharConsequenceMatcher;
-	private ConsequenceMatcher<Double> mockDoubleConsequenceMatcher;
-	private ConsequenceMatcher<Float> mockFloatConsequenceMatcher;
-	private ConsequenceMatcher<Integer> mockIntConsequenceMatcher;
-	private ConsequenceMatcher<Long> mockLongConsequenceMatcher;
-	private ConsequenceMatcher<Short> mockShortConsequenceMatcher;
+	private BooleanConsequenceMatcher mockBooleanConsequenceMatcher;
+	private ByteConsequenceMatcher mockByteConsequenceMatcher;
+	private CharConsequenceMatcher mockCharConsequenceMatcher;
+	private DoubleConsequenceMatcher mockDoubleConsequenceMatcher;
+	private FloatConsequenceMatcher mockFloatConsequenceMatcher;
+	private IntConsequenceMatcher mockIntConsequenceMatcher;
+	private LongConsequenceMatcher mockLongConsequenceMatcher;
+	private ShortConsequenceMatcher mockShortConsequenceMatcher;
 	private StringConsequenceMatcher mockStringConsequenceMatcher;
 	private ConsequenceMatcher mockConsequenceMatcher;
 	private ByteConstraints mockByteConstraints;
@@ -84,14 +92,14 @@ public class DelegateVerifyTest implements Test{
 	public void mock(Mocker mockShould, MockFactory mockMockFactory,
 		MockInvocationInspector mockMockInvocationInspector,
 		Verify mockVerify, CustomType mockCustomType,
-		ConsequenceMatcher<Boolean> mockBooleanConsequenceMatcher,
-		ConsequenceMatcher<Byte> mockByteConsequenceMatcher,
-		ConsequenceMatcher<Character> mockCharConsequenceMatcher,
-		ConsequenceMatcher<Double> mockDoubleConsequenceMatcher,
-		ConsequenceMatcher<Float> mockFloatConsequenceMatcher,
-		ConsequenceMatcher<Integer> mockIntConsequenceMatcher,
-		ConsequenceMatcher<Long> mockLongConsequenceMatcher,
-		ConsequenceMatcher<Short> mockShortConsequenceMatcher,
+		BooleanConsequenceMatcher mockBooleanConsequenceMatcher,
+		ByteConsequenceMatcher mockByteConsequenceMatcher,
+		CharConsequenceMatcher mockCharConsequenceMatcher,
+		DoubleConsequenceMatcher mockDoubleConsequenceMatcher,
+		FloatConsequenceMatcher mockFloatConsequenceMatcher,
+		IntConsequenceMatcher mockIntConsequenceMatcher,
+		LongConsequenceMatcher mockLongConsequenceMatcher,
+		ShortConsequenceMatcher mockShortConsequenceMatcher,
 		StringConsequenceMatcher mockStringConsequenceMatcher,
 		ConsequenceMatcher mockConsequenceMatcher,
 		BooleanConstraints mockBooleanConstraints,
@@ -141,18 +149,18 @@ public class DelegateVerifyTest implements Test{
 	public void testTestsActualInvocationReturnsSameBooleanValueAsDelegateToInvocation() {
 		boolean actualValue = false;
 
-		should.call(mockShould.call(Boolean.FALSE))
+		should.call(mockShould.call(false))
 			.andReturn(mockBooleanConsequenceMatcher);
 
 		shouldCall:
-			mockBooleanConsequenceMatcher.andReturn(DefaultDelegateVerify.BOOLEAN_DELEGATE_RETURN);
+			mockBooleanConsequenceMatcher.andReturn(DefaultDelegateVerify.BOOLEAN_DELEGATE_RETURN.booleanValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 			
 		should.call(mockVerify.thatBoolean(actualValue))
 			.andReturn(mockBooleanConstraints);
 		
 		shouldCall:
-			mockBooleanConstraints.isEqualTo(DefaultDelegateVerify.BOOLEAN_DELEGATE_RETURN);
+			mockBooleanConstraints.isEqualTo(DefaultDelegateVerify.BOOLEAN_DELEGATE_RETURN.booleanValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -164,18 +172,18 @@ public class DelegateVerifyTest implements Test{
 		byte ignored = (byte) 0xBB;
 		byte actualValue = (byte) 0xAA;
 
-		should.call(mockShould.call(new Byte(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockByteConsequenceMatcher);
 		
 		shouldCall:
-			mockByteConsequenceMatcher.andReturn(DefaultDelegateVerify.BYTE_DELEGATE_RETURN);
+			mockByteConsequenceMatcher.andReturn(DefaultDelegateVerify.BYTE_DELEGATE_RETURN.byteValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 			
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockByteConstraints);
 		
 		shouldCall:
-			mockByteConstraints.isEqualTo(DefaultDelegateVerify.BYTE_DELEGATE_RETURN);
+			mockByteConstraints.isEqualTo(DefaultDelegateVerify.BYTE_DELEGATE_RETURN.byteValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -187,18 +195,18 @@ public class DelegateVerifyTest implements Test{
 		char ignored = 'i';
 		char actualValue = 'a';
 
-		should.call(mockShould.call(new Character(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockCharConsequenceMatcher);
 		
 		shouldCall:
-			mockCharConsequenceMatcher.andReturn(DefaultDelegateVerify.CHAR_DELEGATE_RETURN);
+			mockCharConsequenceMatcher.andReturn(DefaultDelegateVerify.CHAR_DELEGATE_RETURN.charValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 		
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockCharacterConstraints);
 		
 		shouldCall:
-			mockCharacterConstraints.isEqualTo(DefaultDelegateVerify.CHAR_DELEGATE_RETURN);
+			mockCharacterConstraints.isEqualTo(DefaultDelegateVerify.CHAR_DELEGATE_RETURN.charValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -210,18 +218,18 @@ public class DelegateVerifyTest implements Test{
 		double ignored = 123.456f;
 		double actualValue = 456.123f;
 
-		should.call(mockShould.call(new Double(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockDoubleConsequenceMatcher);
 		
 		shouldCall:
-			mockDoubleConsequenceMatcher.andReturn(DefaultDelegateVerify.DOUBLE_DELEGATE_RETURN);
+			mockDoubleConsequenceMatcher.andReturn(DefaultDelegateVerify.DOUBLE_DELEGATE_RETURN.doubleValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 			
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockDoubleConstraints);
 		
 		shouldCall:
-			mockDoubleConstraints.isEqualTo(DefaultDelegateVerify.DOUBLE_DELEGATE_RETURN);
+			mockDoubleConstraints.isEqualTo(DefaultDelegateVerify.DOUBLE_DELEGATE_RETURN.doubleValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -233,18 +241,18 @@ public class DelegateVerifyTest implements Test{
 		float ignored = 123.456f;
 		float actualValue = 456.123f;
 
-		should.call(mockShould.call(new Float(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockFloatConsequenceMatcher);
 		
 		shouldCall:
-			mockFloatConsequenceMatcher.andReturn(DefaultDelegateVerify.FLOAT_DELEGATE_RETURN);
+			mockFloatConsequenceMatcher.andReturn(DefaultDelegateVerify.FLOAT_DELEGATE_RETURN.floatValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 		
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockFloatConstraints);
 		
 		shouldCall:
-			mockFloatConstraints.isEqualTo(DefaultDelegateVerify.FLOAT_DELEGATE_RETURN);
+			mockFloatConstraints.isEqualTo(DefaultDelegateVerify.FLOAT_DELEGATE_RETURN.floatValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -256,18 +264,18 @@ public class DelegateVerifyTest implements Test{
 		int ignored = 123;
 		int actualValue = 456;
 
-		should.call(mockShould.call(new Integer(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockIntConsequenceMatcher);
 		
 		shouldCall:
-			mockIntConsequenceMatcher.andReturn(DefaultDelegateVerify.INT_DELEGATE_RETURN);
+			mockIntConsequenceMatcher.andReturn(DefaultDelegateVerify.INT_DELEGATE_RETURN.intValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 			
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockIntegerConstraints);
 		
 		shouldCall:
-			mockIntegerConstraints.isEqualTo(DefaultDelegateVerify.INT_DELEGATE_RETURN);
+			mockIntegerConstraints.isEqualTo(DefaultDelegateVerify.INT_DELEGATE_RETURN.intValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -279,18 +287,18 @@ public class DelegateVerifyTest implements Test{
 		long ignored = 123L;
 		long actualValue = 456L;
 		
-		should.call(mockShould.call(new Long(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockLongConsequenceMatcher);
 		
 		shouldCall:
-			mockLongConsequenceMatcher.andReturn(DefaultDelegateVerify.LONG_DELEGATE_RETURN);
+			mockLongConsequenceMatcher.andReturn(DefaultDelegateVerify.LONG_DELEGATE_RETURN.longValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 		
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockLongConstraints);
 
 		shouldCall:
-			mockLongConstraints.isEqualTo(DefaultDelegateVerify.LONG_DELEGATE_RETURN);
+			mockLongConstraints.isEqualTo(DefaultDelegateVerify.LONG_DELEGATE_RETURN.longValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();
@@ -302,18 +310,18 @@ public class DelegateVerifyTest implements Test{
 		short ignored = 123;
 		short actualValue = 456;
 
-		should.call(mockShould.call(new Short(ignored)))
+		should.call(mockShould.call(ignored))
 			.andReturn(mockShortConsequenceMatcher);
 		
 		shouldCall:
-			mockShortConsequenceMatcher.andReturn(DefaultDelegateVerify.SHORT_DELEGATE_RETURN);
+			mockShortConsequenceMatcher.andReturn(DefaultDelegateVerify.SHORT_DELEGATE_RETURN.shortValue());
 			mockShould.expectAboveWhenTheFollowingOccurs();
 			
 		should.call(mockVerify.that(actualValue))
 			.andReturn(mockShortConstraints);
 		
 		shouldCall:
-			mockShortConstraints.isEqualTo(DefaultDelegateVerify.SHORT_DELEGATE_RETURN);
+			mockShortConstraints.isEqualTo(DefaultDelegateVerify.SHORT_DELEGATE_RETURN.shortValue());
 			mockShould.verify();
 
 		should.expectAboveWhenTheFollowingOccurs();

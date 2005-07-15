@@ -78,7 +78,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public BooleanDelegateVerifier delegateTo(boolean ignore) {
 		boolean expectedValue = ((Boolean) generateExpected(boolean.class)).booleanValue();
 
-		should.call(new Boolean(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -88,7 +88,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public ByteDelegateVerifier delegateTo(byte ignore) {
 		byte expectedValue = ((Byte) generateExpected(byte.class)).byteValue();
 
-		should.call(new Byte(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -98,7 +98,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public CharacterDelegateVerifier delegateTo(char ignore) {
 		char expectedValue = ((Character) generateExpected(char.class)).charValue();
 
-		should.call(new Character(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -108,7 +108,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public DoubleDelegateVerifier delegateTo(double ignore) {
 		double expectedValue = ((Double) generateExpected(double.class)).doubleValue();
 
-		should.call(new Double(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -118,7 +118,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public FloatDelegateVerifier delegateTo(float ignore) {
 		float expectedValue = ((Float) generateExpected(float.class)).floatValue();
 
-		should.call(new Float(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -128,7 +128,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public IntegerDelegateVerifier delegateTo(int ignore) {
 		int expectedValue = ((Integer) generateExpected(int.class)).intValue();
 
-		should.call(new Integer(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -138,7 +138,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public LongDelegateVerifier delegateTo(long ignore) {
 		long expectedValue = ((Long) generateExpected(long.class)).longValue();
 
-		should.call(new Long(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -148,7 +148,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	public ShortDelegateVerifier delegateTo(short ignore) {
 		short expectedValue = ((Short) generateExpected(short.class)).shortValue();
 
-		should.call(new Short(ignore)).andReturn(expectedValue);
+		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 

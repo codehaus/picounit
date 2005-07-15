@@ -5,27 +5,30 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
+public class IgnoreReason {
+	private String why;
+	private boolean condition;
 
-public class FrogConstraints {
-	private final Evaluator evaluator;
-
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
+	public IgnoreReason() {
+		this.condition = true;
+		this.why = "[no reason supplied]"; 
 	}
 
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
+	public void setWhy(String why) {
+		this.why = why;
 	}
 
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
+	public void setCondition(boolean condition) {
+		this.condition = condition;
 	}
 
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
+	public boolean isIgnored() {
+		return condition;
+	}
+
+	public String ignoreWhy() {
+		return why;
 	}
 }

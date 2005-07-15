@@ -5,27 +5,15 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
-
-public class FrogConstraints {
-	private final Evaluator evaluator;
-
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
-	}
-
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
-	}
-
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
-	}
-
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
-	}
+/**
+ * Interface for registering dependancies for use in tests. Implement this interface and place
+ * the implementation in the same package or higher than your tests, your implementation will be
+ * instantiated and its setUp methods will be called before the test is run, after the test has
+ * run your implementations's tearDown methods will be called. 
+ * 
+ * @author Stacy Curl
+ */
+public interface Lifecycle {
 }

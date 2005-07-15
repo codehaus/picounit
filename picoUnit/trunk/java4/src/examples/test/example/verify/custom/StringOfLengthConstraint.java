@@ -9,7 +9,7 @@ package example.verify.custom;
 
 import picounit.verify.constraint.Constraint;
 
-public class StringOfLengthConstraint extends Constraint<String> {
+public class StringOfLengthConstraint extends Constraint {
 	private final int length;
 
 	public StringOfLengthConstraint(int length) {
@@ -18,8 +18,8 @@ public class StringOfLengthConstraint extends Constraint<String> {
 		this.length = length;
 	}
 
-	public boolean evaluate(String value) {
-		return value.length() == length;
+	public boolean evaluate(Object value) {
+		return ((String) value).length() == length;
 	}
 
 	public String describeFailure() {

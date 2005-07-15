@@ -5,27 +5,15 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit.mocker;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
+import picounit.Occurences;
 
-public class FrogConstraints {
-	private final Evaluator evaluator;
+public interface OccurencesMatcher extends PostConsequenceMatcher {
+	PostConsequenceMatcher once();
+	PostConsequenceMatcher atLeastOnce();
 
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
-	}
-
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
-	}
-
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
-	}
-
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
-	}
+	PostConsequenceMatcher occurs(int occurences);
+	PostConsequenceMatcher occurs(int min, int max);
+	PostConsequenceMatcher occurs(Occurences occurences);
 }

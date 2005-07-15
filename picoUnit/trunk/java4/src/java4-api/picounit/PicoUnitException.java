@@ -5,27 +5,27 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
+public class PicoUnitException extends RuntimeException {
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 1L;
 
-public class FrogConstraints {
-	private final Evaluator evaluator;
-
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
+	public PicoUnitException() {
+		super();
 	}
 
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
+	public PicoUnitException(String message) {
+		super(message);
 	}
 
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
+	public PicoUnitException(Throwable cause) {
+		super(cause);
 	}
 
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
+	public PicoUnitException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

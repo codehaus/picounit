@@ -5,27 +5,12 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit.verify;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
+public interface CharacterArrayConstraintsCaseKnown {
+	public void isEqualTo(char[] equalTo);
+	public void isDifferentTo(char[] differentTo);
 
-public class FrogConstraints {
-	private final Evaluator evaluator;
-
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
-	}
-
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
-	}
-
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
-	}
-
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
-	}
+	public void contains(char contains);
+	public void doesNotContain(char doesNotContain);
 }

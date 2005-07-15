@@ -11,12 +11,10 @@ import picounit.verify.constraint.Constraint;
 
 import java.awt.Color;
 
-public class IsGreenFrogConstraint extends Constraint<Frog>{
-	public IsGreenFrogConstraint() {
-		super();
-	}
+public class IsGreenFrogConstraint extends Constraint {
+	public boolean evaluate(Object object) {
+		Frog frog = (Frog) object;
 
-	public boolean evaluate(Frog frog) {
 		return frog.isColor(Color.GREEN);
 	}
 

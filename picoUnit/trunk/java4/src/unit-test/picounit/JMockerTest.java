@@ -27,7 +27,7 @@ public class JMockerTest implements Test {
 	}
 
 	public void testKissing() {
-		Boy mockBoy = mockFactory.mock(Boy.class);
+		Boy mockBoy = (Boy) mockFactory.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
 		should.call(mockBoy.money(125)).andReturn(4);
@@ -41,7 +41,7 @@ public class JMockerTest implements Test {
 	}
 
 	public void testTalking(Verify verify) {
-		Boy mockBoy = mockFactory.mock(Boy.class);
+		Boy mockBoy = (Boy) mockFactory.mock(Boy.class);
 		Girl girl = new Girl(mockBoy);
 
 		should.call(mockBoy.listen("blah blah")).andReturn("yada yada");
@@ -131,7 +131,7 @@ public class JMockerTest implements Test {
 	}
 
 	public void testThrowsExceptionsCorrectly(Verify verify) throws SomeException {
-		Interface mock = mockFactory.mock(Interface.class);
+		Interface mock = (Interface) mockFactory.mock(Interface.class);
 
 		mock.method();
 		SomeException someException = new SomeException();
@@ -149,7 +149,7 @@ public class JMockerTest implements Test {
 	}
 
 	public void testThrowsAwkwardExceptionsCorrectly(Verify verify) throws InvocationTargetException {
-		Interface mock = mockFactory.mock(Interface.class);
+		Interface mock = (Interface) mockFactory.mock(Interface.class);
 
 		mock.awkwardMethod();
 		InvocationTargetException invocationTargetException = new InvocationTargetException(
@@ -168,7 +168,7 @@ public class JMockerTest implements Test {
 	}
     
 	public void testCannotFinishExpectationsWithoutSettingReturnValueForPrimativeMethods(Verify verify) {
-		Interface mock = mockFactory.mock(Interface.class);
+		Interface mock = (Interface) mockFactory.mock(Interface.class);
 
 		mock.booleanMethod();
 
@@ -186,7 +186,7 @@ public class JMockerTest implements Test {
 	public void testCannotMoveToNextExpectationWithoutSettingReturnValueForPrimativeMethods(Verify verify)
 		throws SomeException {
 
-		Interface mock = mockFactory.mock(Interface.class);
+		Interface mock = (Interface) mockFactory.mock(Interface.class);
 
 		mock.booleanMethod();
 
@@ -202,7 +202,7 @@ public class JMockerTest implements Test {
 	}
 
 	public void xtestOmittingReturnValueForNonPrimativesSetsValueToNull(Verify verify) {
-		Interface mockInterface = mockFactory.mock(Interface.class);
+		Interface mockInterface = (Interface) mockFactory.mock(Interface.class);
 
 		mockInterface.objectMethod();
 

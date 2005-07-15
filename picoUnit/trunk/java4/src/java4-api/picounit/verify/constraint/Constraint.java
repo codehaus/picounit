@@ -5,27 +5,23 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
-package example.verify.custom;
+package picounit.verify.constraint;
 
-import picounit.verify.constraint.Constraint;
-import picounit.verify.constraint.Evaluator;
+public abstract class Constraint {
+	abstract public boolean evaluate(Object value);
+	abstract public String describeFailure();
 
-public class FrogConstraints {
-	private final Evaluator evaluator;
+	public boolean equals(Object object) {
+		if (object == null || !getClass().equals(object.getClass())) {
+			return false;
+		}
+		
+		Constraint other = (Constraint) object;
 
-	public FrogConstraints(Evaluator evaluator) {
-		this.evaluator = evaluator;
+		return equalsImpl(other);
 	}
 
-	public void isGreen() {
-		passes(new IsGreenFrogConstraint());
-	}
-
-	public void isNotGreen() {
-		passes(new IsNotGreenFrogConstraint());
-	}
-
-	public final void passes(Constraint frogConstraint) {
-		evaluator.evaluate(frogConstraint);
+	protected boolean equalsImpl(Object value) {
+		return this == value;
 	}
 }

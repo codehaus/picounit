@@ -114,49 +114,49 @@ public class FrogVerify extends Explanation implements FrogVerifyStage {
 	}
 	
 	public BooleanConstraints thatBoolean(boolean value) {
-		setValue(value);
+		setValue(new Boolean(value));
 		
 		return booleanConstraints;
 	}
 
 	public ByteConstraints that(byte value) {
-		setValue(value);
+		setValue(new Byte(value));
 		
 		return byteConstraints;
 	}
 	
 	public CharacterConstraints that(char value) {
-		setValue(value);
+		setValue(new Character(value));
 		
 		return charConstraints;
 	}
 	
 	public CustomDoubleConstraints that(double value) {
-		setValue(value);
+		setValue(new Double(value));
 		
 		return customDoubleConstraints;
 	}
 	
 	public FloatConstraints that(float value) {
-		setValue(value);
+		setValue(new Float(value));
 		
 		return floatConstraints;
 	}
 	
 	public IntegerConstraints that(int value) {
-		setValue(value);
+		setValue(new Integer(value));
 		
 		return intConstraints;
 	}
 	
 	public LongConstraints that(long value) {
-		setValue(value);
+		setValue(new Long(value));
 		
 		return longConstraints;
 	}
 	
 	public ShortConstraints that(short value) {
-		setValue(value);
+		setValue(new Short(value));
 		
 		return shortConstraints;
 	}
@@ -173,69 +173,67 @@ public class FrogVerify extends Explanation implements FrogVerifyStage {
 		return stringConstraints;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T> TypedConstraints<T> that(T type) {
+	public TypedConstraints that(Object type) {
 		setValue(type);
 
 		return typedConstraints;
 	}
 	
-	public BooleanArrayConstraints that(boolean ... value) {
+	public BooleanArrayConstraints that(boolean[] value) {
 		setValue(value);
 		
 		return booleanArrayConstraints;
 	}
 	
-	public ByteArrayConstraints that(byte ... value) {
+	public ByteArrayConstraints that(byte[] value) {
 		setValue(value);
 
 		return byteArrayConstraints;
 	}
 	
-	public CharacterArrayConstraints that(char ... value) {
+	public CharacterArrayConstraints that(char[] value) {
 		setValue(value);
 
 		return characterArrayConstraints;
 	}
 	
-	public DoubleArrayConstraints that(double ... value) {
+	public DoubleArrayConstraints that(double[] value) {
 		setValue(value);
 
 		return doubleArrayConstraints;
 	}
 	
-	public FloatArrayConstraints that(float ... value) {
+	public FloatArrayConstraints that(float[] value) {
 		setValue(value);
 
 		return floatArrayConstraints;
 	}
 	
-	public IntegerArrayConstraints that(int ... value) {
+	public IntegerArrayConstraints that(int[] value) {
 		setValue(value);
 
 		return integerArrayConstraints;
 	}
 	
-	public LongArrayConstraints that(long ... value) {
+	public LongArrayConstraints that(long[] value) {
 		setValue(value);
 
 		return longArrayConstraints;
 	}
 	
-	public ShortArrayConstraints that(short ... value) {
+	public ShortArrayConstraints that(short[] value) {
 		setValue(value);
 		
 		return shortArrayConstraints;
 	}
 	
-	public StringArrayConstraints that(String ... value) {
+	public StringArrayConstraints that(String[] value) {
 		setValue(value);
 
 		return stringArrayConstraints;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> TypedArrayConstraints<T> that(T ... value) {
+	public TypedArrayConstraints that(Object[] value) {
 		setValue(value);
 		
 		return typedArrayConstraints;
