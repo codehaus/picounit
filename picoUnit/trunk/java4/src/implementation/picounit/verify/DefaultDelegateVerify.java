@@ -18,21 +18,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultDelegateVerify implements DelegateVerify {
-	public static final boolean BOOLEAN_DELEGATE_RETURN = true;
-	public static final byte BYTE_DELEGATE_RETURN = (byte) 123;
-	public static final char CHAR_DELEGATE_RETURN = 'e';
-	public static final double DOUBLE_DELEGATE_RETURN = 123.456;
-	public static final float FLOAT_DELEGATE_RETURN = 456.123f;
-	public static final int INT_DELEGATE_RETURN = 123;
-	public static final long LONG_DELEGATE_RETURN = 123456;
-	public static final short SHORT_DELEGATE_RETURN = (short) 123;
+	public static final Boolean BOOLEAN_DELEGATE_RETURN = Boolean.TRUE;
+	public static final Byte BYTE_DELEGATE_RETURN = new Byte((byte) 123);
+	public static final Character CHAR_DELEGATE_RETURN = new Character('e');
+	public static final Double DOUBLE_DELEGATE_RETURN = new Double(123.456);
+	public static final Float FLOAT_DELEGATE_RETURN = new Float(456.123f);
+	public static final Integer INT_DELEGATE_RETURN = new Integer(123);
+	public static final Long LONG_DELEGATE_RETURN = new Long(123456);
+	public static final Short SHORT_DELEGATE_RETURN = new Short((short) 123);
 
 	public static final String STRING_DELEGATE_RETURN = "expectedValue";
 	public static final String OBJECT_DELEGATE_RETURN = "expectedObject";
 	
 	private final Mocker should;
 	private final Verify verify;
-	private final Map<Class,Object> expectedMap;
+	private final Map expectedMap;
 	private final MockInvocationInspector mockInvocationInspector;
 	private final MockFactory mockFactory;
 	private final MockControl mockControl;
@@ -46,7 +46,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 		this.verify = verify;
 		this.mockFactory = mockFactory;
 
-		this.expectedMap = new HashMap<Class, Object>();
+		this.expectedMap = new HashMap();
 		expectedMap.put(Boolean.class, BOOLEAN_DELEGATE_RETURN);
 		expectedMap.put(boolean.class, BOOLEAN_DELEGATE_RETURN);
 
@@ -76,9 +76,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public BooleanDelegateVerifier delegateTo(boolean ignore) {
-		boolean expectedValue = generateExpected(boolean.class);
+		boolean expectedValue = ((Boolean) generateExpected(boolean.class)).booleanValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Boolean(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -86,9 +86,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public ByteDelegateVerifier delegateTo(byte ignore) {
-		byte expectedValue = generateExpected(byte.class);
+		byte expectedValue = ((Byte) generateExpected(byte.class)).byteValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Byte(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -96,9 +96,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public CharacterDelegateVerifier delegateTo(char ignore) {
-		char expectedValue = generateExpected(char.class);
+		char expectedValue = ((Character) generateExpected(char.class)).charValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Character(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -106,9 +106,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public DoubleDelegateVerifier delegateTo(double ignore) {
-		double expectedValue = generateExpected(double.class);
+		double expectedValue = ((Double) generateExpected(double.class)).doubleValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Double(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -116,9 +116,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public FloatDelegateVerifier delegateTo(float ignore) {
-		float expectedValue = generateExpected(float.class);
+		float expectedValue = ((Float) generateExpected(float.class)).floatValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Float(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -126,9 +126,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public IntegerDelegateVerifier delegateTo(int ignore) {
-		int expectedValue = generateExpected(int.class);
+		int expectedValue = ((Integer) generateExpected(int.class)).intValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Integer(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -136,9 +136,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public LongDelegateVerifier delegateTo(long ignore) {
-		long expectedValue = generateExpected(long.class);
+		long expectedValue = ((Long) generateExpected(long.class)).longValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Long(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -146,9 +146,9 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public ShortDelegateVerifier delegateTo(short ignore) {
-		short expectedValue = generateExpected(short.class);
+		short expectedValue = ((Short) generateExpected(short.class)).shortValue();
 
-		should.call(box(ignore)).andReturn(expectedValue);
+		should.call(new Short(ignore)).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
@@ -156,7 +156,7 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	}
 	
 	public StringDelegateVerifier delegateTo(String ignore) {
-		String expectedValue = generateExpected(String.class);
+		String expectedValue = (String) generateExpected(String.class);
 
 		should.call(ignore).andReturn(expectedValue);
 
@@ -165,21 +165,19 @@ public class DefaultDelegateVerify implements DelegateVerify {
 		return new StringDelegateVerifierImpl(verify, expectedValue, mockControl);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> DelegateVerifier<T> delegateTo(T ignore) {
-		T expectedValue = (T) generateExpected(
+	public DelegateVerifier delegateTo(Object ignore) {
+		Object expectedValue = generateExpected(
 			mockInvocationInspector.getLastInvocationReturnType());
 
 		should.call(ignore).andReturn(expectedValue);
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		return new DelegateVerifierImpl<T>(verify, expectedValue, mockControl);
+		return new DelegateVerifierImpl(verify, expectedValue, mockControl);
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T> T generateExpected(Class<T> aClass) {
-		T expected = (T) expectedMap.get(aClass);
+	private Object generateExpected(Class aClass) {
+		Object expected = expectedMap.get(aClass);
 
 		if (expected == null) {
 			expected = mockFactory.mock(aClass);
@@ -188,18 +186,18 @@ public class DefaultDelegateVerify implements DelegateVerify {
 		return expected;
 	}
 
-	private static class DelegateVerifierImpl<T> implements DelegateVerifier<T> {
+	private static class DelegateVerifierImpl implements DelegateVerifier {
 		private final Verify verify;
-		private final T expectedValue;
+		private final Object expectedValue;
 		private final MockControl mockControl;
 
-		public DelegateVerifierImpl(Verify verify, T expectedValue, MockControl mockControl) {
+		public DelegateVerifierImpl(Verify verify, Object expectedValue, MockControl mockControl) {
 			this.verify = verify;
 			this.expectedValue = expectedValue;
 			this.mockControl = mockControl;
 		}
 
-		public void whenCalling(T actualValue) {
+		public void whenCalling(Object actualValue) {
 			verify.that(actualValue).isEqualTo(expectedValue);
 
 			mockControl.verify();
@@ -367,8 +365,4 @@ public class DefaultDelegateVerify implements DelegateVerify {
 			mockControl.verify();
 		}
 	}
-
-	private <T> T box(T value) {
-		return value;
-	}	
 }

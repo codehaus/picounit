@@ -7,14 +7,14 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.verify.constraint.ArrayModifier;
 import picounit.verify.constraint.ArrayModifierImpl;
-import picounit.verify.constraint.StringCaseModifier;
 import picounit.verify.constraint.ContainsElement;
 import picounit.verify.constraint.DoesNotContainElement;
 import picounit.verify.constraint.Evaluator;
+import picounit.verify.constraint.Modifier;
+import picounit.verify.constraint.StringCaseModifier;
 
-public class StringArrayConstraintsImpl extends NonPrimativeArrayConstraints<String>
+public class StringArrayConstraintsImpl extends NonPrimativeArrayConstraints
 	implements StringArrayConstraints {
 
 	public StringArrayConstraintsImpl(Evaluator evaluator) {
@@ -26,18 +26,24 @@ public class StringArrayConstraintsImpl extends NonPrimativeArrayConstraints<Str
 		
 		return this;
 	}
+	
+	public void isEqualTo(String[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(String[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
 
-	@SuppressWarnings("unchecked")
 	public void contains(String contains) {
-		passes(new ContainsElement(contains, modifier()));
+		passes(new ContainsElement(contains, arrayModifier()));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void doesNotContain(String doesNotContain) {
-		passes(new DoesNotContainElement(doesNotContain, modifier()));
+		passes(new DoesNotContainElement(doesNotContain, arrayModifier()));
 	}
 
-	private static final ArrayModifier<String[], String[]> ARRAY_CASE_MODIFIER =
-		new ArrayModifierImpl<String[], String[]>(StringCaseModifier.INSTANCE, String.class);
+	private static final Modifier ARRAY_CASE_MODIFIER =
+		new ArrayModifierImpl(StringCaseModifier.INSTANCE, String.class);
 }
 

@@ -14,26 +14,26 @@ import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.PrimativeArrayStringer;
 import picounit.verify.constraint.Stringer;
 
-public class PrimativeArrayConstraints<T, M> extends Constraints<T, M> {
-	private final PrimativeArrayStringer<T> primativeArrayStringer = new PrimativeArrayStringer<T>();
+public class PrimativeArrayConstraints extends Constraints {
+	private final PrimativeArrayStringer primativeArrayStringer = new PrimativeArrayStringer();
 
 	public PrimativeArrayConstraints(Evaluator evaluator) {
 		super(evaluator);
 	}
 
-	public void isEqualTo(T equalTo) {
+	public void isEqualTo(Object equalTo) {
 		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
 	}
 
-	public void isDifferentTo(T differentTo) {
+	public void isDifferentTo(Object differentTo) {
 		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
 	}
 	
-	protected Stringer<T> stringer() {
+	protected Stringer stringer() {
 		return primativeArrayStringer;
 	}
 
 	protected void setDelta(Number delta) {
-		setModifier(new ArrayModifierImpl<T, M>(new DeltaModifier<Number>(delta), Delta.class));
+		setModifier(new ArrayModifierImpl(new DeltaModifier(delta), Delta.class));
 	}
 }

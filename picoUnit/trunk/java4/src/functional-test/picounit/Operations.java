@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Operations {
 	private StringBuffer operations = new StringBuffer();
-	private final Map<String, Object> data = new HashMap<String, Object>();
+	private final Map data = new HashMap();
 	private final Verify verify;
 	
 	public Operations() {

@@ -302,7 +302,7 @@ public class DelegateVerifyTest implements Test{
 		short ignored = 123;
 		short actualValue = 456;
 
-		should.call(mockShould.call(box(ignored)))
+		should.call(mockShould.call(new Short(ignored)))
 			.andReturn(mockShortConsequenceMatcher);
 		
 		shouldCall:
@@ -321,7 +321,6 @@ public class DelegateVerifyTest implements Test{
 		delegateVerify.delegateTo(ignored).whenCalling(actualValue);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testTestsActualInvocationReturnsSameObjectValueAsDelegateToInvocation() {
 		Object ignored = new Object();
 		Object actualValue = new Object();
@@ -371,7 +370,6 @@ public class DelegateVerifyTest implements Test{
 		delegateVerify.delegateTo(ignored).whenCalling(actualValue);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testTestsActualInvocationReturnsSameCustomTypeValueAsDelegateToInvocation() {
 		CustomType ignored = new CustomType("ignored");
 		CustomType actualValue = new CustomType("ignored");
@@ -399,9 +397,5 @@ public class DelegateVerifyTest implements Test{
 		should.expectAboveWhenTheFollowingOccurs();
 
 		delegateVerify.delegateTo(ignored).whenCalling(actualValue);
-	}
-
-	private <T> T box(T value) {
-		return value;
 	}
 }

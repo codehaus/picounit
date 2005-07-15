@@ -7,15 +7,15 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class DeltaModifier<T extends Number> implements Modifier<T, Delta> {
-	private final T delta;
+public class DeltaModifier implements Modifier {
+	private final Number delta;
 
-	public DeltaModifier(T delta) {
+	public DeltaModifier(Number delta) {
 		this.delta = delta;
 	}
 	
-	public Delta modify(T value) {
-		return new Delta(value, delta);
+	public Object modify(Object value) {
+		return new Delta((Number) value, delta);
 	}
 
 	public String getName() {

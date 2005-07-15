@@ -22,15 +22,11 @@ public class Evaluator {
 		this.reason = reason;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> void evaluate(Constraint<T> constraint) {
+	public void evaluate(Constraint constraint) {
 		evaluate(constraint, Stringer.DEFAULT);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> void evaluate(Constraint<T> constraint, Stringer<T> stringer) {
-		T value = (T) this.value;
-
+	public void evaluate(Constraint constraint, Stringer stringer) {
 		if (!constraint.evaluate(value)) {
 			throw new AssertionFailedError((prefix() + "<" + stringer.toString(value) + "> " +
 				constraint.describeFailure()));

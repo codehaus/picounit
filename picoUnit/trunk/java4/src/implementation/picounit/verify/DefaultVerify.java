@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
 
-public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
+public class DefaultVerify extends Explanation implements Verify {
 	// TODO Implement the object equals using array util
 	// TODO Replace toString(array) with stringUtil.toString(array)
 	// TODO Examine missing types for simple equal(type, type)
@@ -87,8 +87,6 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 
 		super(evaluator);
 
-		setVerifyStage(this);
-
 		this.booleanConstraints = booleanConstraints;
 		this.byteConstraints = byteConstraints;
 		this.charConstraints = charConstraints;
@@ -125,10 +123,16 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	// VerifyStage
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	public VerifyStage because(String reason) {
+		setReason(reason);
+
+		return this;
+	}
+	
 	public BooleanConstraints thatBoolean(boolean value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Boolean(value));
 
 		return booleanConstraints;
 	}
@@ -136,7 +140,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public ByteConstraints that(byte value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Byte(value));
 	
 		return byteConstraints;
 	}
@@ -144,7 +148,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public CharacterConstraints that(char value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Character(value));
 		
 		return charConstraints;
 	}
@@ -152,7 +156,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public DoubleConstraints that(double value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Double(value));
 		
 		return doubleConstraints;
 	}
@@ -160,7 +164,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public FloatConstraints that(float value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Float(value));
 		
 		return floatConstraints;
 	}
@@ -168,7 +172,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public IntegerConstraints that(int value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Integer(value));
 		
 		return intConstraints;
 	}
@@ -176,7 +180,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public LongConstraints that(long value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Long(value));
 		
 		return longConstraints;
 	}
@@ -184,7 +188,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 	public ShortConstraints that(short value) {
 		verify();
 		
-		setValue(value);
+		setValue(new Short(value));
 		
 		return shortConstraints;
 	}
@@ -205,8 +209,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return stringConstraints;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> TypedConstraints<T> that(T value) {
+	public TypedConstraints that(Object value) {
 		verify();
 		
 		setValue(value);
@@ -214,7 +217,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return typedConstraints;
 	}
 	
-	public BooleanArrayConstraints that(boolean ... value) {
+	public BooleanArrayConstraints that(boolean[] value) {
 		verify();
 		
 		setValue(value);
@@ -222,7 +225,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return booleanArrayConstraints;
 	}
 	
-	public ByteArrayConstraints that(byte ... value) {
+	public ByteArrayConstraints that(byte[] value) {
 		verify();
 		
 		setValue(value);
@@ -230,7 +233,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return byteArrayConstraints;
 	}
 	
-	public CharacterArrayConstraints that(char ... value) {
+	public CharacterArrayConstraints that(char[] value) {
 		verify();
 		
 		setValue(value);
@@ -238,7 +241,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return characterArrayConstraints;
 	}
 	
-	public DoubleArrayConstraints that(double ... value) {
+	public DoubleArrayConstraints that(double[] value) {
 		verify();
 		
 		setValue(value);
@@ -246,7 +249,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return doubleArrayConstraints;
 	}
 	
-	public FloatArrayConstraints that(float ... value) {
+	public FloatArrayConstraints that(float[] value) {
 		verify();
 		
 		setValue(value);
@@ -254,7 +257,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return floatArrayConstraints;
 	}
 	
-	public IntegerArrayConstraints that(int ... value) {
+	public IntegerArrayConstraints that(int[] value) {
 		verify();
 		
 		setValue(value);
@@ -262,7 +265,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return integerArrayConstraints;
 	}
 	
-	public LongArrayConstraints that(long ... value) {
+	public LongArrayConstraints that(long[] value) {
 		verify();
 		
 		setValue(value);
@@ -270,7 +273,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return longArrayConstraints;
 	}
 	
-	public ShortArrayConstraints that(short ... value) {
+	public ShortArrayConstraints that(short[] value) {
 		verify();
 		
 		setValue(value);
@@ -278,7 +281,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return shortArrayConstraints;
 	}
 	
-	public StringArrayConstraints that(String ... value) {
+	public StringArrayConstraints that(String[] value) {
 		verify();
 		
 		setValue(value);
@@ -286,8 +289,7 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return stringArrayConstraints;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T> TypedArrayConstraints<T> that(T ... value) {
+	public TypedArrayConstraints that(Object[] value) {
 		verify();
 		
 		setValue(value);
@@ -1140,7 +1142,6 @@ public class DefaultVerify extends Explanation<VerifyStage> implements Verify {
 		return expected == actual;
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean isInstanceOf(Class instanceOf, Object object) {
 		return object != null && instanceOf.isAssignableFrom(object.getClass());
 	}

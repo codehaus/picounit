@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class Delta implements Comparable<Delta>{
+public class Delta implements Comparable{
 	private final Number value;
 	private final double delta;
 
@@ -16,7 +16,6 @@ public class Delta implements Comparable<Delta>{
 		this.delta = delta.doubleValue();
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean equals(Object object) {
 		if (object == null || !object.getClass().equals(getClass())) {
 			return false;
@@ -29,8 +28,8 @@ public class Delta implements Comparable<Delta>{
 		return Math.abs(difference) < delta; 
 	}
 
-	public int compareTo(Delta other) {
-		double difference = value.doubleValue() - other.value.doubleValue();
+	public int compareTo(Object other) {
+		double difference = value.doubleValue() - ((Delta) other).value.doubleValue();
 
 		return Math.abs(difference) < delta ? 0 : difference < 0 ? -1 : 1;
 	}

@@ -25,15 +25,15 @@ import java.lang.reflect.Method;
 
 import junit.framework.AssertionFailedError;
 
-public class RecordingPlaybackMock<T> implements DynamicMock, InvocationHandler {
+public class RecordingPlaybackMock implements DynamicMock, InvocationHandler {
 	private static final StubFactory stubFactory = new DefaultStubFactory();
 
-	private final BetterCGLIBCoreMock<T> playbackCoreMock;
+	private final BetterCGLIBCoreMock playbackCoreMock;
 	private final RecordingPlaybackMockListener invocationListener;
 	private final MethodUtil methodUtil = new MethodUtil();
 	private final MockFactory mockFactory;
 	private final Mock playbackMock;
-	private final T proxy;
+	private final Object proxy;
 
 	private final ConstraintStore constraintStore;
 	private final MockInvocationListener mockInvocationListener;
@@ -45,14 +45,14 @@ public class RecordingPlaybackMock<T> implements DynamicMock, InvocationHandler 
 	private InvocationMatcher invocationMatcher = new InvokeOnceMatcher();
 	private Invocation invocation;
 
-	public RecordingPlaybackMock(Class<T> mockedType, String roleName,
+	public RecordingPlaybackMock(Class mockedType, String roleName,
 		RecordingPlaybackMockListener invocationListener, MockFactory mockFactory,
 		ConstraintStore constraintStore, MockInvocationListener mockInvocationListener) {
 
 		this.mockFactory = mockFactory;
 		this.constraintStore = constraintStore;
 		this.mockInvocationListener = mockInvocationListener;
-		this.playbackCoreMock = new BetterCGLIBCoreMock<T>(mockedType, roleName);
+		this.playbackCoreMock = new BetterCGLIBCoreMock(mockedType, roleName);
 		this.playbackMock = new Mock(playbackCoreMock);
 
         this.proxy = new ProxyFactory().create(mockedType, this); 
@@ -60,18 +60,16 @@ public class RecordingPlaybackMock<T> implements DynamicMock, InvocationHandler 
 		this.invocationListener = invocationListener;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Class<T> getMockedType() {
+	public Class getMockedType() {
 		return playbackCoreMock.getMockedType();
 	}
 
-	public T proxy() {
+	public Object proxy() {
 		return proxy;
 	}
 
-	@SuppressWarnings("unchecked")
-	public T getMock() {
-		return (T) new Mock(this).proxy();
+	public Object getMock() {
+		return new Mock(this).proxy();
 	}
 
 	public void setDefaultStub(Stub newDefaultStub) {
@@ -145,7 +143,6 @@ public class RecordingPlaybackMock<T> implements DynamicMock, InvocationHandler 
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private Object defaultValue(Class returnType) {
 		if (void.class.equals(returnType)) {
 			return null;

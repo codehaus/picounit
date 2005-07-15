@@ -11,8 +11,8 @@ import picounit.verify.Constraints;
 import picounit.verify.DefaultShortConstraints;
 import picounit.verify.constraint.Evaluator;
 
-public class ShortConstraintsTest extends ConstraintsTest<Short, Delta> {
-	protected Constraints<Short, Delta> constraints(Evaluator evaluator) {
+public class ShortConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultShortConstraints(evaluator);
 	}
 }

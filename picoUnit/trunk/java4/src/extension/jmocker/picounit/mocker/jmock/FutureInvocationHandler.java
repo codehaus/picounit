@@ -13,11 +13,11 @@ import picounit.util.MethodUtil;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class FutureInvocationHandler<T> implements InvocationHandler {
+public class FutureInvocationHandler implements InvocationHandler {
 	private final MethodUtil methodUtil = new MethodUtil();
-	private final Future<T> future;
+	private final Future future;
 
-	public FutureInvocationHandler(Future<T> future) {
+	public FutureInvocationHandler(Future future) {
 		this.future = future;
 	}
 

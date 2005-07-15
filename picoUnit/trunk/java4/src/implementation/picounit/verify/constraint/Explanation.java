@@ -7,26 +7,18 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class Explanation<VerifyStage> {
+public class Explanation {
 	private final Evaluator evaluator;
-
-	private VerifyStage verifyStage;
 
 	public Explanation(Evaluator evaluator) {
 		this.evaluator = evaluator;
 	}
 
-	public VerifyStage because(String reason) {
+	public void setReason(String reason) {
 		evaluator.setReason(reason);
-
-		return verifyStage;
 	}
 
-	protected void setVerifyStage(VerifyStage verifyStage) {
-		this.verifyStage = verifyStage;
-	}
-
-	protected final <T> void setValue(T value) {
+	protected final void setValue(Object value) {
 		evaluator.setValue(value);
 	}
 }

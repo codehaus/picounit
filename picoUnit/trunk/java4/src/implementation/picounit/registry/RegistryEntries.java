@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RegistryEntries implements Registry, RegistryEntry {
-	private final List<RegistryEntry> entries = new LinkedList<RegistryEntry>();
+	private final List entries = new LinkedList();
 
 	public void register(Class type, Class implementation) {
 		addEntry(new InterfaceToImplementationRegistryEntry(type, implementation));

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HashMapConstraintStore implements ConstraintStore {
-	private final Map<Object, Constraint> sentinelToConstraintMap = new HashMap<Object, Constraint>();
+	private final Map sentinelToConstraintMap = new HashMap();
 	private final SentinelSource sentinelSource;
 	
 	public HashMapConstraintStore() {

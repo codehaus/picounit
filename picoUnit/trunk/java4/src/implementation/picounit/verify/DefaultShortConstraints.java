@@ -11,12 +11,16 @@ import picounit.verify.ShortConstraints;
 import picounit.verify.ShortConstraintsDeltaKnown;
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultShortConstraints extends ExtensibleShortConstraints<ShortConstraintsDeltaKnown>
+public class DefaultShortConstraints extends ExtensibleShortConstraints
 	implements ShortConstraints {
 
 	public DefaultShortConstraints(Evaluator evaluator) {
 		super(evaluator);
-
-		setConstraintsStage(this);
+	}
+	
+	public ShortConstraintsDeltaKnown withDelta(short delta) {
+		setDelta(new Short(delta));
+		
+		return this;
 	}
 }

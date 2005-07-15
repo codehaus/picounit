@@ -12,12 +12,11 @@ import picounit.verify.StringUtil;
 import previous.picounit.Mocker;
 import previous.picounit.Test;
 
-@SuppressWarnings("deprecation")
 public class StringVerifyTest implements Test {
 	private StringVerify stringVerify;
 	
-	private Verify verify;
-	private StringUtil stringUtil;
+	private Verify mockVerify;
+	private StringUtil mockStringUtil;
 
 	private final Mocker should;
 	
@@ -25,73 +24,75 @@ public class StringVerifyTest implements Test {
 		this.should = should;	
 	}
 	
-	public void mock(Verify verify, StringUtil stringUtil) {
-		this.stringVerify = new DefaultStringVerify(verify, stringUtil);
+	public void mock(Verify mockVerify, StringUtil mockStringUtil) {
+		this.stringVerify = new DefaultStringVerify(mockVerify, mockStringUtil);
 
-		this.verify = verify;
-		this.stringUtil = stringUtil;
+		this.mockVerify = mockVerify;
+		this.mockStringUtil = mockStringUtil;
 	}
 	
 	public void testContainsFailsIfSearchInIsNull() {
-		verify.fail("<searchIn> is null");
+		mockVerify.fail("<searchIn> is null");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.contains(null, "not null");
 	}
 
 	public void testContainsFailsIfSearchForIsNull() {
-		verify.fail("<searchFor> is null");
+		mockVerify.fail("<searchFor> is null");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.contains("not null", null);
 	}
 
 	public void testContainsFailsIfSearchInDoesNotContainSearchFor() {
-		should.call(stringUtil.contains("abc", "def")).andReturn(false);
-		verify.fail("<abc> does not contain <def>");
+		should.call(mockStringUtil.contains("abc", "def")).andReturn(false);
+		mockVerify.fail("<abc> does not contain <def>");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.contains("abc", "def");
 	}
 	
 	public void testContainsPassesIfSearchInDoesContainSearchFor() {
-		should.call(stringUtil.contains("abcdef", "abc")).andReturn(true);
-		should.doAboveWhen();
+		should.call(mockStringUtil.contains("abcdef", "abc")).andReturn(true);
+
+		should.expectAboveWhenTheFollowingOccurs();
 		
 		stringVerify.contains("abcdef", "abc");
 	}
 	
 	public void testDoesNotContainFailsIfSearchInIsNull() {
-		verify.fail("<searchIn> is null");
+		mockVerify.fail("<searchIn> is null");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.doesNotContain(null, "not null");
 	}
 
 	public void testDoesNotContainFailsIfSearchForIsNull() {
-		verify.fail("<searchFor> is null");
+		mockVerify.fail("<searchFor> is null");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.doesNotContain("not null", null);
 	}
 
 	public void testDoesNotContainFailsIfSearchInContainsSearchFor() {
-		should.call(stringUtil.contains("abcdef", "def")).andReturn(true);
-		verify.fail("<abcdef> contains <def>");
+		should.call(mockStringUtil.contains("abcdef", "def")).andReturn(true);
+		mockVerify.fail("<abcdef> contains <def>");
 
-		should.doAboveWhen();
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.doesNotContain("abcdef", "def");
 	}
 
 	public void testDoesNotContainPassesIfSearchInDoesNotContainSearchFor() {
-		should.call(stringUtil.contains("abcdef", "xyz")).andReturn(false);
-		should.doAboveWhen();
+		should.call(mockStringUtil.contains("abcdef", "xyz")).andReturn(false);
+
+		should.expectAboveWhenTheFollowingOccurs();
 
 		stringVerify.doesNotContain("abcdef", "xyz");
 	}

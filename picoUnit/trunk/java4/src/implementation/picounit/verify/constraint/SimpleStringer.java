@@ -7,8 +7,8 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class SimpleStringer<T> implements Stringer<T> {
-	public String toString(T value) {
+public class SimpleStringer implements Stringer {
+	public String toString(Object value) {
 		return value == null ? "null" : value.toString();
 	}
 }

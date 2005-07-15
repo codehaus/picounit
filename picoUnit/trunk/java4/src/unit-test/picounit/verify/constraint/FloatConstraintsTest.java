@@ -11,8 +11,8 @@ import picounit.verify.Constraints;
 import picounit.verify.DefaultFloatConstraints;
 import picounit.verify.constraint.Evaluator;
 
-public class FloatConstraintsTest extends ConstraintsTest<Float, Delta> {
-	protected Constraints<Float, Delta> constraints(Evaluator evaluator) {
+public class FloatConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultFloatConstraints(evaluator);
 	}
 }

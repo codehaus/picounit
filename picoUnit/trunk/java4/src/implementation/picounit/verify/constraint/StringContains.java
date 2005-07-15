@@ -7,16 +7,19 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-
-public class StringContains extends ModifiableConstraint<String, String>
+public class StringContains extends ModifiableConstraint
 	implements StringConstraint {
 
 	private final String contains;
 
-	public StringContains(String contains, Modifier<String, String> modifier) {
+	public StringContains(String contains, Modifier modifier) {
 		super(modifier);
 
 		this.contains = contains;
+	}
+	
+	public boolean evaluate(Object string) {
+		return evaluate((String) string);
 	}
 
 	public boolean evaluate(String string) {
@@ -25,5 +28,9 @@ public class StringContains extends ModifiableConstraint<String, String>
 
 	public String describeFailureImpl() {
 		return "does not contain <" + contains + ">";
+	}
+
+	private String modify(String string) {
+		return (String) super.modify(string);
 	}
 }

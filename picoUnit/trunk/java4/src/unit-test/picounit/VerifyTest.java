@@ -18,13 +18,12 @@ import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
 
-@SuppressWarnings("deprecation")
 public class VerifyTest implements previous.picounit.Test {
 	private Verify verify;
 	
-	private ArrayUtil arrayUtil;
-	private StringUtil stringUtil;
-	private Verifiable verifiable;
+	private ArrayUtil mockArrayUtil;
+	private StringUtil mockStringUtil;
+	private Verifiable mockVerifiable;
 	
 	private final previous.picounit.Mocker should;
 	private final previous.picounit.Verify previousVerify;
@@ -34,12 +33,15 @@ public class VerifyTest implements previous.picounit.Test {
 		this.previousVerify = previousVerify;
 	}
 
-	public void mock(NumericUtil numericUtil, ArrayUtil arrayUtil, StringUtil stringUtil, Verifiable verifiable) {
-		this.verifiable = verifiable;
-		this.verify = DefaultVerify.create(numericUtil, arrayUtil, stringUtil, new ImmediateThrower(), verifiable);
+	public void mock(NumericUtil mockNumericUtil, ArrayUtil mockArrayUtil, StringUtil mockStringUtil,
+		Verifiable mockVerifiable) {
 
-		this.arrayUtil = arrayUtil;
-		this.stringUtil = stringUtil;
+		this.mockVerifiable = mockVerifiable;
+		this.verify = DefaultVerify.create(mockNumericUtil, mockArrayUtil, mockStringUtil,
+			new ImmediateThrower(), mockVerifiable);
+
+		this.mockArrayUtil = mockArrayUtil;
+		this.mockStringUtil = mockStringUtil;
 	}
 
 	public void testFail() {
@@ -249,8 +251,8 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] expected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 
 		should.doAboveWhen();
 
@@ -261,8 +263,8 @@ public class VerifyTest implements previous.picounit.Test {
 		byte[] expected = new byte[] {};
 		byte[] actual = new byte[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -273,8 +275,8 @@ public class VerifyTest implements previous.picounit.Test {
 		char[] expected = new char[] {};
 		char[] actual = new char[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -285,8 +287,8 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] expected = new double[] {};
 		double[] actual = new double[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -298,8 +300,8 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] actual = new double[] {};
 		double delta = 0.0;
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual, delta)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual, delta)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -310,8 +312,8 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] expected = new float[] {};
 		float[] actual = new float[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -323,8 +325,8 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] actual = new float[] {};
 		float delta = 0.0f;
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual, delta)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual, delta)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -335,8 +337,8 @@ public class VerifyTest implements previous.picounit.Test {
 		int[] expected = new int[] {};
 		int[] actual = new int[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -347,8 +349,8 @@ public class VerifyTest implements previous.picounit.Test {
 		long[] expected = new long[] {};
 		long[] actual = new long[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -359,8 +361,8 @@ public class VerifyTest implements previous.picounit.Test {
 		short[] expected = new short[] {};
 		short[] actual = new short[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 
@@ -371,10 +373,10 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] expected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 
 		should.doAboveWhen();
 
@@ -394,10 +396,10 @@ public class VerifyTest implements previous.picounit.Test {
 		byte[] expected = new byte[] {};
 		byte[] actual = new byte[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -417,10 +419,10 @@ public class VerifyTest implements previous.picounit.Test {
 		char[] expected = new char[] {};
 		char[] actual = new char[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -440,10 +442,10 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] expected = new double[] {};
 		double[] actual = new double[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -464,10 +466,10 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] actual = new double[] {};
 		double delta = 0.0;
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual, delta)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual, delta)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -488,10 +490,10 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] expected = new float[] {};
 		float[] actual = new float[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -512,10 +514,10 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] actual = new float[] {};
 		float delta = 0.0f;
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual, delta)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual, delta)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -536,10 +538,10 @@ public class VerifyTest implements previous.picounit.Test {
 		int[] expected = new int[] {};
 		int[] actual = new int[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -559,10 +561,10 @@ public class VerifyTest implements previous.picounit.Test {
 		long[] expected = new long[] {};
 		long[] actual = new long[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -582,10 +584,10 @@ public class VerifyTest implements previous.picounit.Test {
 		short[] expected = new short[] {};
 		short[] actual = new short[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.equal(expected, actual)).andReturn(false);
-		should.call(stringUtil.toString(expected)).andReturn("[expected]");
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.equal(expected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(expected)).andReturn("[expected]");
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
 		
 		should.doAboveWhen();
 
@@ -693,8 +695,8 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] notExpected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -705,8 +707,8 @@ public class VerifyTest implements previous.picounit.Test {
 		byte[] notExpected = new byte[] {};
 		byte[] actual = new byte[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -717,8 +719,8 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] notExpected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -729,8 +731,8 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] notExpected = new double[] {};
 		double[] actual = new double[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -742,8 +744,8 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] actual = new double[] {};
 		double delta = 0.0;
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual, delta)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual, delta)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -754,8 +756,8 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] notExpected = new float[] {};
 		float[] actual = new float[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -767,8 +769,8 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] actual = new float[] {};
 		float delta = 0.0f;
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual, delta)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual, delta)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -779,8 +781,8 @@ public class VerifyTest implements previous.picounit.Test {
 		int[] notExpected = new int[] {};
 		int[] actual = new int[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -791,8 +793,8 @@ public class VerifyTest implements previous.picounit.Test {
 		long[] notExpected = new long[] {};
 		long[] actual = new long[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -803,8 +805,8 @@ public class VerifyTest implements previous.picounit.Test {
 		short[] notExpected = new short[] {};
 		short[] actual = new short[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(true);
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(true);
 		
 		should.doAboveWhen();
 		
@@ -815,9 +817,9 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] notExpected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -837,9 +839,9 @@ public class VerifyTest implements previous.picounit.Test {
 		byte[] notExpected = new byte[] {};
 		byte[] actual = new byte[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -859,9 +861,9 @@ public class VerifyTest implements previous.picounit.Test {
 		boolean[] notExpected = new boolean[] {};
 		boolean[] actual = new boolean[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -881,9 +883,9 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] notExpected = new double[] {};
 		double[] actual = new double[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -904,10 +906,10 @@ public class VerifyTest implements previous.picounit.Test {
 		double[] actual = new double[] {};
 		double delta = 0.0;
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual, delta)).andReturn(false);
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual, delta)).andReturn(false);
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -928,9 +930,9 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] notExpected = new float[] {};
 		float[] actual = new float[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -951,10 +953,10 @@ public class VerifyTest implements previous.picounit.Test {
 		float[] actual = new float[] {};
 		float delta = 0.0f;
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual, delta)).andReturn(false);
-		should.call(stringUtil.toString(actual)).andReturn("[actual]");
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual, delta)).andReturn(false);
+		should.call(mockStringUtil.toString(actual)).andReturn("[actual]");
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -975,9 +977,9 @@ public class VerifyTest implements previous.picounit.Test {
 		int[] notExpected = new int[] {};
 		int[] actual = new int[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -997,9 +999,9 @@ public class VerifyTest implements previous.picounit.Test {
 		long[] notExpected = new long[] {};
 		long[] actual = new long[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -1019,9 +1021,9 @@ public class VerifyTest implements previous.picounit.Test {
 		short[] notExpected = new short[] {};
 		short[] actual = new short[] {};
 		
-		verifiable.verify();
-		should.call(arrayUtil.notEqual(notExpected, actual)).andReturn(false);
-		should.call(stringUtil.toString(notExpected)).andReturn("[notExpected]");
+		mockVerifiable.verify();
+		should.call(mockArrayUtil.notEqual(notExpected, actual)).andReturn(false);
+		should.call(mockStringUtil.toString(notExpected)).andReturn("[notExpected]");
 
 		should.doAboveWhen();
 
@@ -1377,7 +1379,7 @@ public class VerifyTest implements previous.picounit.Test {
 
 	private void expectVerifiable(int count) throws AssertionFailedError {
 		while (count-- > 0) {
-			verifiable.verify();
+			mockVerifiable.verify();
 		}
 
 		should.doAboveWhen();

@@ -10,40 +10,35 @@ package picounit.verify;
 import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.ShortConstraint;
 
-
-public class ExtensibleShortConstraints<ConstraintsStage>
-	extends NumberConstraints<Short, ConstraintsStage> {
+public class ExtensibleShortConstraints
+	extends NumberConstraints {
 
 	public ExtensibleShortConstraints(Evaluator evaluator) {
 		super(evaluator);
 	}
 	
-	public ConstraintsStage withDelta(short delta) {
-		return setDelta(delta);
-	}
-
 	public void isEqualTo(short equalTo) {
-		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
+		passes(constraintFactory.equalTo(new Short(equalTo), modifier(), stringer()));
 	}
 
 	public void isDifferentTo(short differentTo) {
-		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
+		passes(constraintFactory.differentTo(new Short(differentTo), modifier(), stringer()));
 	}
 
 	public void isGreaterThan(short greaterThan) {
-		passes(constraintFactory.greaterThan(greaterThan, modifier()));
+		passes(constraintFactory.greaterThan(new Short(greaterThan), modifier()));
 	}
 
 	public void isGreaterThanOrEqualTo(short greaterThanOrEqualTo) {
-		passes(constraintFactory.greaterThanOrEqualTo(greaterThanOrEqualTo, modifier()));
+		passes(constraintFactory.greaterThanOrEqualTo(new Short(greaterThanOrEqualTo), modifier()));
 	}
 
 	public void isLessThan(short lessThan) {
-		passes(constraintFactory.lessThan(lessThan, modifier()));
+		passes(constraintFactory.lessThan(new Short(lessThan), modifier()));
 	}
 
 	public void isLessThanOrEqualTo(short lessThanOrEqualTo) {
-		passes(constraintFactory.lessThanOrEqualTo(lessThanOrEqualTo, modifier()));
+		passes(constraintFactory.lessThanOrEqualTo(new Short(lessThanOrEqualTo), modifier()));
 	}
 
 	public void passes(ShortConstraint shortConstraint) {

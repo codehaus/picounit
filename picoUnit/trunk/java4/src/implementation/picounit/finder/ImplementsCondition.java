@@ -10,13 +10,13 @@ package picounit.finder;
 import java.lang.reflect.Modifier;
 
 public class ImplementsCondition implements Condition {
-	private final Class<?> toImplement;
+	private final Class toImplement;
 
-	public ImplementsCondition(Class<?> toImplement) {
+	public ImplementsCondition(Class toImplement) {
 		this.toImplement = toImplement;
 	}
 
-	public boolean matches(Class<?> aClass) {
+	public boolean matches(Class aClass) {
 		return toImplement.isAssignableFrom(aClass) &&
 			!Modifier.isAbstract(aClass.getModifiers());
 	}

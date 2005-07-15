@@ -16,38 +16,37 @@ import picounit.verify.constraint.PrimativeArrayContains;
 import picounit.verify.constraint.PrimativeArrayDoesNotContain;
 import picounit.verify.constraint.Stringer;
 
-public class ConstraintFactory<T> {
-	@SuppressWarnings("unchecked")
-	public <M> Constraint<T> primativeArrayContains(Object contains, Modifier<T, M> modifier) {
+public class ConstraintFactory {
+	public Constraint primativeArrayContains(Object contains, Modifier modifier) {
 		return new PrimativeArrayContains(contains, modifier);
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected Constraint<T> primativeArrayDoesNotContain(Object doesNotContain) {
+	// TODO: Add modifier
+	protected Constraint primativeArrayDoesNotContain(Object doesNotContain) {
 		return new PrimativeArrayDoesNotContain(doesNotContain);
 	}
 
-	public <M> Constraint<T> equalTo(T equalTo, Modifier<T, M> modifier, Stringer<T> stringer) {
-		return new EqualTo<T, M>(equalTo, modifier, stringer);
+	public Constraint equalTo(Object equalTo, Modifier modifier, Stringer stringer) {
+		return new EqualTo(equalTo, modifier, stringer);
 	}
 
-	public <M> Constraint<T> differentTo(T equalTo, Modifier<T, M> modifier, Stringer<T> stringer) {
-		return new DifferentTo<T, M>(equalTo, modifier, stringer);
+	public Constraint differentTo(Object equalTo, Modifier modifier, Stringer stringer) {
+		return new DifferentTo(equalTo, modifier, stringer);
 	}
 	
-	public <M extends Comparable<M>> Constraint<T> greaterThan(T greaterThan, Modifier<T, M> modifier) {
+	public Constraint greaterThan(Object greaterThan, Modifier modifier) {
 		return ComparesTo.greaterThan(greaterThan, modifier);
 	}
 
-	public <M extends Comparable<M>> Constraint<T> greaterThanOrEqualTo(T greaterThanOrEqualTo, Modifier<T, M> modifier) {
+	public Constraint greaterThanOrEqualTo(Object greaterThanOrEqualTo, Modifier modifier) {
 		return ComparesTo.greaterThanOrEqualTo(greaterThanOrEqualTo, modifier);
 	}
 
-	public <M extends Comparable<M>> Constraint<T> lessThan(T lessThan, Modifier<T, M> modifier) {
+	public Constraint lessThan(Object lessThan, Modifier modifier) {
 		return ComparesTo.lessThan(lessThan, modifier);
 	}
 
-	public <M extends Comparable<M>> Constraint<T> lessThanOrEqualTo(T lessThanOrEqualTo, Modifier<T, M> modifier) {
+	public Constraint lessThanOrEqualTo(Object lessThanOrEqualTo, Modifier modifier) {
 		return ComparesTo.lessThanOrEqualTo(lessThanOrEqualTo, modifier);
 	}
 }

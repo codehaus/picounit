@@ -11,8 +11,8 @@ import picounit.verify.Constraints;
 import picounit.verify.TypedConstraintsImpl;
 import picounit.verify.constraint.Evaluator;
 
-public class ObjectConstraintsTest extends ConstraintsTest<Object, Object> {
-	protected Constraints<Object, Object> constraints(Evaluator evaluator) {
+public class ObjectConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new TypedConstraintsImpl(evaluator);
 	}
 }

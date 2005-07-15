@@ -45,11 +45,11 @@ public class ClassUtil {
 	}
 	
 	public Constructor getBestConstructor(Class aClass) {
-		List<Constructor> constructors = Arrays.asList(aClass.getDeclaredConstructors());
+		List constructors = Arrays.asList(aClass.getDeclaredConstructors());
 		final ConstructorComparator constructorComparator = new ConstructorComparator();
 
-		Collections.sort(constructors, new Comparator<Constructor>() {
-			public int compare(Constructor o1, Constructor o2) {
+		Collections.sort(constructors, new Comparator() {
+			public int compare(Object o1, Object o2) {
 				return constructorComparator.compare(o1, o2);
 			}
 		});
@@ -99,7 +99,6 @@ public class ClassUtil {
 		throw new IllegalArgumentException("No visible constructors in class " + clazz.getName());
 	}
 
-	@SuppressWarnings("unchecked")
 	public Object[] getArgsForTypes(Class[] methodTypes, ProxyFactory proxyFactory)
 		throws IllegalArgumentException, InstantiationException, IllegalAccessException,
 			InvocationTargetException {
@@ -142,7 +141,7 @@ public class ClassUtil {
 		return argConstructor.newInstance(argsForTypes);
 	}
 
-	private <T> T stubClass(ProxyFactory proxyFactory, Class<T> aClass) {
+	private Object stubClass(ProxyFactory proxyFactory, Class aClass) {
 		return proxyFactory.create(aClass, stubInvocationHandler);
 	}
 
@@ -159,12 +158,12 @@ public class ClassUtil {
 		return Modifier.isPrivate(declaredConstructor.getModifiers());
 	}
 
-	private final Set<Class> primativeTypes = primativeTypes();
+	private final Set primativeTypes = primativeTypes();
 
 	private final StubInvocationHandler stubInvocationHandler = new StubInvocationHandler();
 
-	private Set<Class> primativeTypes() {
-		Set<Class> primativeTypes = new HashSet<Class>();
+	private Set primativeTypes() {
+		Set primativeTypes = new HashSet();
 
 		primativeTypes.add(boolean.class);
 		primativeTypes.add(byte.class);

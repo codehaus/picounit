@@ -10,39 +10,33 @@ package picounit.verify;
 import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.FloatConstraint;
 
-public class ExtensibleFloatConstraints<ConstraintsStage>
-	extends NumberConstraints<Float, ConstraintsStage> {
-
+public class ExtensibleFloatConstraints extends NumberConstraints {
 	public ExtensibleFloatConstraints(Evaluator evaluator) {
 		super(evaluator);
 	}
 	
-	public ConstraintsStage withDelta(float delta) {
-		return setDelta(delta);
-	}
-
 	public void isEqualTo(float equalTo) {
-		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
+		passes(constraintFactory.equalTo(new Float(equalTo), modifier(), stringer()));
 	}
 
 	public void isDifferentTo(float differentTo) {
-		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
+		passes(constraintFactory.differentTo(new Float(differentTo), modifier(), stringer()));
 	}
 
 	public void isGreaterThan(float greaterThan) {
-		passes(constraintFactory.greaterThan(greaterThan, modifier()));
+		passes(constraintFactory.greaterThan(new Float(greaterThan), modifier()));
 	}
 
 	public void isGreaterThanOrEqualTo(float greaterThanOrEqualTo) {
-		passes(constraintFactory.greaterThanOrEqualTo(greaterThanOrEqualTo, modifier()));
+		passes(constraintFactory.greaterThanOrEqualTo(new Float(greaterThanOrEqualTo), modifier()));
 	}
 
 	public void isLessThan(float lessThan) {
-		passes(constraintFactory.lessThan(lessThan, modifier()));
+		passes(constraintFactory.lessThan(new Float(lessThan), modifier()));
 	}
 
 	public void isLessThanOrEqualTo(float lessThanOrEqualTo) {
-		passes(constraintFactory.lessThanOrEqualTo(lessThanOrEqualTo, modifier()));
+		passes(constraintFactory.lessThanOrEqualTo(new Float(lessThanOrEqualTo), modifier()));
 	}
 
 	public void passes(FloatConstraint floatConstraint) {

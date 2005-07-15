@@ -39,7 +39,7 @@ public class PicoUnitTest implements previous.picounit.Test {
 	public void xtestGenerateSingleCreatesSinglePicoUnitTestSuite() {
 		verify.that(picoUnit.generateSingleJUnitTest(StartingClass.class))
 			.isEqualTo(singleTest(StartingClass.class.getName(), 
-				new SinglePicoUnitTestSuite<StartingClass>(StartingClass.class.getName(),
+				new SinglePicoUnitTestSuite(StartingClass.class.getName(),
 					StartingClass.class, testFilter, registryEntry, methodParameterRegistry, classLoader,
 					testListener)));
 	}
@@ -70,8 +70,8 @@ public class PicoUnitTest implements previous.picounit.Test {
 		new PicoUnit().generateJUnitTest();
 	}
 	
-	private <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(String name, Class<T> startingClass) {
-		return new SinglePicoUnitTestSuite<T>(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+	private SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
+		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
 			classLoader, testListener);
 	}
 }

@@ -12,11 +12,11 @@ import java.util.List;
 
 public class FindClassCodeVisitor implements CodeVisitor {
 	private final String className;
-	private final List<Code> codeContaining;
+	private final List codeContaining;
 
 	public FindClassCodeVisitor(String className) {
 		this.className = className;
-		this.codeContaining = new LinkedList<Code>();
+		this.codeContaining = new LinkedList();
 	}
 
 	public void visit(ClassDirectory classDirectory) {

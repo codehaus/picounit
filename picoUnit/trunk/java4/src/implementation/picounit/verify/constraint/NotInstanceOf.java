@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class NotInstanceOf extends Constraint<Object> {
+public class NotInstanceOf extends Constraint {
 	private final Class notInstanceOf;
 
 	public NotInstanceOf(Class notInstanceOf) {

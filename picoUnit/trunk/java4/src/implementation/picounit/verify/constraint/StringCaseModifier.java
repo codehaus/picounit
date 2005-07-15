@@ -7,11 +7,11 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class StringCaseModifier implements Modifier<String, String> {
+public class StringCaseModifier implements Modifier {
 	public static final StringCaseModifier INSTANCE = new StringCaseModifier();
 
-	public String modify(String value) {
-		return value.toLowerCase();
+	public Object modify(Object value) {
+		return ((String) value).toLowerCase();
 	}
 
 	public String getName() {

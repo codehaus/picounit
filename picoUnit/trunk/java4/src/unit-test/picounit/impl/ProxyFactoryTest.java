@@ -21,7 +21,8 @@ public class ProxyFactoryTest implements Test {
 	private final MockInvocationHandler mockInvocationHandler = new MockInvocationHandler();
 
 	public void testProxyInterface(Verify verify) throws Throwable {
-		Interface proxiedInterface = proxyFactory.create(Interface.class, mockInvocationHandler);
+		Interface proxiedInterface = (Interface)
+			proxyFactory.create(Interface.class, mockInvocationHandler);
 
 		proxiedInterface.method();
 
@@ -29,10 +30,10 @@ public class ProxyFactoryTest implements Test {
 			.isEqualTo(Interface.method);
 		verify.that(mockInvocationHandler.getArgs()).isNull();
 	}
-	
+
 	public void testProxyClass(Verify verify) {
 		Implementation proxiedInterface =
-			proxyFactory.create(Implementation.class, mockInvocationHandler);
+			(Implementation) proxyFactory.create(Implementation.class, mockInvocationHandler);
 
 		proxiedInterface.method();
 

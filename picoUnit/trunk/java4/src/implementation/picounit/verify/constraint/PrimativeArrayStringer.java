@@ -9,27 +9,27 @@ package picounit.verify.constraint;
 
 import java.lang.reflect.Array;
 
-public class PrimativeArrayStringer<T> implements Stringer<T> {
-	public String toString(T value) {
+public class PrimativeArrayStringer implements Stringer {
+	public String toString(Object value) {
 		if (value == null) {
 			return null;
 		}
-		
+
 		int length = Array.getLength(value);
-		
+
 		StringBuffer stringBuffer = new StringBuffer();
-		
+
 		stringBuffer.append('[');
-		
+
 		for (int i = 0; i < length; i++ ) {
 			stringBuffer.append(Array.get(value, i));
 			if (i < length - 1) {
 				stringBuffer.append(", ");
 			}
 		}
-		
+
 		stringBuffer.append(']');
-		
+
 		return stringBuffer.toString();
 	}
 }

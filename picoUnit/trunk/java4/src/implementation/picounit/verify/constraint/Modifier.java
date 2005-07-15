@@ -7,13 +7,12 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public interface Modifier<T, M> {
-	M modify(T value);
+public interface Modifier {
+	Object modify(Object value);
 
 	String getName();
 
 	Modifier NULL = new Modifier() {
-		@SuppressWarnings("unchecked")
 		public Object modify(Object value) {
 			return value;
 		}

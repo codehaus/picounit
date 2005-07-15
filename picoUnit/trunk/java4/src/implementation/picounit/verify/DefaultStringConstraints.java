@@ -8,14 +8,18 @@
 package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
+import picounit.verify.constraint.StringCaseModifier;
 
-public class DefaultStringConstraints
-	extends ExtensibleStringConstraints<StringConstraintsCaseConsiderationKnown>
+public class DefaultStringConstraints extends ExtensibleStringConstraints
 	implements StringConstraints {
 
 	public DefaultStringConstraints(Evaluator evaluator) {
 		super(evaluator);
+	}
 
-		setConstraintsStage(this);
+	public StringConstraintsCaseConsiderationKnown ignoringCase() {
+		setModifier(StringCaseModifier.INSTANCE);
+
+		return this;
 	}
 }

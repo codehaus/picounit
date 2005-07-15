@@ -19,16 +19,16 @@ import org.jmock.core.LIFOInvocationDispatcher;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class BetterCGLIBCoreMock<T> extends AbstractDynamicMock
+public class BetterCGLIBCoreMock extends AbstractDynamicMock
 	implements InvocationHandler, MethodInterceptor {
 
-    private final T proxy;
+    private final Object proxy;
 
-    public BetterCGLIBCoreMock(Class<T> mockedType, String name) {
+    public BetterCGLIBCoreMock(Class mockedType, String name) {
         this(mockedType, name, new LIFOInvocationDispatcher(), new ProxyFactory());
     }
 
-    public BetterCGLIBCoreMock(Class<T> mockedType, String name,
+    public BetterCGLIBCoreMock(Class mockedType, String name,
     	InvocationDispatcher invocationDispatcher, ProxyFactory proxyFactory) {
 
     	super(mockedType, name, invocationDispatcher);
@@ -41,7 +41,7 @@ public class BetterCGLIBCoreMock<T> extends AbstractDynamicMock
     	}
 	}
     
-    public T proxy() {
+    public Object proxy() {
         return proxy;
     }
 

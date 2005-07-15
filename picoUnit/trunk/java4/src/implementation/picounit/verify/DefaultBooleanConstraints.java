@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultBooleanConstraints extends Constraints<Boolean, Boolean>
+public class DefaultBooleanConstraints extends Constraints
 	implements BooleanConstraints {
 
 	public DefaultBooleanConstraints(Evaluator evaluator) {
@@ -25,10 +25,10 @@ public class DefaultBooleanConstraints extends Constraints<Boolean, Boolean>
 	}
 
 	public void isEqualTo(boolean equalTo) {
-		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
+		passes(constraintFactory.equalTo(new Boolean(equalTo), modifier(), stringer()));
 	}
 
 	public void isDifferentTo(boolean differentTo) {
-		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
+		passes(constraintFactory.differentTo(new Boolean(differentTo), modifier(), stringer()));
 	}
 }

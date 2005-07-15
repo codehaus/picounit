@@ -9,7 +9,6 @@ package picounit.verify;
 
 import picounit.Verify;
 
-@SuppressWarnings("deprecation")
 public class DefaultStringVerify implements picounit.StringVerify {
 	private final StringUtil stringUtil;
 	private final Verify verify;

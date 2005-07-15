@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.finder;
 
-
 import java.io.File;
 
 public class ClassFinder {
@@ -18,8 +17,6 @@ public class ClassFinder {
 	}
 
 	public ClassFinder(FileSystem fileSystem) {
-		assert fileSystem != null;
-
 		this.fileSystem = fileSystem;
 	}
 	

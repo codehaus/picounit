@@ -12,7 +12,6 @@ import picounit.util.FileReader;
 
 import java.io.File;
 
-@SuppressWarnings("deprecation")
 public class DefaultFileVerify implements picounit.FileVerify {
 	private final FileReader fileReader;
 	private final Verify verify;

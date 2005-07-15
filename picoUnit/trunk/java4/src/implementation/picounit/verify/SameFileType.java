@@ -11,14 +11,16 @@ import java.io.File;
 
 import picounit.verify.constraint.Constraint;
 
-public class SameFileType extends Constraint<File> {
+public class SameFileType extends Constraint {
 	private final File sameTypeAs;
 
 	public SameFileType(File sameTypeAs) {
 		this.sameTypeAs = sameTypeAs;
 	}
 
-	public boolean evaluate(File value) {
+	public boolean evaluate(Object object) {
+		File value = (File) object;
+
 		return (sameTypeAs == null && value == null) ||
 			(sameTypeAs.isFile() && value.isFile()) ||
 			(sameTypeAs.isDirectory() && value.isDirectory());

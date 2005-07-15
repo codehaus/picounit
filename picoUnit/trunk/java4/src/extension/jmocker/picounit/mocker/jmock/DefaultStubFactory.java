@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultStubFactory implements StubFactory {
-	private final Map<Class,Object> finalTypeMap;
+	private final Map finalTypeMap;
 
 	public DefaultStubFactory() {
 		this(Boolean.FALSE, new Byte((byte)0), new Character('\0'), new Double(0.0),
@@ -23,9 +23,9 @@ public class DefaultStubFactory implements StubFactory {
 
 	public DefaultStubFactory(Boolean defaultBoolean, Byte defaultByte, Character defaultCharacter,
 		Double defaultDouble, Float defaultFloat, Integer defaultInteger, Long defaultLong,
-		Short defaultShort, String defaultString, Object defaultObject, Class<Class> defaultClass) {
+		Short defaultShort, String defaultString, Object defaultObject, Class defaultClass) {
 
-		this.finalTypeMap = new HashMap<Class, Object>();
+		this.finalTypeMap = new HashMap();
 
 		put(boolean.class, defaultBoolean);
 		put(byte.class, defaultByte);
@@ -50,17 +50,16 @@ public class DefaultStubFactory implements StubFactory {
 		put(defaultClass, defaultClass);
 	}
 
-	@SuppressWarnings("unchecked")
-	public final <T> T create(Class<T> type, MockFactory mockFactory) {
+	public final Object create(Class type, MockFactory mockFactory) {
 		if (finalTypeMap.containsKey(type)) {
-			return (T) finalTypeMap.get(type); 
+			return finalTypeMap.get(type); 
 		}
 		else {
 			return mockFactory.mock(type);
 		}
 	}
 
-	protected final <T> void put(Class<T> type, T value) {
+	protected final void put(Class type, Object value) {
 		finalTypeMap.put(type, value);
 	}
 }

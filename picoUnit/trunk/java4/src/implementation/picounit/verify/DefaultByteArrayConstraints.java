@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultByteArrayConstraints extends PrimativeArrayConstraints<byte[], byte[]>
+public class DefaultByteArrayConstraints extends PrimativeArrayConstraints
 	implements ByteArrayConstraints {
 
 	public DefaultByteArrayConstraints(Evaluator evaluator) {
@@ -17,16 +17,24 @@ public class DefaultByteArrayConstraints extends PrimativeArrayConstraints<byte[
 	}
 	
 	public ByteArrayConstraintsDeltaKnown withDelta(byte delta) {
-		setDelta(delta);
+		setDelta(new Byte(delta));
 
 		return this;
 	}
+
+	public void isEqualTo(byte[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(byte[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
 	
 	public void contains(byte contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Byte(contains), modifier()));
 	}
 
 	public void doesNotContain(byte doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Byte(doesNotContain)));
 	}
 }

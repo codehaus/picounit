@@ -11,7 +11,7 @@ import picounit.verify.constraint.ArrayModifierImpl;
 import picounit.verify.constraint.CharacterCaseModifier;
 import picounit.verify.constraint.Evaluator;
 
-public class CharacterArrayConstraintsImpl extends PrimativeArrayConstraints<char[], char[]>
+public class CharacterArrayConstraintsImpl extends PrimativeArrayConstraints
 	implements CharacterArrayConstraints {
 
 	public CharacterArrayConstraintsImpl(Evaluator evaluator) {
@@ -19,16 +19,24 @@ public class CharacterArrayConstraintsImpl extends PrimativeArrayConstraints<cha
 	}
 
 	public CharacterArrayConstraintsCaseKnown ignoringCase() {
-		setModifier(new ArrayModifierImpl<char[], char[]>(CharacterCaseModifier.INSTANCE, char.class));
+		setModifier(new ArrayModifierImpl(CharacterCaseModifier.INSTANCE, char.class));
 
 		return this;
 	}
+	
+	public void isEqualTo(char[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(char[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
 
 	public void contains(char contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Character(contains), modifier()));
 	}
 
 	public void doesNotContain(char doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Character(doesNotContain)));
 	}
 }

@@ -11,19 +11,18 @@ import picounit.verify.constraint.DifferentTo;
 import picounit.verify.constraint.EqualTo;
 import picounit.verify.constraint.Modifier;
 
-public abstract class EqualToTest<T, M> extends ConstraintsTest<T, M> {
-	public EqualTo<T, M> equalTo(T equalTo) {
-		return new EqualTo<T, M>(equalTo, nullModifier(), new SimpleStringer<T>());
+public abstract class EqualToTest extends ConstraintsTest {
+	public EqualTo equalTo(Object equalTo) {
+		return new EqualTo(equalTo, nullModifier(), new SimpleStringer());
 	}
 
-	public DifferentTo<T, M> differentTo(T differentTo) {
-		return new DifferentTo<T, M>(differentTo, nullModifier(), new SimpleStringer<T>());
+	public DifferentTo differentTo(Object differentTo) {
+		return new DifferentTo(differentTo, nullModifier(), new SimpleStringer());
 	}
 
-	@SuppressWarnings("unchecked")
-	protected final Modifier<T, M> nullModifier() {
+	protected final Modifier nullModifier() {
 		return Modifier.NULL;
 	}
 
-	abstract protected Class<T> type();
+	abstract protected Class type();
 }

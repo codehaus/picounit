@@ -14,7 +14,6 @@ public class InstanceOfInvocationHandler extends EqualsInvocationHandler {
 		this.instanceOfWhat = instanceOfWhat;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean equals(Object object) {
 		return instanceOfWhat.isAssignableFrom(object.getClass());
 	}

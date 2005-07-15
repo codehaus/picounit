@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class LongArrayConstraintsImpl extends PrimativeArrayConstraints<long[], long[]>
+public class LongArrayConstraintsImpl extends PrimativeArrayConstraints
 	implements LongArrayConstraints {
 
 	public LongArrayConstraintsImpl(Evaluator evaluator) {
@@ -17,16 +17,24 @@ public class LongArrayConstraintsImpl extends PrimativeArrayConstraints<long[], 
 	}
 	
 	public LongArrayConstraintsDeltaKnown withDelta(long delta) {
-		setDelta(delta);
+		setDelta(new Long(delta));
 
 		return this;
 	}
 	
+	public void isEqualTo(long[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(long[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
+	
 	public void contains(long contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Long(contains), modifier()));
 	}
 	
 	public void doesNotContain(long doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Long(doesNotContain)));
 	}
 }

@@ -12,7 +12,7 @@ import picounit.verify.constraint.Constraint;
 
 import java.io.File;
 
-public class SameFileContents extends Constraint<File> {
+public class SameFileContents extends Constraint {
 	private final File sameContentsAs;
 	private final FileReader fileReader;
 	private final ArrayUtil arrayUtil;
@@ -23,9 +23,9 @@ public class SameFileContents extends Constraint<File> {
 		this.arrayUtil = arrayUtil;
 	}
 	
-	public boolean evaluate(File value) {
+	public boolean evaluate(Object value) {
 		return (sameContentsAs == null && value == null) ||
-			sameContents(sameContentsAs, value);
+			sameContents(sameContentsAs, (File) value);
 	}
 
 	// Interestingly by separating the evaluation and the failure description it is harder to report on

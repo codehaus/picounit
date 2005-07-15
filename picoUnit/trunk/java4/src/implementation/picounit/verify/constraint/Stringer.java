@@ -7,8 +7,8 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public interface Stringer<T> {
-	String toString(T value);
+public interface Stringer {
+	String toString(Object value);
 
 	Stringer DEFAULT = new Stringer() {
 		public String toString(Object value) {

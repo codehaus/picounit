@@ -10,39 +10,34 @@ package picounit.verify;
 import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.IntegerConstraint;
 
-public class ExtensibleIntegerConstraints<ConstraintsStage>
-	extends NumberConstraints<Integer, ConstraintsStage> {
+public class ExtensibleIntegerConstraints extends NumberConstraints {
 
 	public ExtensibleIntegerConstraints(Evaluator evaluator) {
 		super(evaluator);
 	}
 
-	public ConstraintsStage withDelta(int delta) {
-		return setDelta(delta);
-	}
-
 	public void isEqualTo(int equalTo) {
-		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
+		passes(constraintFactory.equalTo(new Integer(equalTo), modifier(), stringer()));
 	}
 
 	public void isDifferentTo(int differentTo) {
-		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
+		passes(constraintFactory.differentTo(new Integer(differentTo), modifier(), stringer()));
 	}
 
 	public void isGreaterThan(int greaterThan) {
-		passes(constraintFactory.greaterThan(greaterThan, modifier()));
+		passes(constraintFactory.greaterThan(new Integer(greaterThan), modifier()));
 	}
 
 	public void isGreaterThanOrEqualTo(int greaterThanOrEqualTo) {
-		passes(constraintFactory.greaterThanOrEqualTo(greaterThanOrEqualTo, modifier()));
+		passes(constraintFactory.greaterThanOrEqualTo(new Integer(greaterThanOrEqualTo), modifier()));
 	}
 
 	public void isLessThan(int lessThan) {
-		passes(constraintFactory.lessThan(lessThan, modifier()));
+		passes(constraintFactory.lessThan(new Integer(lessThan), modifier()));
 	}
 
 	public void isLessThanOrEqualTo(int lessThanOrEqualTo) {
-		passes(constraintFactory.lessThanOrEqualTo(lessThanOrEqualTo, modifier()));
+		passes(constraintFactory.lessThanOrEqualTo(new Integer(lessThanOrEqualTo), modifier()));
 	}
 
 	public void passes(IntegerConstraint integerConstraint) {

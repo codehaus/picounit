@@ -18,7 +18,6 @@ abstract public class TestCase implements Test {
 	private Verify verify;
 	interface PreventCollision {} 
 
-	@SuppressWarnings("unused") 
 	public final void setUp(Constraints is, Mocker should, Verify verify, PreventCollision preventCollision) {
 		this.is = is;
 		this.should = should;

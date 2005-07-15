@@ -9,9 +9,9 @@ package picounit.verify;
 
 import picounit.verify.constraint.Constraint;
 
-public class IsTrue extends Constraint<Boolean> {
-	public boolean evaluate(Boolean value) {
-		return value;
+public class IsTrue extends Constraint {
+	public boolean evaluate(Object value) {
+		return ((Boolean) value).booleanValue();
 	}
 
 	public String describeFailure() {

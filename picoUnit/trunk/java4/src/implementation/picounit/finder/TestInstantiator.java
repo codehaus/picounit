@@ -35,7 +35,7 @@ public class TestInstantiator {
 		this.lifecycleInstantiator = lifecycleInstantiator;
 	}
 
-	public <T> T instantiate(Class<T> testClass) throws IllegalArgumentException, InstantiationException,
+	public Object instantiate(Class testClass) throws IllegalArgumentException, InstantiationException,
 		IllegalAccessException, ClassNotFoundException, InvocationTargetException {
 
 		setUp(getLifecycles(testClass));

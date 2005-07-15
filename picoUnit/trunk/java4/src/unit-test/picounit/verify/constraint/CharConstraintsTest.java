@@ -11,8 +11,8 @@ import picounit.verify.DefaultCharacterConstraints;
 import picounit.verify.Constraints;
 import picounit.verify.constraint.Evaluator;
 
-public class CharConstraintsTest extends ConstraintsTest<Character, Character>{
-	protected Constraints<Character, Character> constraints(Evaluator evaluator) {
+public class CharConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultCharacterConstraints(evaluator);
 	}
 }

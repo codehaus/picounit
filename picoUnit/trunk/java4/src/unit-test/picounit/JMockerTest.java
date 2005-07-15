@@ -33,12 +33,6 @@ public class JMockerTest implements Test {
 		should.call(mockBoy.money(125)).andReturn(4);
 		mockBoy.kiss();
 
-		System.out.println(System.getProperty("java.class.path"));
-		Method[] methods = should.getClass().getMethods();
-		for (Method method: methods) {
-			System.out.println(method);
-		}
-		
 		should.expectAboveWhenTheFollowingOccurs();
 
 		girl.kiss();

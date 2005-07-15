@@ -12,14 +12,12 @@ import java.lang.reflect.Array;
 public class PrimativeArrayContains extends ModifiableConstraint {
 	private final Object contains;
 
-	@SuppressWarnings("unchecked")
 	public PrimativeArrayContains(Object contains, Modifier modifier) {
 		super(modifier);
 
 		this.contains = contains;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean evaluate(Object searchIn) {
 		return searchIn != null && contains(modify(searchIn), modify(contains));
 	}

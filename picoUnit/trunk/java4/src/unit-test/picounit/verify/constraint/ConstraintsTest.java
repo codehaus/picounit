@@ -11,11 +11,11 @@ import picounit.Mocker;
 import picounit.Test;
 import picounit.verify.Constraints;
 
-public abstract class ConstraintsTest<T, M> implements Test {
+public abstract class ConstraintsTest implements Test {
 	private Evaluator evaluator;
-	private Constraint<T> constraint;
+	private Constraint constraint;
 
-	public void mock(Evaluator evaluator, Constraint<T> constraint) {
+	public void mock(Evaluator evaluator, Constraint constraint) {
 		this.evaluator = evaluator;
 		this.constraint = constraint;
 	}
@@ -29,7 +29,7 @@ public abstract class ConstraintsTest<T, M> implements Test {
 		constraints(evaluator).passes(constraint);
 	}
 	
-	protected final void evaluate(Constraint<T> constraint) {
+	protected final void evaluate(Constraint constraint) {
 		evaluator.evaluate(constraint);
 	}
 
@@ -37,5 +37,5 @@ public abstract class ConstraintsTest<T, M> implements Test {
 		return evaluator;
 	}
 
-	abstract protected Constraints<T, M> constraints(Evaluator evaluator);
+	abstract protected Constraints constraints(Evaluator evaluator);
 }

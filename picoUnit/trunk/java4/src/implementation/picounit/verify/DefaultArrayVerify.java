@@ -9,7 +9,6 @@ package picounit.verify;
 
 import picounit.Verify;
 
-@SuppressWarnings("deprecation")
 public class DefaultArrayVerify implements picounit.ArrayVerify {
 	private final Verify verify;
 	private final ArrayUtil arrayUtil;

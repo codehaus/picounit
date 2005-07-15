@@ -25,7 +25,7 @@ public class RegistryTest implements Test {
 	public static class SomeClass{}
 	public static class AnotherClass{}
 
-	private Future<RegistryImpl> futureRegistry;
+	private Future futureRegistry;
 
 	public RegistryTest(Constraints is) {
 		this.futureRegistry = is.future(RegistryImpl.class);

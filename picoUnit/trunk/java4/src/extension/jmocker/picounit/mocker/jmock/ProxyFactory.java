@@ -29,33 +29,31 @@ public class ProxyFactory {
 			Enhancer.isEnhanced(clazz);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T create(Class<T> clazz, MethodInterceptor methodInterceptor) {
+	public Object create(Class clazz, MethodInterceptor methodInterceptor) {
 		if (isProxy(clazz)) {
 			System.err.println("proxying a proxy is deprecated; " + clazz.getName());
-			return (T) create(clazz.getSuperclass(), methodInterceptor);
+			return create(clazz.getSuperclass(), methodInterceptor);
 		}
 
 		if (clazz.isInterface()) {
-			return (T) createInterfaceProxy(clazz, convertMethodInterceptor(methodInterceptor));
+			return createInterfaceProxy(clazz, convertMethodInterceptor(methodInterceptor));
 		}
 		else {
-			return (T) createClassProxy(clazz, methodInterceptor);
+			return createClassProxy(clazz, methodInterceptor);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T create(Class<T> clazz, InvocationHandler invocationHandler) {
+	public Object create(Class clazz, InvocationHandler invocationHandler) {
 		if (isProxy(clazz)) {
 			System.err.println("proxying a proxy is deprecated; " + clazz.getName());
-			return (T) create(clazz.getSuperclass(), invocationHandler);
+			return create(clazz.getSuperclass(), invocationHandler);
 		}
 
 		if (clazz.isInterface()) {
-			return (T) createInterfaceProxy(clazz, invocationHandler);
+			return createInterfaceProxy(clazz, invocationHandler);
 		}
 		else {
-			return (T) createClassProxy(clazz, convertInvocationHandler(invocationHandler));
+			return createClassProxy(clazz, convertInvocationHandler(invocationHandler));
 		}
 	}
 

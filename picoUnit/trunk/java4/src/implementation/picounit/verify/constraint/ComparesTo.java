@@ -7,54 +7,47 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class ComparesTo<T, M extends Comparable<M>> extends ModifiableConstraint<T, M> {
+public class ComparesTo extends ModifiableConstraint {
 	private final Comparitor comparitor;
 	private final String comparisonType;
-	private final T compareTo;
+	private final Object compareTo;
 
-	public static <E, F extends Comparable<F>>
-		ComparesTo<E, F> greaterThan(E greaterThan, Modifier<E, F> modifier) {
+	public static ComparesTo greaterThan(Object greaterThan, Modifier modifier) {
 
-		return new ComparesTo<E, F>(greaterThan, modifier, GREATER_THAN, "greater than");
+		return new ComparesTo(greaterThan, modifier, GREATER_THAN, "greater than");
 	}
 
-	public static <E, F extends Comparable<F>>
-		ComparesTo<E, F> greaterThanOrEqualTo(E greaterThanOrEqualTo, Modifier<E, F> modifier) {
-
-		return new ComparesTo<E, F>(greaterThanOrEqualTo, modifier, GREATER_THAN_OR_EQUAL_TO, "greater than or equal to");
+	public static ComparesTo greaterThanOrEqualTo(Object greaterThanOrEqualTo, Modifier modifier) {
+		return new ComparesTo(greaterThanOrEqualTo, modifier, GREATER_THAN_OR_EQUAL_TO, "greater than or equal to");
 	}
 
-	public static <E, F extends Comparable<F>>
-		ComparesTo<E, F> lessThan(E lessThan, Modifier<E, F> modifier) {
+	public static ComparesTo lessThan(Object lessThan, Modifier modifier) {
 
-		return new ComparesTo<E, F>(lessThan, modifier, LESS_THAN, "less than");
+		return new ComparesTo(lessThan, modifier, LESS_THAN, "less than");
 	}
 
-	public static <E, F extends Comparable<F>>
-		ComparesTo<E, F> lessThanOrEqualTo(E lessThanOrEqualTo, Modifier<E, F> modifier) {
-
-		return new ComparesTo<E, F>(lessThanOrEqualTo, modifier, LESS_THAN_OR_EQUAL_TO, "less than or equal to");
+	public static ComparesTo lessThanOrEqualTo(Object lessThanOrEqualTo, Modifier modifier) {
+		return new ComparesTo(lessThanOrEqualTo, modifier, LESS_THAN_OR_EQUAL_TO, "less than or equal to");
 	}
 
-	public ComparesTo(T compareTo, Modifier<T, M> modifier, Comparitor comparitor, String comparisonType) {
+	public ComparesTo(Object compareTo, Modifier modifier, Comparitor comparitor, String comparisonType) {
 		super(modifier);
 		
 		this.compareTo = compareTo;
 		this.comparitor = comparitor;
 		this.comparisonType = comparisonType;
 	}
-
-	public boolean evaluate(T value) {
-		return comparitor.matches(modify(value).compareTo(modify(compareTo)));
+	
+	public boolean evaluate(Object value) {
+		return comparitor.matches(modifyToComparable(value).compareTo(modifyToComparable(compareTo)));
 	}
 	
 	public String describeFailureImpl() {
 		return "is not " + comparisonType + " <" + compareTo + ">";
 	}
 
-	@SuppressWarnings("unchecked")
 	protected boolean equalsImpl(Object other) {
-		ComparesTo<T, M> comparesTo = (ComparesTo<T, M>) other;
+		ComparesTo comparesTo = (ComparesTo) other;
 	
 		return compareTo.equals(comparesTo.compareTo) &&
 			comparisonType.equals(comparesTo.comparisonType);
@@ -85,5 +78,9 @@ public class ComparesTo<T, M extends Comparable<M>> extends ModifiableConstraint
 		public boolean matches(int comparisionResult) {
 			return comparisionResult == min || comparisionResult == max;
 		}
+	}
+	
+	private Comparable modifyToComparable(Object object) {
+		return (Comparable) super.modify(object);
 	}
 }

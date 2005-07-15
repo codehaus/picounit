@@ -7,10 +7,9 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.verify.constraint.Delta;
 import picounit.verify.constraint.Evaluator;
 
-public class IntegerArrayConstraintsImpl extends PrimativeArrayConstraints<int[], Delta[]>
+public class IntegerArrayConstraintsImpl extends PrimativeArrayConstraints
 	implements IntegerArrayConstraints {
 
 	public IntegerArrayConstraintsImpl(Evaluator evaluator) {
@@ -18,16 +17,24 @@ public class IntegerArrayConstraintsImpl extends PrimativeArrayConstraints<int[]
 	}
 	
 	public IntegerArrayConstraintsDeltaKnown withDelta(int delta) {
-		setDelta(delta);
+		setDelta(new Integer(delta));
 		
 		return this;
 	}
+	
+	public void isEqualTo(int[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(int[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
 
 	public void contains(int contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Integer(contains), modifier()));
 	}
 	
 	public void doesNotContain(int doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Integer(doesNotContain)));
 	}
 }

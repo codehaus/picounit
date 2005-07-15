@@ -93,7 +93,6 @@ public class InvokerTest implements Test {
 		public static final Method junitSetUp = new MethodUtil().getMethod(SomeClass.class, "setUp");
 
 		// PicoUnit style setUp
-		@SuppressWarnings("unused") 
 		public void setUp(Fixture fixture) {
 			picoUnitSetUpCalled = true;	
 		}

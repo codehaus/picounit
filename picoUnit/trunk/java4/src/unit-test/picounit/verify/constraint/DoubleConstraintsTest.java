@@ -11,8 +11,8 @@ import picounit.verify.Constraints;
 import picounit.verify.DefaultDoubleConstraints;
 import picounit.verify.constraint.Evaluator;
 
-public class DoubleConstraintsTest extends ConstraintsTest<Double, Delta> {
-	protected Constraints<Double, Delta> constraints(Evaluator evaluator) {
+public class DoubleConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultDoubleConstraints(evaluator);
 	}
 }

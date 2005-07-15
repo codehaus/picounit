@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultDoubleArrayConstraints extends PrimativeArrayConstraints<double[], double[]>
+public class DefaultDoubleArrayConstraints extends PrimativeArrayConstraints
 	implements DoubleArrayConstraints {
 
 	public DefaultDoubleArrayConstraints(Evaluator evaluator) {
@@ -17,16 +17,24 @@ public class DefaultDoubleArrayConstraints extends PrimativeArrayConstraints<dou
 	}
 	
 	public DoubleArrayConstraintsDeltaKnown withDelta(double delta) {
-		setDelta(delta);
+		setDelta(new Double(delta));
 
 		return this;
 	}
+	
+	public void isEqualTo(double[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(double[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
 
 	public void contains(double contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Double(contains), modifier()));
 	}
 
 	public void doesNotContain(double doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Double(doesNotContain)));
 	}
 }

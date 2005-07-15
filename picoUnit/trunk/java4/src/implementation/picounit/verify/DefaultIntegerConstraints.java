@@ -11,12 +11,16 @@ import picounit.verify.IntegerConstraints;
 import picounit.verify.IntegerConstraintsDeltaKnown;
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultIntegerConstraints extends ExtensibleIntegerConstraints<IntegerConstraintsDeltaKnown>
+public class DefaultIntegerConstraints extends ExtensibleIntegerConstraints
 	implements IntegerConstraints {
 
 	public DefaultIntegerConstraints(Evaluator evaluator) {
 		super(evaluator);
+	}
+	
+	public IntegerConstraintsDeltaKnown withDelta(int delta) {
+		setDelta(new Integer(delta));
 		
-		setConstraintsStage(this);
-	}	
+		return this;
+	}
 }

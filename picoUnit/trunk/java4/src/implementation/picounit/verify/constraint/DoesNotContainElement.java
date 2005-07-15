@@ -9,9 +9,8 @@ package picounit.verify.constraint;
 
 public class DoesNotContainElement extends Constraint {
 	private final Object element;
-	private final ArrayModifier<Object, Object> modifier;
+	private final ArrayModifier modifier;
 
-	@SuppressWarnings("unchecked")
 	public DoesNotContainElement(Object element, ArrayModifier modifier) {
 		this.element = element;
 

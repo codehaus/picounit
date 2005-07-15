@@ -17,7 +17,6 @@ import picounit.verify.NumericUtil;
 import picounit.verify.StringUtil;
 import previous.picounit.Test;
 
-@SuppressWarnings("deprecation")
 public class NumericVerifyTest implements Test {
 	// TODO Convert this into a collaboration test
 	private final Verify defaultVerify = DefaultVerify.create(new NumericUtil(), new ArrayUtil(),

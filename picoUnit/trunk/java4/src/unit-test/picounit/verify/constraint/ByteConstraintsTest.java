@@ -10,8 +10,8 @@ package picounit.verify.constraint;
 import picounit.verify.DefaultByteConstraints;
 import picounit.verify.Constraints;
 
-public class ByteConstraintsTest extends ConstraintsTest<Byte, Delta> {
-	protected Constraints<Byte, Delta> constraints(Evaluator evaluator) {
+public class ByteConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultByteConstraints(evaluator); 
 	}
 }

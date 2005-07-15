@@ -7,7 +7,6 @@
  *****************************************************************************/
 package picounit.verify;
 
-import picounit.verify.constraint.StringCaseModifier;
 import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.StringConstraint;
 import picounit.verify.constraint.StringContains;
@@ -15,19 +14,11 @@ import picounit.verify.constraint.StringDoesNotContain;
 import picounit.verify.constraint.StringDoesNotMatch;
 import picounit.verify.constraint.StringMatches;
 
-public class ExtensibleStringConstraints<ConstraintsStage>
-	extends Constraints<String, String> {
-
-	private ConstraintsStage constraintsStage;
+public class ExtensibleStringConstraints
+	extends Constraints {
 
 	public ExtensibleStringConstraints(Evaluator evaluator) {
 		super(evaluator);
-	}
-
-	public ConstraintsStage ignoringCase() {
-		setModifier(StringCaseModifier.INSTANCE);
-
-		return constraintsStage;
 	}
 
 	public void isEqualTo(String equalTo) {
@@ -50,12 +41,10 @@ public class ExtensibleStringConstraints<ConstraintsStage>
 		passes(constraintFactory.lessThanOrEqualTo(lessThanOrEqualTo, modifier()));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isNull() {
 		passes(new IsNull());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isNotNull() {
 		passes(new IsNotNull());
 	}
@@ -78,9 +67,5 @@ public class ExtensibleStringConstraints<ConstraintsStage>
 
 	public void passes(StringConstraint stringConstraint) {
 		passes(createDelegate(String.class, stringConstraint));
-	}
-
-	protected final void setConstraintsStage(ConstraintsStage constraintsStage) {
-		this.constraintsStage = constraintsStage;
 	}
 }

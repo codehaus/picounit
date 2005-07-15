@@ -33,7 +33,6 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 
 	private LifecycleInstantiator lifecycleInstantiator;
 
-	@SuppressWarnings("unchecked")
 	private PicoUnitTestCase picoUnitTestCase(Method testMethod) {
 		return new PicoUnitTestCase(testMethod.getDeclaringClass(), testMethod, instantiator, invoker, mockInvoker,
 			mockedMocker, thrower, lifecycleInstantiator, testListener);
@@ -56,7 +55,6 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 		this.testListener = testListener;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testHasSingleTestCaseCount(Verify verify) {
 		verify.that(picoUnitTestCase(TestExample.testExample).countTestCases()).isEqualTo(1);
 	}
@@ -124,7 +122,6 @@ public class PicoUnitTestCaseTest implements previous.picounit.Test {
 	public void testIfTestAndTearDownThrowIncludeBothExceptionsInTestResult() {
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testHasSameNameAsTestMethodWithClassName(Verify verify) {
 		verify.that(picoUnitTestCase(TestExample.testExample).getName())
 			.isEqualTo(TestExample.testExample.getName() + "(" + TestExample.class.getName() + ")");

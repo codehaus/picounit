@@ -12,17 +12,17 @@ import picounit.util.MethodUtil;
 
 import java.lang.reflect.Method;
 
-public class DelegatingConstraint<T> extends Constraint<T> {
+public class DelegatingConstraint extends Constraint {
 	private final Object delegate;
 
 	private final Method evaluate;
 	private final Method describeFailure;
 
-	public DelegatingConstraint(Class<T> type, Object delegate) {
+	public DelegatingConstraint(Class type, Object delegate) {
 		this(type, delegate, new MethodUtil());
 	}
 
-	public DelegatingConstraint(Class<T> type, Object delegate, MethodUtil methodUtil) {
+	public DelegatingConstraint(Class type, Object delegate, MethodUtil methodUtil) {
 		super();
 
 		this.delegate = delegate;
@@ -39,17 +39,17 @@ public class DelegatingConstraint<T> extends Constraint<T> {
 		}
 	}
 
-	public boolean evaluate(T value) {
-		return (Boolean) invoke(evaluate, delegate, value);
+	public boolean evaluate(Object value) {
+		return ((Boolean) invoke(evaluate, delegate, value)).booleanValue();
 	}
 
 	public String describeFailure() {
 		return (String) invoke(describeFailure, delegate, null);
 	}
 
-	private <T> Object invoke(Method toInvoke, final Object invokeOn, T value) {
+	private Object invoke(Method toInvoke, final Object invokeOn, Object value) {
 		try {
-			return toInvoke.invoke(invokeOn, value);
+			return toInvoke.invoke(invokeOn, new Object[] {value});
 		}
 		catch (Exception exception) {
 			throw new PicoUnitException(exception);

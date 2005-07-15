@@ -11,7 +11,7 @@ import picounit.verify.constraint.CharacterCaseModifier;
 import picounit.verify.constraint.CharacterConstraint;
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultCharacterConstraints extends Constraints<Character, Character>
+public class DefaultCharacterConstraints extends Constraints
 	implements CharacterConstraints {
 
 	public DefaultCharacterConstraints(Evaluator evaluator) {
@@ -25,27 +25,27 @@ public class DefaultCharacterConstraints extends Constraints<Character, Characte
 	}
 
 	public void isEqualTo(char equalTo) {
-		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
+		passes(constraintFactory.equalTo(new Character(equalTo), modifier(), stringer()));
 	}
 
 	public void isDifferentTo(char differentTo) {
-		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
+		passes(constraintFactory.differentTo(new Character(differentTo), modifier(), stringer()));
 	}
 	
 	public void isGreaterThan(char greaterThan) {
-		passes(constraintFactory.greaterThan(greaterThan, modifier()));
+		passes(constraintFactory.greaterThan(new Character(greaterThan), modifier()));
 	}
 
 	public void isGreaterThanOrEqualTo(char greaterThanOrEqualTo) {
-		passes(constraintFactory.greaterThanOrEqualTo(greaterThanOrEqualTo, modifier()));
+		passes(constraintFactory.greaterThanOrEqualTo(new Character(greaterThanOrEqualTo), modifier()));
 	}
 
 	public void isLessThan(char lessThan) {
-		passes(constraintFactory.lessThan(lessThan, modifier()));
+		passes(constraintFactory.lessThan(new Character(lessThan), modifier()));
 	}
 
 	public void isLessThanOrEqualTo(char lessThanOrEqualTo) {
-		passes(constraintFactory.lessThanOrEqualTo(lessThanOrEqualTo, modifier()));
+		passes(constraintFactory.lessThanOrEqualTo(new Character(lessThanOrEqualTo), modifier()));
 	}
 
 	public void passes(CharacterConstraint characterConstraint) {

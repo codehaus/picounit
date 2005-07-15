@@ -7,8 +7,8 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class ByteToBinaryStringer implements Stringer<Byte> {
-	public String toString(Byte value) {
-		return Integer.toBinaryString(value);
+public class ByteToBinaryStringer implements Stringer {
+	public String toString(Object value) {
+		return Integer.toBinaryString(((Byte) value).byteValue());
 	}
 }

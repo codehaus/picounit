@@ -9,29 +9,27 @@ package picounit.verify.constraint;
 
 import java.lang.reflect.Array;
 
-public class ArrayModifierImpl<T, M> implements ArrayModifier<T, M>  {
-	private final Modifier<Object, Object> modifier;
+public class ArrayModifierImpl implements ArrayModifier {
+	private final Modifier modifier;
 	private final Class modifiedClass;
 
-	@SuppressWarnings("unchecked")
 	public ArrayModifierImpl(Modifier modifier, Class modifiedClass) {
 		this.modifier = modifier;
 		this.modifiedClass = modifiedClass;
 	}
 
-	@SuppressWarnings("unchecked")
-	public M modify(T value) {
+	public Object modify(Object value) {
 		if (value == null) {
 			return null;
 		}
 
 		if (!value.getClass().isArray()) {
-			return (M) modifyElement(value);
+			return modifyElement(value);
 		}
 
 		int length = Array.getLength(value);
 
-		M modified = (M) Array.newInstance(modifiedClass, length);
+		Object modified = Array.newInstance(modifiedClass, length);
 
 		for (int index = 0; index < length; index++ ) {
 			Array.set(modified, index, modifier.modify(Array.get(value, index)));

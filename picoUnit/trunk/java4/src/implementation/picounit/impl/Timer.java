@@ -23,7 +23,7 @@ public class Timer implements Runnable {
 	private long sum;
 	
 	private long start;
-	private final List<Long> times = new LinkedList<Long>();
+	private final List times = new LinkedList();
 
 	public Timer(String name) {
 		this.name = name;

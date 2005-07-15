@@ -12,6 +12,8 @@ import org.jmock.core.stub.ReturnStub;
 import org.jmock.core.stub.StubSequence;
 import org.jmock.core.stub.ThrowStub;
 
+import java.lang.reflect.Array;
+
 import picounit.mocker.Action;
 import picounit.mocker.BooleanAction;
 import picounit.mocker.BooleanConsequenceMatcher;
@@ -55,35 +57,35 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public OccurencesMatcher andReturn(boolean result) {
-		return will(returnValue(result));
+		return will(returnValue(new Boolean(result)));
 	}
 
 	public OccurencesMatcher andReturn(byte result) {
-		return will(returnValue(result));
+		return will(returnValue(new Byte(result)));
 	}
 
 	public OccurencesMatcher andReturn(char result) {
-		return will(returnValue(result));
+		return will(returnValue(new Character(result)));
 	}
 
 	public OccurencesMatcher andReturn(double result) {
-		return will(returnValue(result));
+		return will(returnValue(new Double(result)));
 	}
 
 	public OccurencesMatcher andReturn(float result) {
-		return will(returnValue(result));
+		return will(returnValue(new Float(result)));
 	}
 
 	public OccurencesMatcher andReturn(int result) {
-		return will(returnValue(result));
+		return will(returnValue(new Integer(result)));
 	}
 
 	public OccurencesMatcher andReturn(long result) {
-		return will(returnValue(result));
+		return will(returnValue(new Long(result)));
 	}
 
 	public OccurencesMatcher andReturn(short result) {
-		return will(returnValue(result));
+		return will(returnValue(new Short(result)));
 	}
 
 	public OccurencesMatcher andReturn(String result) {
@@ -98,43 +100,43 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 	// andReturn - multiple
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public OccurencesMatcher andReturn(boolean ... results) {
+	public OccurencesMatcher andReturn(boolean[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(byte ... results) {
+	public OccurencesMatcher andReturn(byte[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(char ... results) {
+	public OccurencesMatcher andReturn(char[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(double ... results) {
+	public OccurencesMatcher andReturn(double[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(float ... results) {
+	public OccurencesMatcher andReturn(float[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(int ... results) {
+	public OccurencesMatcher andReturn(int[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(long ... results) {
+	public OccurencesMatcher andReturn(long[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 	
-	public OccurencesMatcher andReturn(short ... results) {
+	public OccurencesMatcher andReturn(short[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 
-	public OccurencesMatcher andReturn(String ... results) {
+	public OccurencesMatcher andReturn(String[] results) {
 		return will(returnConsequetiveValues((Object[]) results));
 	}
 
-	public OccurencesMatcher andReturn(Object ... results) {
+	public OccurencesMatcher andReturn(Object[] results) {
 		return will(returnConsequetiveValues(results));
 	}
 
@@ -186,7 +188,6 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 		return will(new StringActionStub(stringAction));
 	}
 
-	@SuppressWarnings("unchecked")
 	public OccurencesMatcher andPerform(Action action) {
 		return will(new ActionStub(action));
 	}
@@ -199,11 +200,11 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 		return new ReturnStub(result);
 	}
 
-	private StubSequence returnConsequetiveValues(Object ... results) {
-		Stub[] returnStubs = new Stub[results.length];
+	private StubSequence returnConsequetiveValues(Object results) {
+		Stub[] returnStubs = new Stub[Array.getLength(results)];
 
 		for (int index = 0; index < returnStubs.length; index++ ) {
-			returnStubs[index] = new ReturnStub(results[index]);
+			returnStubs[index] = new ReturnStub(Array.get(results, index));
 		}
 
 		return new StubSequence(returnStubs);

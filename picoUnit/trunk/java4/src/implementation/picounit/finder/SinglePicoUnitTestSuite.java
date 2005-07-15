@@ -24,10 +24,10 @@ import java.lang.reflect.Modifier;
 
 import junit.framework.TestSuite;
 
-public class SinglePicoUnitTestSuite<T> extends TestSuite {
+public class SinglePicoUnitTestSuite extends TestSuite {
 	private final Class testClass;
 
-	public SinglePicoUnitTestSuite(String testName, Class<T> testClass, TestFilter testFilter, RegistryEntry registryEntry,
+	public SinglePicoUnitTestSuite(String testName, Class testClass, TestFilter testFilter, RegistryEntry registryEntry,
 		MethodParameterRegistry methodParameterRegistry, ClassLoader classLoader,
 		TestListener testListener) {
 
@@ -60,7 +60,7 @@ public class SinglePicoUnitTestSuite<T> extends TestSuite {
 			Method method = methods[index];
 
 			if (method.getName().startsWith("test") && testFilter.matches(method)) {
-				addTest(new PicoUnitTestCase<T>(testClass, method, instantiator, invoker, mockInvoker,
+				addTest(new PicoUnitTestCase(testClass, method, instantiator, invoker, mockInvoker,
 					mocker, thrower, lifecycleInstantiator, testListener));
 
 				testListener.testPrepared();

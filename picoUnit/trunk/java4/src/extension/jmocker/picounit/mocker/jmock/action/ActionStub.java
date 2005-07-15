@@ -12,10 +12,10 @@ import org.jmock.core.Stub;
 
 import picounit.mocker.Action;
 
-public class ActionStub<T> implements Stub {
-	private final Action<T> action;
+public class ActionStub implements Stub {
+	private final Action action;
 
-	public ActionStub(Action<T> action) {
+	public ActionStub(Action action) {
 		this.action = action;
 	}
 	

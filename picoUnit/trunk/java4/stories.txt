@@ -1,3 +1,4 @@
+Add extensible char constraints
 - Categories
 - Run failures first
 - Coverage
@@ -22,7 +23,7 @@
   
  If parameterized types are erased where does the class cast exception come from in
  
- interface TypeConsumer {
+interface TypeConsumer {
    void <Type> consume(Type type);
 }
 
@@ -35,6 +36,10 @@ TypeConsumer typeConsumer = new RealTypeConsumer();
 TypeProducer typeProducer = Proxy....
 
 typeConsumer.consume(typeProducer.produce("hello"));
+
+invoke(Method method ...) {
+   return ?
+}
 
 
 I think that a CHECKCAST call remains in the code

@@ -10,5 +10,5 @@ package picounit.mocker.jmock;
 import picounit.mocker.MockFactory;
 
 public interface StubFactory {
-	<T> T create(Class<T> type, MockFactory mockFactory);
+	Object create(Class type, MockFactory mockFactory);
 }

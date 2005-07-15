@@ -12,7 +12,7 @@ import picounit.verify.constraint.Evaluator;
 
 import java.io.File;
 
-public class DefaultFileConstraints extends Constraints<File, File>
+public class DefaultFileConstraints extends Constraints
 	implements FileConstraints {
 
 	private ArrayUtil arrayUtil = new ArrayUtil();

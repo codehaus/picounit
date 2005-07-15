@@ -10,7 +10,6 @@ package picounit.classloader.mutator;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.CodeVisitor;
 
-@SuppressWarnings("unused")
 public class InterceptClientCodeCodeAdapter extends CodeAdapter {
 	private final ClassAdapter classAdapter;
 

@@ -7,11 +7,11 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class DifferentTo<T, M> extends ModifiableConstraint<T, M> {
-	private final T differentTo;
-	private Stringer<T> stringer;
+public class DifferentTo extends ModifiableConstraint {
+	private final Object differentTo;
+	private Stringer stringer;
 
-	public DifferentTo(T differentTo, Modifier<T, M> modifier, Stringer<T> stringer) {
+	public DifferentTo(Object differentTo, Modifier modifier, Stringer stringer) {
 		super(modifier);
 
 		this.differentTo = differentTo;
@@ -19,7 +19,7 @@ public class DifferentTo<T, M> extends ModifiableConstraint<T, M> {
 		this.stringer = stringer; 
 	}
 
-	public boolean evaluate(T value) {
+	public boolean evaluate(Object value) {
 		return (value == null && differentTo != null) ||
 			(value != null && differentTo == null) ||
 			!modify(value).equals(modify(differentTo));
@@ -29,13 +29,12 @@ public class DifferentTo<T, M> extends ModifiableConstraint<T, M> {
 		return "is not different to <" + toString(differentTo) + ">";
 	}
 	
-	protected String toString(T value) {
+	protected String toString(Object value) {
 		return stringer.toString(	value);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected boolean equalsImpl(Object other) {
-		DifferentTo<T, M> comparesTo = (DifferentTo<T, M>) other;
+		DifferentTo comparesTo = (DifferentTo) other;
 
 		return differentTo.equals(comparesTo.differentTo);
 	}

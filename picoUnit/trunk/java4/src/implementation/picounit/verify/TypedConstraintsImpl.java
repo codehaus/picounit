@@ -12,8 +12,8 @@ import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.InstanceOf;
 import picounit.verify.constraint.NotInstanceOf;
 
-public class TypedConstraintsImpl extends Constraints<Object, Object>
-	implements TypedConstraints<Object> {
+public class TypedConstraintsImpl extends Constraints
+	implements TypedConstraints {
 
 	public TypedConstraintsImpl(Evaluator evaluator) {
 		super(evaluator);
@@ -35,39 +35,19 @@ public class TypedConstraintsImpl extends Constraints<Object, Object>
 		passes(new NotInstanceOf(notInstanceOf));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isTheSameAs(Object sameAs) {
 		passes(new SameAs(sameAs));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void isNotTheSameAs(Object notTheSameAs) {
 		passes(new NotSameAs(notTheSameAs));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void isNull() {
 		passes(new IsNull());
 	}
 
-	@SuppressWarnings("unchecked")
 	public void isNotNull() {
 		passes(new IsNotNull());
 	}
-//	
-//	public void isTheSameAs(Object sameAs) {
-//		
-//	}
-//	
-//	public void isNotTheSameAs(Object notTheSameAs) {
-//		
-//	}
-//	
-//	public void isAnInstanceOf(Class anInstanceOf) {
-//		
-//	}
-//	
-//	public void isNotAndInstanceOf(Class notAnInstanceOf) {
-//		
-//	}
 }

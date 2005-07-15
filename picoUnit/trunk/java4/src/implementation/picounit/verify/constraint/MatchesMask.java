@@ -7,15 +7,15 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class MatchesMask extends Constraint<Byte> {
+public class MatchesMask extends Constraint {
 	private final byte mask;
 
 	public MatchesMask(byte mask) {
 		this.mask = mask;
 	}
 
-	public boolean evaluate(Byte value) {
-		return (value.byteValue() & mask) != 0;
+	public boolean evaluate(Object value) {
+		return (((Byte) value).byteValue() & mask) != 0;
 	}
 
 	public String describeFailure() {

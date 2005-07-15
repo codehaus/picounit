@@ -9,11 +9,11 @@ package picounit.verify.constraint;
 
 import java.lang.reflect.Array;
 
-public class EqualTo<T, M> extends ModifiableConstraint<T, M> {
-	private final T equalTo;
-	private Stringer<T> stringer;
+public class EqualTo extends ModifiableConstraint {
+	private final Object equalTo;
+	private Stringer stringer;
 
-	public EqualTo(T equalTo, Modifier<T, M> modifier, Stringer<T> stringer) {
+	public EqualTo(Object equalTo, Modifier modifier, Stringer stringer) {
 		super(modifier);
 
 		this.equalTo = equalTo;
@@ -21,16 +21,16 @@ public class EqualTo<T, M> extends ModifiableConstraint<T, M> {
 		this.stringer = stringer;
 	}
 
-	public boolean evaluate(T value) {
+	public boolean evaluate(Object value) {
 		return (value == null && equalTo == null) || equals(modify(value), modify(equalTo));
 	}
 
-	private boolean equals(M value, M equalTo) {
+	private boolean equals(Object value, Object equalTo) {
 		return value.getClass().isArray() && arrayEquals(value, equalTo) ||
 			value.equals(equalTo);
 	}
 
-	private boolean arrayEquals(M value, M equalTo) {
+	private boolean arrayEquals(Object value, Object equalTo) {
 		if (!equalTo.getClass().isArray()) {
 			return false;
 		}
@@ -59,9 +59,8 @@ public class EqualTo<T, M> extends ModifiableConstraint<T, M> {
 		return "is not equal to <" + stringer.toString(equalTo) + ">";
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected boolean equalsImpl(Object other) {
-		EqualTo<T, M> comparesTo = (EqualTo<T, M>) other;
+		EqualTo comparesTo = (EqualTo) other;
 
 		return equalTo.equals(comparesTo.equalTo);
 	}

@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class ShortArrayConstraintsImpl extends PrimativeArrayConstraints<short[], short[]>
+public class ShortArrayConstraintsImpl extends PrimativeArrayConstraints
 	implements ShortArrayConstraints {
 
 	public ShortArrayConstraintsImpl(Evaluator evaluator) {
@@ -17,16 +17,25 @@ public class ShortArrayConstraintsImpl extends PrimativeArrayConstraints<short[]
 	}
 	
 	public ShortArrayConstraintsDeltaKnown withDelta(short delta) {
-		setDelta(delta);
+		setDelta(new Short(delta));
 
 		return this;
 	}
 	
-	public void contains(short contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+	public void isEqualTo(short[] equalTo) {
+		super.isEqualTo(equalTo);
 	}
 	
+	public void isDifferentTo(short[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
+	
+	public void contains(short contains) {
+		passes(constraintFactory.primativeArrayContains(new Short(contains), modifier()));
+	}
+	
+	// TODO: Add modifier
 	public void doesNotContain(short doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Short(doesNotContain)));
 	}
 }

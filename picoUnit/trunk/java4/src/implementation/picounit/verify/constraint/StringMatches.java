@@ -7,13 +7,17 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class StringMatches extends ModifiableConstraint<String, String> {
+public class StringMatches extends ModifiableConstraint {
 	private final String matches;
 
-	public StringMatches(String matches, Modifier<String, String> modifier) {
+	public StringMatches(String matches, Modifier modifier) {
 		super(modifier);
 
 		this.matches = matches;
+	}
+	
+	public boolean evaluate(Object value) {
+		return evaluate(value);
 	}
 
 	public boolean evaluate(String value) {
@@ -22,5 +26,9 @@ public class StringMatches extends ModifiableConstraint<String, String> {
 
 	protected String describeFailureImpl() {
 		return "does not match <" + matches + ">";
+	}
+	
+	private String modify(String string) {
+		return (String) super.modify(string);
 	}
 }

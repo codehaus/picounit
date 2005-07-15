@@ -18,7 +18,7 @@ import java.util.Map;
 public class IgnoreCondition {
 	private final ImplementsCondition implementsCondition;
 	private final TestInstantiator testInstantiator;
-	private final Map<Class, String> ignoredReasons = new HashMap<Class, String>();
+	private final Map ignoredReasons = new HashMap();
 
 	public IgnoreCondition(ImplementsCondition implementsCondition, TestInstantiator testInstantiator) {
 		this.implementsCondition = implementsCondition;
@@ -33,7 +33,6 @@ public class IgnoreCondition {
 		return (String) ignoredReasons.get(testClass);
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean isIgnored(Class aClass) {
 		IgnoreReason ignoreReason = new IgnoreReason();
 

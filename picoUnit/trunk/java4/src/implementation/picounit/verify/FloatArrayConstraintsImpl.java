@@ -9,7 +9,7 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class FloatArrayConstraintsImpl extends PrimativeArrayConstraints<float[], float[]>
+public class FloatArrayConstraintsImpl extends PrimativeArrayConstraints
 	implements FloatArrayConstraints {
 
 	public FloatArrayConstraintsImpl(Evaluator evaluator) {
@@ -17,16 +17,24 @@ public class FloatArrayConstraintsImpl extends PrimativeArrayConstraints<float[]
 	}
 	
 	public FloatArrayConstraintsDeltaKnown withDelta(float delta) {
-		setDelta(delta);
+		setDelta(new Float(delta));
 
 		return this;
 	}
 	
+	public void isEqualTo(float[] equalTo) {
+		super.isEqualTo(equalTo);
+	}
+	
+	public void isDifferentTo(float[] differentTo) {
+		super.isDifferentTo(differentTo);
+	}
+	
 	public void contains(float contains) {
-		passes(constraintFactory.primativeArrayContains(contains, modifier()));
+		passes(constraintFactory.primativeArrayContains(new Float(contains), modifier()));
 	}
 	
 	public void doesNotContain(float doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(doesNotContain));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Float(doesNotContain)));
 	}
 }

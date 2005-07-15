@@ -24,8 +24,8 @@ public class ClassPath {
 	public ClassPath(String classPath, CodeFactory codeFactory) {
 		StringTokenizer stringTokenizer = new StringTokenizer(classPath, File.pathSeparator);
 
-		List<Code> code = new LinkedList<Code>();
-		Set<String> visitedClassPathEntries = new HashSet<String>();
+		List code = new LinkedList();
+		Set visitedClassPathEntries = new HashSet();
 		while(stringTokenizer.hasMoreTokens()) {
 			String classPathEntry = stringTokenizer.nextToken();
 
@@ -36,7 +36,7 @@ public class ClassPath {
 			}
 		}
 
-		this.code = code.toArray(new Code[0]);
+		this.code = (Code[]) code.toArray(new Code[0]);
 	}
 	
 	public Code findCodeContaining(String className) {

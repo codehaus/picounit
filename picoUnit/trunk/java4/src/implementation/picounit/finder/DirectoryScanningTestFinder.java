@@ -117,7 +117,6 @@ public class DirectoryScanningTestFinder implements TestFinder {
 			this.testListener = testListener;
 		}
 
-		@SuppressWarnings("unchecked")
 		public void perform(String className) {
 			try {
 				Class aClass = classLoader.loadClass(className);

@@ -13,31 +13,30 @@ import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.Modifier;
 import picounit.verify.constraint.Stringer;
 
-public class NonPrimativeArrayConstraints<T> extends Constraints<T[], T[]> {
-	private final ArrayStringer<T> arrayStringer = new ArrayStringer<T>();
+public class NonPrimativeArrayConstraints extends Constraints {
+	private final ArrayStringer arrayStringer = new ArrayStringer();
 
 	public NonPrimativeArrayConstraints(Evaluator evaluator) {
 		super(evaluator);
 	}
 
-	public void isEqualTo(T ... equalTo) {
+	public void isEqualTo(Object[] equalTo) {
 		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
 	}
 
-	public void isDifferentTo(T ... differentTo) {
+	public void isDifferentTo(Object[] differentTo) {
 		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));
 	}
 
-	protected Stringer<T[]> stringer() {
+	protected Stringer stringer() {
 		return arrayStringer;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected Modifier<T[], T[]> nullModifier() {
+	protected Modifier nullModifier() {
 		return ArrayModifier.NULL;
 	}
 
-	protected ArrayModifier<T[], T[]> modifier() {
-		return (ArrayModifier<T[], T[]>) super.modifier();
+	protected ArrayModifier arrayModifier() {
+		return (ArrayModifier) super.modifier();
 	}
 }

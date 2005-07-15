@@ -7,10 +7,10 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-abstract public class ModifiableConstraint<T, M> extends Constraint<T> {
-	private final Modifier<T, M> modifier;
+abstract public class ModifiableConstraint extends Constraint {
+	private final Modifier modifier;
 
-	public ModifiableConstraint(Modifier<T, M> modifier) {
+	public ModifiableConstraint(Modifier modifier) {
 		this.modifier = modifier;
 	}
 	
@@ -19,10 +19,10 @@ abstract public class ModifiableConstraint<T, M> extends Constraint<T> {
 	}
 
 	// Restating this so generated code have methods in correct order
-	abstract public boolean evaluate(T value);
+	abstract public boolean evaluate(Object value);
 	abstract protected String describeFailureImpl();
 
-	protected final M modify(T value) {
+	protected final Object modify(Object value) {
 		return value == null ? null : modifier.modify(value);
 	}
 }

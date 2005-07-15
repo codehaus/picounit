@@ -11,12 +11,16 @@ import picounit.verify.LongConstraints;
 import picounit.verify.LongConstraintsDeltaKnown;
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultLongConstraints extends ExtensibleLongConstraints<LongConstraintsDeltaKnown> 
+public class DefaultLongConstraints extends ExtensibleLongConstraints 
 	implements LongConstraints {
 
 	public DefaultLongConstraints(Evaluator evaluator) {
 		super(evaluator);
-
-		setConstraintsStage(this);
+	}
+	
+	public LongConstraintsDeltaKnown withDelta(long delta) {
+		setDelta(new Long(delta));
+		
+		return this;
 	}
 }

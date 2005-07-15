@@ -11,30 +11,28 @@ import picounit.verify.constraint.ComparesTo;
 import picounit.verify.constraint.DifferentTo;
 import picounit.verify.constraint.EqualTo;
 
-public abstract class ComparableToTest<T extends Comparable<T>, M extends Comparable<M>>
-	extends EqualToTest<T, M> {
-
-	public EqualTo<T, M> equalTo(T equalTo) {
-		return new EqualTo<T, M>(equalTo, nullModifier(), new SimpleStringer<T>());
+public abstract class ComparableToTest extends EqualToTest {
+	public EqualTo equalTo(Object equalTo) {
+		return new EqualTo(equalTo, nullModifier(), new SimpleStringer());
 	}
 
-	public DifferentTo<T, M> differentTo(T differentTo) {
-		return new DifferentTo<T, M>(differentTo, nullModifier(), new SimpleStringer<T>());
+	public DifferentTo differentTo(Object differentTo) {
+		return new DifferentTo(differentTo, nullModifier(), new SimpleStringer());
 	}
 
-	public ComparesTo<T, M> greaterThan(T greaterThan) {
+	public ComparesTo greaterThan(Object greaterThan) {
 		return ComparesTo.greaterThan(greaterThan, nullModifier());
 	}
 
-	public ComparesTo<T, M> greaterThanOrEqualTo(T greaterThanOrEqualTo) {
+	public ComparesTo greaterThanOrEqualTo(Object greaterThanOrEqualTo) {
 		return ComparesTo.greaterThanOrEqualTo(greaterThanOrEqualTo, nullModifier());
 	}
 
-	public ComparesTo<T, M> lessThan(T lessThan) {
+	public ComparesTo lessThan(Object lessThan) {
 		return ComparesTo.lessThan(lessThan, nullModifier());
 	}
 
-	public ComparesTo<T, M> lessThanOrEqualTo(T lessThanOrEqualTo) {
+	public ComparesTo lessThanOrEqualTo(Object lessThanOrEqualTo) {
 		return ComparesTo.lessThanOrEqualTo(lessThanOrEqualTo, nullModifier());
 	}
 }

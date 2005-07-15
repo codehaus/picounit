@@ -9,13 +9,14 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultByteConstraints
-	extends ExtensibleByteConstraints<ByteConstraintsDeltaKnown>
-	implements ByteConstraints {
-
+public class DefaultByteConstraints extends ExtensibleByteConstraints implements ByteConstraints {
 	public DefaultByteConstraints(Evaluator evaluator) {
 		super(evaluator);
-		
-		setConstraintsStage(this);
+	}
+	
+	public ByteConstraintsDeltaKnown withDelta(byte delta) {
+		setDelta(new Byte(delta));
+
+		return this;
 	}
 }

@@ -31,7 +31,7 @@ import picounit.verify.constraint.Explanation;
 
 import java.io.File;
 
-public class FrogVerify extends Explanation<FrogVerifyStage> implements FrogVerifyStage {
+public class FrogVerify extends Explanation implements FrogVerifyStage {
 	private BooleanConstraints booleanConstraints;
 	private final ByteConstraints byteConstraints;
 	private final CharacterConstraints charConstraints;
@@ -79,8 +79,6 @@ public class FrogVerify extends Explanation<FrogVerifyStage> implements FrogVeri
 
 		super(evaluator);
 
-		setVerifyStage(this);
-
 		this.booleanConstraints = booleanConstraints;
 		this.byteConstraints = byteConstraints;
 		this.charConstraints = charConstraints;
@@ -110,6 +108,8 @@ public class FrogVerify extends Explanation<FrogVerifyStage> implements FrogVeri
 	}
 
 	public FrogVerifyStage because(String reason) {
+		setReason(reason);
+
 		return this;
 	}
 	

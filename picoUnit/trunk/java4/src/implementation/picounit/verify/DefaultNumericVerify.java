@@ -9,7 +9,6 @@ package picounit.verify;
 
 import picounit.Verify;
 
-@SuppressWarnings("deprecation")
 public class DefaultNumericVerify implements picounit.NumericVerify {
 	private final Verify verify;
 

@@ -16,7 +16,6 @@ public class MockClassWithFinalEqualsTest implements Test {
 		}
 	}
 
-	@SuppressWarnings("unused") 
 	public void mock(ClassWithFinalEquals classWithFinalEquals) {
 	}
 }

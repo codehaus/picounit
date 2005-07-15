@@ -73,7 +73,6 @@ import picounit.verify.constraint.Evaluator;
 import java.util.Properties;
 
 public class DefaultPlugin implements Plugin {
-	@SuppressWarnings("deprecation")
 	public void insert(Registry registry, Properties pluginProperties) {
 		registry.register(picounit.ArrayVerify.class, DefaultArrayVerify.class);
 		registry.register(picounit.FileVerify.class, DefaultFileVerify.class);

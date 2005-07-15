@@ -9,13 +9,16 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultDoubleConstraints
-	extends ExtensibleDoubleConstraints<DoubleConstraintsDeltaKnown>
+public class DefaultDoubleConstraints extends ExtensibleDoubleConstraints
 	implements DoubleConstraints {
 
 	public DefaultDoubleConstraints(Evaluator evaluator) {
 		super(evaluator);
+	}
+	
+	public DoubleConstraintsDeltaKnown withDelta(double delta) {
+		setDelta(new Double(delta));
 		
-		setConstraintsStage(this);
+		return this;
 	}
 }

@@ -7,7 +7,7 @@
  *****************************************************************************/
 package picounit.verify.constraint;
 
-public class InstanceOf extends Constraint<Object> {
+public class InstanceOf extends Constraint {
 	private final Class instanceOf;
 
 	public InstanceOf(Class instanceOf) {

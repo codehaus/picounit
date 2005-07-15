@@ -9,12 +9,14 @@ package picounit.verify;
 
 import picounit.verify.constraint.Evaluator;
 
-public class DefaultFloatConstraints extends ExtensibleFloatConstraints<FloatConstraintsDeltaKnown>
-	implements FloatConstraints {
-
+public class DefaultFloatConstraints extends ExtensibleFloatConstraints implements FloatConstraints {
 	public DefaultFloatConstraints(Evaluator evaluator) {
 		super(evaluator);
+	}
 
-		setConstraintsStage(this);
+	public FloatConstraintsDeltaKnown withDelta(float delta) {
+		setDelta(new Float(delta));
+		
+		return this;
 	}
 }

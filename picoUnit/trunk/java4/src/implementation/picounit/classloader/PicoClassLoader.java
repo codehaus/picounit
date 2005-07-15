@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class PicoClassLoader extends ClassLoader {
 	private final ClassPath classPath;
-	private final Map<String, Class> loadedClasses = new HashMap<String, Class>();
+	private final Map loadedClasses = new HashMap();
 
 	private ClassMutator classMutator;
 	private ClassObserver classObserver;
@@ -42,12 +42,12 @@ public class PicoClassLoader extends ClassLoader {
 		return this;
 	}
 
-	public Class<?> loadClass(String className) throws ClassNotFoundException {
+	public Class loadClass(String className) throws ClassNotFoundException {
 		if (isJDKClass(className)) {
 			return getParent().loadClass(className);
 		}
 
-		Class loadedClass = loadedClasses.get(className);
+		Class loadedClass = (Class) loadedClasses.get(className);
 		if (loadedClass != null) {
 			return loadedClass;
 		}

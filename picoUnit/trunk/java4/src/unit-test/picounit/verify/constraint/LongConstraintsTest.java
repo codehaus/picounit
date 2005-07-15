@@ -10,8 +10,8 @@ package picounit.verify.constraint;
 import picounit.verify.Constraints;
 import picounit.verify.DefaultLongConstraints;
 
-public class LongConstraintsTest extends ConstraintsTest<Long, Delta> {
-	protected Constraints<Long, Delta> constraints(Evaluator evaluator) {
+public class LongConstraintsTest extends ConstraintsTest {
+	protected Constraints constraints(Evaluator evaluator) {
 		return	new DefaultLongConstraints(evaluator);
 	}
 }

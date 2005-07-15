@@ -82,7 +82,7 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 			.isEqualTo(StartingClass.class.getName());
 	}
 
-	private <T> void expectIllegalArgumentException(Class<T> testClass, String expectedMessage) {
+	private void expectIllegalArgumentException(Class testClass, String expectedMessage) {
 		try {
 			singlePicoUnitTestSuite(testClass);
 
@@ -94,12 +94,12 @@ public class SinglePicoUnitTestSuiteTest implements previous.picounit.Test {
 		}
 	}
 	
-	public <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(Class<T> startingClass) {
+	public SinglePicoUnitTestSuite singlePicoUnitTestSuite(Class startingClass) {
 		return singlePicoUnitTestSuite(startingClass.getName(), startingClass);
 	}
 
-	public <T> SinglePicoUnitTestSuite<T> singlePicoUnitTestSuite(String name, Class<T> startingClass) {
-		return new SinglePicoUnitTestSuite<T>(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
+	public SinglePicoUnitTestSuite singlePicoUnitTestSuite(String name, Class startingClass) {
+		return new SinglePicoUnitTestSuite(name, startingClass, testFilter, registryEntry, methodParameterRegistry,
 			classLoader, testListener);
 	}
 }

@@ -8,18 +8,20 @@
 package example.verify.custom;
 
 import picounit.verify.ExtensibleStringConstraints;
-import picounit.verify.StringConstraints;
 import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.ModifiableConstraint;
+import picounit.verify.constraint.StringCaseModifier;
 
-public class CustomStringConstraints
-	extends ExtensibleStringConstraints<CustomStringConstraintsStage> 
-	implements StringConstraints, CustomStringConstraintsStage {
+public class CustomStringConstraints extends ExtensibleStringConstraints implements CustomStringConstraintsStage {
 
 	public CustomStringConstraints(Evaluator evaluator) {
 		super(evaluator);
-
-		setConstraintsStage(this);
+	}
+	
+	public CustomStringConstraintsStage ignoringCase() {
+		setModifier(StringCaseModifier.INSTANCE);
+		
+		return this;
 	}
 
 	public void isOfLength(int length) {
@@ -31,8 +33,8 @@ public class CustomStringConstraints
 	}
 
 	public void isEqualToBOOM() {
-		passes(new ModifiableConstraint<String, String>(modifier()){
-			public boolean evaluate(String value) {
+		passes(new ModifiableConstraint(modifier()){
+			public boolean evaluate(Object value) {
 				return modify(value).equals(modify("BOOM"));
 			}
 

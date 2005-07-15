@@ -9,8 +9,8 @@ package picounit.verify.constraint;
 
 import java.util.Arrays;
 
-public class ArrayStringer<T> implements Stringer<T[]> {
-	public String toString(T[] value) {
-		return Arrays.toString(value);
+public class ArrayStringer implements Stringer {
+	public String toString(Object value) {
+		return Arrays.toString((Object[]) value);
 	}
 }

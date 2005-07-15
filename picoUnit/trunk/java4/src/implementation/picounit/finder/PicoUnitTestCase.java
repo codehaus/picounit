@@ -20,9 +20,9 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
-public class PicoUnitTestCase<T> extends TestCase {
+public class PicoUnitTestCase extends TestCase {
 	private final Method testMethod;
-	private final Class<T> testClass;
+	private final Class testClass;
 
 	private final Instantiator instantiator;
 	private final Invoker invoker;
@@ -32,20 +32,10 @@ public class PicoUnitTestCase<T> extends TestCase {
 	private final LifecycleInstantiator lifecycleInstantiator;
 	private final TestListener testListener;
 
-	public PicoUnitTestCase(Class<T> testClass, Method testMethod, Instantiator instantiator,
+	public PicoUnitTestCase(Class testClass, Method testMethod, Instantiator instantiator,
 		Invoker invoker, Invoker mockInvoker, Mocker mocker, Thrower thrower,
 		LifecycleInstantiator lifecycleInstantiator, TestListener testListener) {
 		
-		assert testMethod != null;
-		assert testClass != null;
-		assert instantiator != null;
-		assert invoker != null;
-		assert mockInvoker != null;
-		assert mocker != null;
-		assert thrower != null;
-		assert lifecycleInstantiator != null;
-		assert testListener != null;
-
 		this.testMethod = testMethod;
 		this.testClass = testClass;
 		this.instantiator = instantiator;
@@ -75,7 +65,7 @@ public class PicoUnitTestCase<T> extends TestCase {
 
 			setUp(lifecycles);
 
-			T testInstance = instantiator.instantiate(testClass);
+			Object testInstance = instantiator.instantiate(testClass);
 
 			mock(testInstance);
 

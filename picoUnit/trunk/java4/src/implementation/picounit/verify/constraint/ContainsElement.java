@@ -9,13 +9,12 @@ package picounit.verify.constraint;
 
 public class ContainsElement extends Constraint {
 	private final Object element;
-	private ArrayModifier<Object, Object>modifier;
+	private ArrayModifier modifier;
 
 	public ContainsElement(Object element) {
 		this(element, ArrayModifier.NULL);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ContainsElement(Object element, ArrayModifier modifier) {
 		this.element = element;
 		this.modifier = modifier;
@@ -30,8 +29,8 @@ public class ContainsElement extends Constraint {
 	}
 	
 	private boolean contains(Object[] searchIn, Object contains) {
-		for(Object object : searchIn) {
-			if (object != null && object.equals(contains)) {
+		for (int index = 0; index < searchIn.length; index++ ) {
+			if (searchIn[index] != null && searchIn[index].equals(contains)) {
 				return true;
 			}
 		}

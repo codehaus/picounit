@@ -31,11 +31,12 @@ import picounit.mocker.StringConsequenceMatcher;
 import picounit.mocker.VoidAction;
 import picounit.mocker.jmock.action.VoidActionStub;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class JMocker implements Mocker, Verifiable, MockInvocationListener, MockInvocationInspector {
-	private final List<RecordingPlaybackMock> mocks = new LinkedList<RecordingPlaybackMock>();
+	private final List mocks = new LinkedList();
 
 	private final BooleanConsequenceMatcher booleanConsequenceMatcher;
 	private final ByteConsequenceMatcher byteConsequenceMatcher;
@@ -100,12 +101,12 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 	// MockFactory
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <T> T mock(Class<T> mockedType) {
+	public Object mock(Class mockedType) {
 		return mock(mockedType, CoreMock.mockNameFromClass(mockedType));
 	}
 
-	public <T> T mock(Class<T> mockedType, String name) {
-		RecordingPlaybackMock<T> recordingPlaybackMock = new RecordingPlaybackMock<T>(
+	public Object mock(Class mockedType, String name) {
+		RecordingPlaybackMock recordingPlaybackMock = new RecordingPlaybackMock(
 			mockedType, name, recordingPlaybackMockListener, this, constraintStore, this);
 
 		mocks.add(recordingPlaybackMock);
@@ -165,8 +166,7 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 		return stringConsequenceMatcher;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> ConsequenceMatcher<T> call(T ignore) {
+	public ConsequenceMatcher call(Object ignore) {
 		return consequenceMatcher;
 	}
 
@@ -210,7 +210,7 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 		return throwExceptionIfInvoked();
 	}
 	
-	public <T> PostConsequenceMatcher notCall(T ignore) {
+	public PostConsequenceMatcher notCall(Object ignore) {
 		return throwExceptionIfInvoked();
 	}
 	
@@ -254,8 +254,7 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 		return stringConsequenceMatcher;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T> ConsequenceMatcher expect(T ignore) {
+	public ConsequenceMatcher expect(Object ignore) {
 		return consequenceMatcher;
 	}
 	
@@ -298,8 +297,8 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 	public PostConsequenceMatcher doNotExpect(String ignore) {
 		return throwExceptionIfInvoked();
 	}
-	
-	public <T> PostConsequenceMatcher doNotExpect(T ignore) {
+
+	public PostConsequenceMatcher doNotExpect(Object ignore) {
 		return throwExceptionIfInvoked();
 	}
 
@@ -316,13 +315,15 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 	}
 
 	public void replay() {
-		for(RecordingPlaybackMock<?> recordingPlaybackMock : mocks) {
+		for (Iterator iterator = mocks.iterator(); iterator.hasNext();) {
+			RecordingPlaybackMock recordingPlaybackMock = (RecordingPlaybackMock) iterator.next();
 			recordingPlaybackMock.replay();
 		}
 	}
 
 	public void verify() {
-		for(RecordingPlaybackMock<?> recordingPlaybackMock : mocks) {
+		for (Iterator iterator = mocks.iterator(); iterator.hasNext();) {
+			RecordingPlaybackMock recordingPlaybackMock = (RecordingPlaybackMock) iterator.next();
 			recordingPlaybackMock.verify();
 		}
 
@@ -330,7 +331,8 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 	}
 
 	public void reset() {
-		for(RecordingPlaybackMock<?> recordingPlaybackMock : mocks) {
+		for (Iterator iterator = mocks.iterator(); iterator.hasNext();) {
+			RecordingPlaybackMock recordingPlaybackMock = (RecordingPlaybackMock) iterator.next();
 			recordingPlaybackMock.reset();
 		}
 	}

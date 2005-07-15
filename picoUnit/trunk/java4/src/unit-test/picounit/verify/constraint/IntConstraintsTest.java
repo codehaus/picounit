@@ -12,10 +12,12 @@ import picounit.verify.Constraints;
 import picounit.verify.DefaultIntegerConstraints;
 import picounit.verify.constraint.Evaluator;
 
-public class IntConstraintsTest extends ComparableToTest<Integer, Delta> {
+public class IntConstraintsTest extends ComparableToTest {
+	private static final int intValue = 123;
+	private static final Integer integerValue = new Integer(intValue);
 	private DefaultIntegerConstraints intConstraints;	
 	
-	protected Constraints<Integer, Delta> constraints(Evaluator evaluator) {
+	protected Constraints constraints(Evaluator evaluator) {
 		return intConstraints;
 	}
 
@@ -24,54 +26,54 @@ public class IntConstraintsTest extends ComparableToTest<Integer, Delta> {
 	}
 	
 	public void testIsEqualTo(Mocker should) {
-		evaluate(equalTo(123));
+		evaluate(equalTo(integerValue));
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isEqualTo(123);
+		intConstraints.isEqualTo(intValue);
 	}
 
 	public void testIsDifferentTo(Mocker should) {
-		evaluate(differentTo(123));
+		evaluate(differentTo(integerValue));
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isDifferentTo(123);
+		intConstraints.isDifferentTo(intValue);
 	}
 
 	public void testIsGreaterThan(Mocker should) {
-		evaluate(greaterThan(123)); 
+		evaluate(greaterThan(integerValue)); 
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isGreaterThan(123);
+		intConstraints.isGreaterThan(intValue);
 	}
 
 	public void testIsGreaterThanOrEqualTo(Mocker should) {
-		evaluate(greaterThanOrEqualTo(123));
+		evaluate(greaterThanOrEqualTo(integerValue));
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isGreaterThanOrEqualTo(123);
+		intConstraints.isGreaterThanOrEqualTo(intValue);
 	}
 
 	public void testIsLessThan(Mocker should) {
-		evaluate(lessThan(123));
+		evaluate(lessThan(integerValue));
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isLessThan(123);
+		intConstraints.isLessThan(intValue);
 	}
 
 	public void testIsLessThanOrEqualTo(Mocker should) {
-		evaluate(lessThanOrEqualTo(123));
+		evaluate(lessThanOrEqualTo(integerValue));
 
 		should.expectAboveWhenTheFollowingOccurs();
 
-		intConstraints.isLessThanOrEqualTo(123);
+		intConstraints.isLessThanOrEqualTo(intValue);
 	}
 
-	protected Class<Integer> type() {
+	protected Class type() {
 		return int.class;
 	}
 }

@@ -14,14 +14,14 @@ import picounit.verify.Constraints;
 import picounit.verify.DefaultStringConstraints;
 import picounit.verify.constraint.Evaluator;
 
-public class StringConstraintsTest extends ConstraintsTest<String, String> implements Ignore {
+public class StringConstraintsTest extends ConstraintsTest implements Ignore {
 	private DefaultStringConstraints stringConstraints;
 
 	public void mock() {
 		this.stringConstraints = new DefaultStringConstraints(evaluator());
 	}
 
-	protected Constraints<String, String> constraints(Evaluator evaluator) {
+	protected Constraints constraints(Evaluator evaluator) {
 		return new DefaultStringConstraints(evaluator);
 	}
 

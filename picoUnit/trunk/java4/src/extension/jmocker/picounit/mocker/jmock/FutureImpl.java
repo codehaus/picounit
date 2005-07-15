@@ -12,30 +12,31 @@ import picounit.Verify;
 import picounit.verify.DefaultVerify;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-public class FutureImpl<T> implements Future<T> {
-	private final Class<T> futureType;
+public class FutureImpl implements Future {
+	private final Class futureType;
 	private final Verify verify;
-	private final Set<T> comparedTo = new HashSet<T>();
-	private T value;
+	private final Set comparedTo = new HashSet();
+	private Object value;
 
-	public FutureImpl(Class<T> futureType) {
+	public FutureImpl(Class futureType) {
 		this.futureType = futureType;
 		this.verify = DefaultVerify.create();
 	}
 
-	public void setValue(T value) {
+	public void setValue(Object value) {
 		verify.that(value).isAnInstanceOf(futureType);
 
-		for (T compareTo : comparedTo) {
-			verify.that(compareTo).isEqualTo(value);
+		for (Iterator iterator = comparedTo.iterator(); iterator.hasNext();) {
+			verify.that(iterator.next()).isEqualTo(value);			
 		}
 
 		this.value = value;
 	}
 
-	public T getValue() {
+	public Object getValue() {
 		return value;
 	}
 	
@@ -43,9 +44,8 @@ public class FutureImpl<T> implements Future<T> {
 		return futureType.hashCode();
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean equals(Object object) {
-		comparedTo.add((T) object);
+		comparedTo.add(object);
 
 		return true;
 	}

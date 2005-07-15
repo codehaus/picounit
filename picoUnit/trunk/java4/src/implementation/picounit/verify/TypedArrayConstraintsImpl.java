@@ -16,63 +16,56 @@ import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.Modifier;
 import picounit.verify.constraint.Stringer;
 
-public class TypedArrayConstraintsImpl extends Constraints<Object[], Object[]>
-	implements TypedArrayConstraints<Object> {
+public class TypedArrayConstraintsImpl extends Constraints
+	implements TypedArrayConstraints {
 
-	private final ArrayStringer<Object> arrayStringer = new ArrayStringer<Object>();
+	private final Stringer arrayStringer = new ArrayStringer();
 
 	public TypedArrayConstraintsImpl(Evaluator evaluator) {
 		super(evaluator);
 	}
 	
-	public void isEqualTo(Object ... equalTo) {
+	public void isEqualTo(Object[] equalTo) {
 		passes(constraintFactory.equalTo(equalTo, modifier(), stringer()));
 	}
 
-	public void isDifferenTo(Object ... differentTo) {
+	public void isDifferenTo(Object[] differentTo) {
 		passes(constraintFactory.differentTo(differentTo, modifier(), stringer()));		
 	}
 
-	@SuppressWarnings("unchecked")
 	public void contains(Object element) {
 		passes(new ContainsElement(element));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void doesNotContain(Object doesNotContain) {
-		passes(new DoesNotContainElement(doesNotContain, modifier()));
+		passes(new DoesNotContainElement(doesNotContain, arrayModifier()));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isTheSameAs(Object[] sameAs) {
 		passes(new SameAs(sameAs));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isNotTheSameAs(Object[] notTheSameAs) {
 		passes(new NotSameAs(notTheSameAs));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isNull() {
 		passes(new IsNull());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void isNotNull() {
 		passes(new IsNotNull());
 	}
 	
-	protected Stringer<Object[]> stringer() {
+	protected Stringer stringer() {
 		return arrayStringer;
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected Modifier<Object[], Object[]> nullModifier() {
+	protected Modifier nullModifier() {
 		return ArrayModifier.NULL;
 	}
 
-	protected ArrayModifier<Object[], Object[]> modifier() {
-		return (ArrayModifier<Object[], Object[]>) super.modifier();
+	protected ArrayModifier arrayModifier() {
+		return (ArrayModifier) super.modifier();
 	}
 }

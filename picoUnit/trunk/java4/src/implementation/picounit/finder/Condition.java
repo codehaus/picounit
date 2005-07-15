@@ -8,5 +8,5 @@
 package picounit.finder;
 
 public interface Condition {
-	boolean matches(Class<?> aClass);
+	boolean matches(Class aClass);
 }

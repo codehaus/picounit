@@ -1,6 +1,6 @@
 package picounit.verify.constraint;
 
-public interface ArrayModifier<T, M> extends Modifier<T, M>{
+public interface ArrayModifier extends Modifier {
 	public Object modifyElement(Object element);
 
 	ArrayModifier NULL = new ArrayModifier() {

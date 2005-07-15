@@ -13,12 +13,11 @@ import picounit.verify.constraint.Evaluator;
 import picounit.verify.constraint.Modifier;
 import picounit.verify.constraint.Stringer;
 
-public class Constraints<T, M> {
+public class Constraints {
 	private final Evaluator evaluator;
-	private Modifier<T, M> modifier;
-	protected final ConstraintFactory<T> constraintFactory;
+	private Modifier modifier;
+	protected final ConstraintFactory constraintFactory;
 
-	@SuppressWarnings("unchecked")
 	public Constraints(Evaluator evaluator) {
 		this.evaluator = evaluator;
 
@@ -27,36 +26,33 @@ public class Constraints<T, M> {
 		this.constraintFactory = new ConstraintFactory();
 	}
 
-	@SuppressWarnings("unchecked")
-	public final void passes(Constraint<T> constraint) {
+	public final void passes(Constraint constraint) {
 		setModifier(nullModifier());
 		
 		evaluator.evaluate(constraint, stringer());
 	}
 
-	public final void passes(Constraint<T> constraint, Stringer<T> stringer) {
+	public final void passes(Constraint constraint, Stringer stringer) {
 		evaluator.evaluate(constraint, stringer);
 	}
 
-	protected final Constraint<T> createDelegate(Class<T> type, Object constraint) {
-		return new DelegatingConstraint<T>(type, constraint);
+	protected final Constraint createDelegate(Class type, Object constraint) {
+		return new DelegatingConstraint(type, constraint);
 	}
 
-	protected final void setModifier(Modifier<T, M> modifier) {
+	protected final void setModifier(Modifier modifier) {
 		this.modifier = modifier;
 	}
 
-	protected Modifier<T, M> modifier() {
+	protected Modifier modifier() {
 		return modifier;
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected Modifier<T, M> nullModifier() {
+	protected Modifier nullModifier() {
 		return Modifier.NULL;
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected Stringer<T> stringer() {
+	protected Stringer stringer() {
 		return Stringer.DEFAULT;
 	}
 }
