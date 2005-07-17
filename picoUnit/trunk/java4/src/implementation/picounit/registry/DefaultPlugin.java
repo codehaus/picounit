@@ -80,7 +80,7 @@ public class DefaultPlugin implements Plugin {
 		registry.register(picounit.StringVerify.class, DefaultStringVerify.class);
 		registry.register(DelegateVerify.class, DefaultDelegateVerify.class);
 		registry.register(Evaluator.class);
-		
+
 		registry.register(BooleanConstraints.class, DefaultBooleanConstraints.class);
 		registry.register(ByteConstraints.class, DefaultByteConstraints.class);
 		registry.register(CharacterConstraints.class, DefaultCharacterConstraints.class);

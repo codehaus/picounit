@@ -9,23 +9,24 @@ package picounit.verify.constraint;
 
 import java.lang.reflect.Array;
 
-
-public class PrimativeArrayDoesNotContain extends Constraint {
+public class PrimativeArrayDoesNotContain extends ModifiableConstraint {
 	private final Object doesNotContain;
 
-	public PrimativeArrayDoesNotContain(Object doesNotContain) {
+	public PrimativeArrayDoesNotContain(Object doesNotContain, Modifier modifier) {
+		super(modifier);
+
 		this.doesNotContain = doesNotContain;
 	}
 
 	public boolean evaluate(Object searchIn) {
-		return searchIn == null || !contains(searchIn);
+		return searchIn == null || !contains(modify(searchIn), modify(doesNotContain));
 	}
 
-	public String describeFailure() {
+	public String describeFailureImpl() {
 		return "contains <" + doesNotContain + ">";
 	}
 
-	private boolean contains(Object searchIn) {
+	private boolean contains(Object searchIn, Object doesNotContain) {
 		int length = Array.getLength(searchIn);
 
 		for (int index = 0; index < length; index++ ) {

@@ -18,7 +18,6 @@ import picounit.verify.StringUtil;
 import previous.picounit.Test;
 
 public class NumericVerifyTest implements Test {
-	// TODO Convert this into a collaboration test
 	private final Verify defaultVerify = DefaultVerify.create(new NumericUtil(), new ArrayUtil(),
 		new StringUtil(), new ImmediateThrower(), new NullVerifiable());
 	private final NumericVerify numericVerify = new DefaultNumericVerify(defaultVerify);

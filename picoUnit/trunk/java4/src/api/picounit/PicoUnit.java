@@ -7,20 +7,21 @@
  *****************************************************************************/
 package picounit;
 
-import picounit.impl.PicoUnitImpl;
+import java.lang.reflect.Constructor;
+
 import junit.framework.Test;
 
-public class PicoUnit implements JUnitTestGenerator, Registry {
-	private final PicoUnitImpl implementation;
+public class PicoUnit implements JUnitTestGenerator, Registry, PicoUnitAPI {
+	private final PicoUnitAPI implementation;
 
 	public PicoUnit() {
-		implementation = new PicoUnitImpl(this);
+		implementation = createImplementation(this);
 	}
 
 	public PicoUnit(String name) {
-		implementation = new PicoUnitImpl(name, this);
+		implementation = createImplementation(name, this);
 	}
-	
+
 	public Test generateJUnitTest() {
 		return implementation.generateJUnitTest();
 	}
@@ -28,7 +29,7 @@ public class PicoUnit implements JUnitTestGenerator, Registry {
 	public Test generateJUnitTest(JUnitTestGenerator generator) {
 		return implementation.generateJUnitTest(generator);
 	}
-	
+
 	public Test generateJUnitTest(Class startingClass) {
 		return implementation.generateJUnitTest(startingClass);
 	}
@@ -51,5 +52,34 @@ public class PicoUnit implements JUnitTestGenerator, Registry {
 
 	public void register(Class implementation) {
 		this.implementation.register(implementation);
+	}
+
+	private static PicoUnitAPI createImplementation(PicoUnit picoUnit) {
+		try {
+			Constructor constructor = getImplementationClass()
+				.getConstructor(new Class[] {PicoUnit.class});
+
+			return (PicoUnitAPI) constructor.newInstance(new Object[] {picoUnit});
+		}
+		catch (Exception e) {
+			throw new PicoUnitException(e);
+		}
+	}
+
+	private static PicoUnitAPI createImplementation(String name, PicoUnit picoUnit) {
+		try {
+			Constructor constructor = getImplementationClass()
+				.getConstructor(new Class[] {String.class, PicoUnit.class});
+
+			return (PicoUnitAPI) constructor.newInstance(new Object[] {name, picoUnit});
+		}
+		catch (Exception e) {
+			throw new PicoUnitException(e);
+		}
+	}
+
+	private static Class getImplementationClass() throws ClassNotFoundException {
+		return Class.forName(System.getProperty("picounit.implementation", 
+			"picounit.impl.PicoUnitImpl"));
 	}
 }

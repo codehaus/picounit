@@ -37,8 +37,8 @@ public class DefaultDelegateVerify implements DelegateVerify {
 	private final MockFactory mockFactory;
 	private final MockControl mockControl;
 	
-	public DefaultDelegateVerify(Mocker mocker, MockFactory mockFactory, MockInvocationInspector mockInvocationInspector,
-		Verify verify) {
+	public DefaultDelegateVerify(Mocker mocker, MockFactory mockFactory,
+		MockInvocationInspector mockInvocationInspector, Verify verify) {
 
 		this.should = mocker;
 		this.mockControl = mocker;

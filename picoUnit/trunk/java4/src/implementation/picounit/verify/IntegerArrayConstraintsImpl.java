@@ -35,6 +35,6 @@ public class IntegerArrayConstraintsImpl extends PrimativeArrayConstraints
 	}
 	
 	public void doesNotContain(int doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Integer(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Integer(doesNotContain), modifier()));
 	}
 }

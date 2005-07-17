@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="test" name="picounit" basedir=".">
-	<property name="javaVersion" value="1.5"/>
-	<property name="sourceVersion" value="${javaVersion}"/>
-	<property name="targetVersion" value="${javaVersion}"/>
-
 	<property file="../build.properties"/>
 	<import file="../build-common.xml"/>
 
@@ -16,38 +12,67 @@
 		</zip>
 	</target>
 	
-	<target name="compile" depends="compileCore, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests, compileExampleTests"/>
-
-	<target name="compileCore" description="o Compile the code" depends="init">
-		<javac destdir="${coreClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+	<target name="compile" depends="compileApi, compileJava5Api, compileImplementation, compileJMocker, compileUnitTestModel, compileUnitTests, compileFunctionalTests, compileExampleTests"/>
+	
+	<target name="compileApi" depends="init">
+		<javac destdir="${apiClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${externalSource}"/>
 			</src>
 		</javac>
 		
-		<javac destdir="${coreClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+		<javac destdir="${apiClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${apiSource}"/>
-				<pathelement location="${implementationSource}"/>
 			</src>
-			<classpath>
-				<fileset dir="${libDir}">
-					<include name="*.jar"/>
-				</fileset>
-			</classpath>
 		</javac>
-		<copy todir="${coreClasses}">
+		<copy todir="${apiClasses}">
 			<fileset dir="${apiSource}">
-				<include name="**/*"/>
-			</fileset>
-			<fileset dir="${implementationSource}">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 	</target>
 	
-	<target name="compileJMocker" depends="compileCore">
-		<javac destdir="${jmockerClasses}" target="${targetVersion}" source="${sourceVersion}"
+	<target name="compileJava5Api" depends="init">
+		<javac destdir="${java5-apiClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
+			<src>
+				<pathelement location="${externalSource}"/>
+			</src>
+		</javac>
+		
+		<javac destdir="${java5-apiClasses}" target="1.5" source="1.5" deprecation="true" debug="true" optimize="false">
+			<src>
+				<pathelement location="${java5-apiSource}"/>
+			</src>
+		</javac>
+		<copy todir="${java5-apiClasses}">
+			<fileset dir="${java5-apiSource}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="compileImplementation" depends="compileApi">
+		<javac destdir="${implementationClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
+			<src>
+				<pathelement location="${implementationSource}"/>
+			</src>
+			<classpath>
+				<path location="${apiClasses}"/>
+				<fileset dir="${libDir}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${implementationClasses}">
+			<fileset dir="${implementationSource}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compileJMocker" depends="compileImplementation">
+		<javac destdir="${jmockerClasses}" target="1.4" source="1.4"
 			deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${jmockerSource}"/>
@@ -56,7 +81,8 @@
 				<fileset dir="${libDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+				<path location="${apiClasses}"/>
+				<path location="${implementationClasses}"/>
 			</classpath>
 		</javac>
 		<copy todir="${jmockerClasses}">
@@ -66,8 +92,8 @@
 		</copy>
 	</target>
 		
-	<target name="compileUnitTestModel" depends="compileCore, compileJMocker">
-		<javac destdir="${unitTestModelClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+	<target name="compileUnitTestModel" depends="compileApi, compileImplementation, compileJMocker">
+		<javac destdir="${unitTestModelClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${unitTestModelSource}"/>
 			</src>
@@ -75,7 +101,8 @@
 				<fileset dir="${libDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+				<path location="${apiClasses}"/>
+				<path location="${implementationClasses}"/>
 				<path location="${jmockerClasses}"/>
 				<fileset dir="${buildLibDir}">
 					<include name="*.jar"/>
@@ -89,8 +116,8 @@
 		</copy>
 	</target>
 
-	<target name="compileUnitTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${unitTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+	<target name="compileUnitTests" depends="compileApi, compileImplementation, compileJMocker, compileUnitTestModel">
+		<javac destdir="${unitTestClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${unitTestSource}"/>
 			</src>
@@ -98,7 +125,8 @@
 				<fileset dir="${libDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+				<path location="${apiClasses}"/>
+				<path location="${implementationClasses}"/>
 				<path location="${jmockerClasses}"/>
 				<path location="${unitTestModelClasses}"/>
 				<fileset dir="${buildLibDir}">
@@ -113,8 +141,8 @@
 		</copy>
 	</target>
 
-	<target name="compileFunctionalTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${functionalTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+	<target name="compileFunctionalTests" depends="compileApi, compileImplementation, compileJMocker, compileUnitTestModel">
+		<javac destdir="${functionalTestClasses}" target="1.4" source="1.4" deprecation="true" debug="true" optimize="false">
 			<src>
 				<pathelement location="${functionalTestSource}"/>
 			</src>
@@ -125,7 +153,8 @@
 				<fileset dir="${buildLibDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+				<path location="${apiClasses}"/>
+				<path location="${implementationClasses}"/>
 				<path location="${jmockerClasses}"/>
 				<path location="${unitTestModelClasses}"/>
 			</classpath>
@@ -137,8 +166,8 @@
 		</copy>
 	</target>
 
-	<target name="compileExampleTests" depends="compileCore, compileJMocker, compileUnitTestModel">
-		<javac destdir="${exampleTestClasses}" target="${targetVersion}" source="${sourceVersion}" deprecation="true" debug="true" optimize="false">
+	<target name="compileExampleTests" depends="compileApi, compileImplementation, compileJMocker, compileUnitTestModel">
+		<javac destdir="${exampleTestClasses}" target="1.5" source="1.5" deprecation="true" debug="true" optimize="false">
 <!--			<compilerarg value="-Xlint:unchecked"/> -->
 			<src>
 				<pathelement location="${exampleTestSource}"/>
@@ -150,7 +179,8 @@
 				<fileset dir="${buildLibDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+				<path location="${java5-apiClasses}"/>
+				<path location="${implementationClasses}"/>
 				<path location="${jmockerClasses}"/>
 			</classpath>
 		</javac>
@@ -161,20 +191,23 @@
 		</copy>
 	</target>
 
-	<target name="jar" description="o Create the jars" depends="compile, test, jarApi, jarCore, jarJMocker"/>
+	<target name="jar" description="o Create the jars" depends="compile, test, jarApi, jarJava5Api, jarCore, jarJMocker"/>
 
-	<target name="jarApi" depends="compileCore">
-		<jar jarfile="${apiJar}" basedir="${coreClasses}">
-			<include name="picounit/*"/>
-			<include name="picounit/mocker/*"/>
+	<target name="jarApi" depends="compileApi">
+		<jar jarfile="${apiJar}" basedir="${apiClasses}">
+			<include name="**"/>
 		</jar>
 	</target>
 
-	<target name="jarCore" depends="compileCore">
-		<jar jarfile="${coreJar}" basedir="${coreClasses}">
+	<target name="jarJava5Api" depends="compileJava5Api">
+		<jar jarfile="${java5-apiJar}" basedir="${java5-apiClasses}">
 			<include name="**"/>
-			<exclude name="picounit/*"/>
-			<exclude name="picounit/mocker/*"/>
+		</jar>
+	</target>
+
+			<target name="jarCore" depends="compileImplementation">
+		<jar jarfile="${coreJar}" basedir="${implementationClasses}">
+			<include name="**"/>
 		</jar>
 	</target>
 	
@@ -201,7 +234,9 @@
 				<fileset dir="${buildLibDir}">
 					<include name="*.jar"/>
 				</fileset>
-				<path location="${coreClasses}"/>
+<!--				<path location="${apiClasses}"/> -->
+				<path location="${java5-apiClasses}"/> 
+				<path location="${implementationClasses}"/>
 				<path location="${jmockerClasses}"/>
 				<path location="${unitTestClasses}"/>
 				<path location="${unitTestModelClasses}"/>

@@ -8,7 +8,6 @@
 package picounit.mocker.jmock;
 
 import org.jmock.core.CoreMock;
-import org.jmock.core.Invocation;
 import org.jmock.core.Stub;
 import org.jmock.core.stub.ThrowStub;
 
@@ -23,7 +22,6 @@ import picounit.mocker.DoubleConsequenceMatcher;
 import picounit.mocker.FloatConsequenceMatcher;
 import picounit.mocker.IntConsequenceMatcher;
 import picounit.mocker.LongConsequenceMatcher;
-import picounit.mocker.MockInvocationInspector;
 import picounit.mocker.OccurencesMatcher;
 import picounit.mocker.PostConsequenceMatcher;
 import picounit.mocker.ShortConsequenceMatcher;
@@ -35,7 +33,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class JMocker implements Mocker, Verifiable, MockInvocationListener, MockInvocationInspector {
+public class JMocker implements Mocker, Verifiable {
 	private final List mocks = new LinkedList();
 
 	private final BooleanConsequenceMatcher booleanConsequenceMatcher;
@@ -55,16 +53,18 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 	private final RecordingPlaybackMockListener recordingPlaybackMockListener;
 	private final ActiveRecordingPlaybackMock activeRecordingPlaybackMock;
 
-	private Invocation lastInvocation;
+	private final MockInvocationObserver mockInvocationObserver;
 
-	public static Mocker create(ConstraintStore constraintStore) {
-		CombinedConsequeuceMatcher combinedConsequeuceMatcher = new CombinedConsequeuceMatcher();
+	public static Mocker create(ConstraintStore constraintStore, MockInvocationObserver mockInvocationObserver) {
+		CombinedConsequeuceMatcher combinedConsequeuceMatcher =
+			new CombinedConsequeuceMatcher(mockInvocationObserver);
 
 		return new JMocker(combinedConsequeuceMatcher, combinedConsequeuceMatcher,
 			combinedConsequeuceMatcher, combinedConsequeuceMatcher, combinedConsequeuceMatcher,
 			combinedConsequeuceMatcher, combinedConsequeuceMatcher, combinedConsequeuceMatcher,
 			combinedConsequeuceMatcher, combinedConsequeuceMatcher, combinedConsequeuceMatcher,
-			combinedConsequeuceMatcher, combinedConsequeuceMatcher, constraintStore);
+			combinedConsequeuceMatcher, combinedConsequeuceMatcher, constraintStore,
+			mockInvocationObserver);
 	}
 
 	public JMocker(BooleanConsequenceMatcher booleanConsequenceMatcher,
@@ -79,7 +79,7 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 		ConsequenceMatcher consequenceMatcher, OccurencesMatcher occurencesMatcher,
 		ActiveRecordingPlaybackMock activeRecordingPlaybackMock,
 		RecordingPlaybackMockListener recordingPlaybackMockListener,
-		ConstraintStore constraintStore) {
+		ConstraintStore constraintStore, MockInvocationObserver mockInvocationObserver) {
 
 		this.booleanConsequenceMatcher = booleanConsequenceMatcher;
 		this.byteConsequenceMatcher = byteConsequenceMatcher;
@@ -95,6 +95,7 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 		this.recordingPlaybackMockListener = recordingPlaybackMockListener;
 		this.activeRecordingPlaybackMock = activeRecordingPlaybackMock;
 		this.constraintStore = constraintStore;
+		this.mockInvocationObserver = mockInvocationObserver;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +108,8 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 
 	public Object mock(Class mockedType, String name) {
 		RecordingPlaybackMock recordingPlaybackMock = new RecordingPlaybackMock(
-			mockedType, name, recordingPlaybackMockListener, this, constraintStore, this);
+			mockedType, name, recordingPlaybackMockListener, this, constraintStore,
+			mockInvocationObserver);
 
 		mocks.add(recordingPlaybackMock);
 
@@ -335,22 +337,6 @@ public class JMocker implements Mocker, Verifiable, MockInvocationListener, Mock
 			RecordingPlaybackMock recordingPlaybackMock = (RecordingPlaybackMock) iterator.next();
 			recordingPlaybackMock.reset();
 		}
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MockInvocationListener
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void fire(Invocation invocation) {
-		this.lastInvocation = invocation;
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MockInvocationInspector
-	///////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Class getLastInvocationReturnType() {
-		return lastInvocation.invokedMethod.getReturnType();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

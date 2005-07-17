@@ -35,6 +35,6 @@ public class DefaultDoubleArrayConstraints extends PrimativeArrayConstraints
 	}
 
 	public void doesNotContain(double doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Double(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Double(doesNotContain), modifier()));
 	}
 }

@@ -9,6 +9,7 @@ package picounit.impl;
 
 import picounit.JUnitTestGenerator;
 import picounit.PicoUnit;
+import picounit.PicoUnitAPI;
 import picounit.PicoUnitException;
 import picounit.classloader.ClassPath;
 import picounit.classloader.ClassReloader;
@@ -27,7 +28,7 @@ import picounit.registry.RegistryFactory;
 import picounit.registry.RegistryImpl;
 import junit.framework.Test;
 
-public class PicoUnitImpl {
+public class PicoUnitImpl implements PicoUnitAPI {
 	private static final int STACK_DISTANCE_TO_CALLER = 2;
 	public static final ClassPath classPath = new ClassPath();
 

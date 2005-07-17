@@ -30,6 +30,7 @@ import picounit.mocker.IntAction;
 import picounit.mocker.IntConsequenceMatcher;
 import picounit.mocker.LongAction;
 import picounit.mocker.LongConsequenceMatcher;
+import picounit.mocker.MockInvocationInspector;
 import picounit.mocker.OccurencesMatcher;
 import picounit.mocker.ShortAction;
 import picounit.mocker.ShortConsequenceMatcher;
@@ -51,6 +52,12 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 	DoubleConsequenceMatcher, FloatConsequenceMatcher, IntConsequenceMatcher,
 	LongConsequenceMatcher, ShortConsequenceMatcher, StringConsequenceMatcher,
 	ConsequenceMatcher {
+	
+	private final MockInvocationInspector mockInvocationInspector;
+
+	public CombinedConsequeuceMatcher(MockInvocationInspector mockInvocationInspector) {
+		this.mockInvocationInspector = mockInvocationInspector;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// <Type>ConsequenceMatcher andReturn - single
@@ -93,7 +100,9 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 	}
 
 	public OccurencesMatcher andReturn(Object result) {
-		return will(returnValue(result));
+		return isArrayOfResults(result)
+			? will(returnConsequetiveValues((Object[]) result))
+			: will(returnValue(result));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +146,9 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 	}
 
 	public OccurencesMatcher andReturn(Object[] results) {
-		return will(returnConsequetiveValues(results));
+		return isArrayOfResults(results)
+			? will(returnConsequetiveValues(results))
+			: will(returnValue(results));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,9 +215,16 @@ public class CombinedConsequeuceMatcher extends OccurencesMatcherImpl implements
 		Stub[] returnStubs = new Stub[Array.getLength(results)];
 
 		for (int index = 0; index < returnStubs.length; index++ ) {
-			returnStubs[index] = new ReturnStub(Array.get(results, index));
+			returnStubs[index] = returnValue(Array.get(results, index));
 		}
 
 		return new StubSequence(returnStubs);
+	}
+
+	private boolean isArrayOfResults(Object result) {
+		return result != null &&
+			result.getClass().isArray() &&
+			result.getClass().getComponentType().equals(
+				mockInvocationInspector.getLastInvocationReturnType());
 	}
 }

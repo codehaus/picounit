@@ -34,8 +34,7 @@ public class ShortArrayConstraintsImpl extends PrimativeArrayConstraints
 		passes(constraintFactory.primativeArrayContains(new Short(contains), modifier()));
 	}
 	
-	// TODO: Add modifier
 	public void doesNotContain(short doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Short(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Short(doesNotContain), modifier()));
 	}
 }

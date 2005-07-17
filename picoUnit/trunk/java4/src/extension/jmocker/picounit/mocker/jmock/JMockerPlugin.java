@@ -20,13 +20,14 @@ import java.util.Properties;
 public class JMockerPlugin implements Plugin {
 	public void insert(Registry registry, Properties pluginProperties) {
 		ConstraintStore constraintStore = new HashMapConstraintStore();
+		MockInvocationObserver mockInvocationObserver = new MockInvocationObserver();
 
-		Mocker mocker = JMocker.create(constraintStore);
+		Mocker mocker = JMocker.create(constraintStore, mockInvocationObserver);
 
 		registry.register(Mocker.class, mocker);
 		registry.register(MockFactory.class, mocker);
 		registry.register(Verifiable.class, mocker);
-		registry.register(MockInvocationInspector.class, mocker);
+		registry.register(MockInvocationInspector.class, mockInvocationObserver);
 
 		registry.register(Constraints.class, new JMockConstraints(constraintStore));
 	}

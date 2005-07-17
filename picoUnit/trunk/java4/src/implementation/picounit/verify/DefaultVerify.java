@@ -20,7 +20,6 @@ import junit.framework.AssertionFailedError;
 public class DefaultVerify extends Explanation implements Verify {
 	// TODO Implement the object equals using array util
 	// TODO Replace toString(array) with stringUtil.toString(array)
-	// TODO Examine missing types for simple equal(type, type)
 	private final BooleanConstraints booleanConstraints;
 	private final ByteConstraints byteConstraints;
 	private final CharacterConstraints charConstraints;

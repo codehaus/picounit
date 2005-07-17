@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="src/experimental"/>
 	<classpathentry output="build/unit-test-model-classes" kind="src" path="src/unit-test-model"/>
 	<classpathentry output="build/unit-test-classes" kind="src" path="src/unit-test"/>
-	<classpathentry output="build/core-classes" kind="src" path="src/api"/>
 	<classpathentry output="build/core-classes" kind="src" path="src/implementation"/>
 	<classpathentry output="build/jmocker-classes" kind="src" path="src/extension/jmocker"/>
 	<classpathentry kind="src" path="src/examples/test"/>
@@ -17,5 +16,6 @@
 	<classpathentry kind="lib" path="build/lib/previous-picounit-jmocker.jar"/>
 	<classpathentry kind="lib" path="lib/jmock-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jmock-cglib-1.0.1.jar"/>
+	<classpathentry kind="src" path="src/java5-api"/>
 	<classpathentry kind="output" path="build/core-classes"/>
 </classpath>

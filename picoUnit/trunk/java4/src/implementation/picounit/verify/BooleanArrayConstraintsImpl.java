@@ -29,6 +29,6 @@ public class BooleanArrayConstraintsImpl extends PrimativeArrayConstraints
 	}
 
 	public void doesNotContain(boolean doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Boolean(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Boolean(doesNotContain), modifier()));
 	}
 }

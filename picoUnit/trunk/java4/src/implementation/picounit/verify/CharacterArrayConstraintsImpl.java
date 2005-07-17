@@ -37,6 +37,6 @@ public class CharacterArrayConstraintsImpl extends PrimativeArrayConstraints
 	}
 
 	public void doesNotContain(char doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Character(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Character(doesNotContain), modifier()));
 	}
 }

@@ -35,6 +35,6 @@ public class DefaultByteArrayConstraints extends PrimativeArrayConstraints
 	}
 
 	public void doesNotContain(byte doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Byte(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Byte(doesNotContain), modifier()));
 	}
 }

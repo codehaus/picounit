@@ -35,6 +35,6 @@ public class FloatArrayConstraintsImpl extends PrimativeArrayConstraints
 	}
 	
 	public void doesNotContain(float doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Float(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Float(doesNotContain), modifier()));
 	}
 }

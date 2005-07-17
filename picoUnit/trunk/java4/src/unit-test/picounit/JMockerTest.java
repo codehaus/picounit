@@ -9,11 +9,11 @@ package picounit;
 
 import picounit.mocker.jmock.HashMapConstraintStore;
 import picounit.mocker.jmock.JMocker;
+import picounit.mocker.jmock.MockInvocationObserver;
 import previous.picounit.Test;
 import previous.picounit.Verify;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import junit.framework.AssertionFailedError;
 
@@ -22,7 +22,7 @@ public class JMockerTest implements Test {
 	private Mocker mockFactory;
 	
 	public void mock() {
-		this.should = JMocker.create(new HashMapConstraintStore());
+		this.should = JMocker.create(new HashMapConstraintStore(), new MockInvocationObserver());
 		this.mockFactory = should;
 	}
 

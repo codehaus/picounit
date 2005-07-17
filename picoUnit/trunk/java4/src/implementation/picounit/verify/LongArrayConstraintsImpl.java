@@ -35,6 +35,6 @@ public class LongArrayConstraintsImpl extends PrimativeArrayConstraints
 	}
 	
 	public void doesNotContain(long doesNotContain) {
-		passes(constraintFactory.primativeArrayDoesNotContain(new Long(doesNotContain)));
+		passes(constraintFactory.primativeArrayDoesNotContain(new Long(doesNotContain), modifier()));
 	}
 }

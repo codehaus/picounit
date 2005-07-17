@@ -9,7 +9,6 @@ package picounit.mocker;
 
 public interface ConsequenceMatcher extends OccurencesMatcher, ThrowsConsequenceMatcher {
 	OccurencesMatcher andReturn(Object result);
-	OccurencesMatcher andReturn(Object[]results);
 
 	OccurencesMatcher andPerform(Action action);
 }

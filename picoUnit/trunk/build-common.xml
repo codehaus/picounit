@@ -4,6 +4,9 @@
 		<mkdir dir="${functionalTestClasses}"/>
 		<mkdir dir="${unitTestClasses}"/>
 		<mkdir dir="${unitTestModelClasses}"/>
+		<mkdir dir="${apiClasses}"/>
+		<mkdir dir="${java5-apiClasses}"/>
+		<mkdir dir="${implementationClasses}"/>
 		<mkdir dir="${coreClasses}"/>
 		<mkdir dir="${jmockerClasses}"/>
 		<mkdir dir="${exampleTestClasses}"/>
@@ -15,6 +18,9 @@
 		<delete dir="${functionalTestClasses}"/>
 		<delete dir="${unitTestClasses}"/>
 		<delete dir="${unitTestModelClasses}"/>
+		<delete dir="${apiClasses}"/>
+		<delete dir="${java5-apiClasses}"/>
+		<delete dir="${implementationClasses}"/>
 		<delete dir="${coreClasses}"/>
 		<delete dir="${jmockerClasses}"/>
 		<delete dir="${exampleTestClasses}"/>

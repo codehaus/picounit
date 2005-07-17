@@ -21,9 +21,8 @@ public class ConstraintFactory {
 		return new PrimativeArrayContains(contains, modifier);
 	}
 	
-	// TODO: Add modifier
-	protected Constraint primativeArrayDoesNotContain(Object doesNotContain) {
-		return new PrimativeArrayDoesNotContain(doesNotContain);
+	protected Constraint primativeArrayDoesNotContain(Object doesNotContain, Modifier modifier) {
+		return new PrimativeArrayDoesNotContain(doesNotContain, modifier);
 	}
 
 	public Constraint equalTo(Object equalTo, Modifier modifier, Stringer stringer) {
